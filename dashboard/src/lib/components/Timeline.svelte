@@ -77,7 +77,7 @@
             ctx.beginPath();
             if (!isStrike(e.type)) { ctx.rect(x - r, y - r, 2 * r, 2 * r); } else ctx.arc(x, y, r, 0, Math.PI * 2);
             ctx.fillStyle = typeColor(e.type); ctx.globalAlpha = isStrike(e.type) ? 0.35 + 0.65 * Math.max(0.3, e.confidence) : 0.55; ctx.fill(); ctx.globalAlpha = 1;
-            if (e.saturated) { ctx.lineWidth = 2 * dpr; ctx.strokeStyle = '#f87171'; ctx.stroke(); }
+            if (e.saturated) { ctx.lineWidth = 2 * dpr; ctx.strokeStyle = '#fbbf24'; ctx.stroke(); }
             if (e.id === cur.sel) { ctx.lineWidth = 2.5 * dpr; ctx.strokeStyle = '#fff'; ctx.stroke(); }
           }
           // label ticks along the bottom

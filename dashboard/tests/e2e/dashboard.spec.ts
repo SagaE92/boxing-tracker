@@ -121,6 +121,10 @@ test.describe('loading files', () => {
     }, files);
     await expect(page.locator('.meta h1')).toHaveText('heavy-sat');
     await expect(page.getByText(/of samples are saturated/)).toBeVisible();
+    // one severity scheme: card, panel and banner agree
+    const lvl = (await page.locator('.dq-banner .alert', { hasText: 'clipped' }).getAttribute('class'))!.includes('bad') ? 'bad' : 'warn';
+    await expect(page.locator('.stat', { hasText: 'Clipped strikes' })).toHaveClass(new RegExp(lvl));
+    await expect(page.locator('section[aria-label="Data quality"] .item b').first()).toHaveClass(new RegExp(lvl));
     await expect(page.locator('.stat', { hasText: 'Max peak' })).toContainText('≥');
     await page.screenshot({ path: path.join(SHOTS, 'heavy-saturation.png'), fullPage: true });
     c.assertClean();

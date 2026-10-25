@@ -184,11 +184,27 @@ export function comboStats(cs: Combo[]) {
   return { lengths, top, comboCount: multi.length, meanLength: mean(multi.map((c) => c.events.length)), strikesInCombos: sum(multi.map((c) => c.events.length)) };
 }
 
+// ---------------- saturation severity (one scheme for clipped strikes and saturated samples) ----------------
+export type Level = 'ok' | 'warn' | 'bad';
+/** Any clipping = amber "warn". Red "bad" once peak-g stats are substantially biased:
+ *  >= 10 % of strikes clipped, or >= 1 % of raw samples saturated. Documented in TIPS.saturation and TESTING.md. */
+export const SAT_THRESHOLDS = { clippedStrikeShareBad: 0.1, satSampleFractionBad: 0.01 } as const;
+export function clippedStrikeLevel(clipped: number, strikes: number): Level {
+  if (!clipped) return 'ok';
+  return strikes > 0 && clipped / strikes >= SAT_THRESHOLDS.clippedStrikeShareBad ? 'bad' : 'warn';
+}
+export function satSampleLevel(fraction: number): Level {
+  if (!(fraction > 0)) return 'ok';
+  return fraction >= SAT_THRESHOLDS.satSampleFractionBad ? 'bad' : 'warn';
+}
+export const worst = (...l: Level[]): Level => (l.includes('bad') ? 'bad' : l.includes('warn') ? 'warn' : 'ok');
+
 export interface DataQuality {
   samples: number; expected: number; droppedEst: number; droppedPct: number;
   gaps: { t: number; dur: number }[]; maxGapS: number;
   measuredHz: number | null; jitterUs: number | null;
-  satSamples: number; satFraction: number; saturatedStrikes: number;
+  satSamples: number; satFraction: number; saturatedStrikes: number; strikes: number;
+  satLevel: Level; clipLevel: Level; saturationLevel: Level;
   calibrated: boolean | null; confHist: number[]; lowConfShare: number | null;
   issues: { level: 'warn' | 'bad' | 'info'; text: string }[];
 }
@@ -220,8 +236,15 @@ export function dataQuality(json: SessionJson | undefined, raw: RawData | undefi
   const calibrated = json ? !!json.session.calibration : null;
   const issues: DataQuality['issues'] = [];
   const range = json?.session.accel_range_g ?? 16;
-  if (saturatedStrikes) issues.push({ level: 'warn', text: `${saturatedStrikes} strike(s) clipped at ±${range} g. Their peak g is a lower bound; the real peak was higher.` });
-  if (satFraction > 0.001) issues.push({ level: 'bad', text: `${(satFraction * 100).toFixed(2)}% of samples are saturated. Consider the high-g IMU path.` });
+  const satLevel = satSampleLevel(satFraction), clipLevel = clippedStrikeLevel(saturatedStrikes, strikes.length);
+  const saturationLevel = worst(satLevel, clipLevel);
+  if (saturationLevel !== 'ok') {
+    const samp = `${(satFraction * 100).toFixed(3)}% of samples are saturated`;
+    const text = saturatedStrikes
+      ? `${saturatedStrikes} of ${strikes.length} strike(s) (${((saturatedStrikes / Math.max(1, strikes.length)) * 100).toFixed(1)}%) clipped at ±${range} g; ${samp}. Their peak g is a lower bound (≥).`
+      : `${samp} (outside detected strikes).`;
+    issues.push({ level: saturationLevel, text: saturationLevel === 'bad' ? `${text} Peak-g stats are substantially biased; consider the high-g IMU path.` : text });
+  }
   if (gaps.length) issues.push({ level: gaps.some((g) => g.dur > 1) ? 'bad' : 'warn', text: `${gaps.length} BLE gap(s) in the raw stream, ~${droppedEst} sample(s) lost (longest ${(Math.max(...gaps.map((g) => g.dur)) * 1000).toFixed(0)} ms). Strikes inside gaps may be missed.` });
   if (measuredHz && Math.abs(measuredHz - fs) / fs > 0.02) issues.push({ level: 'warn', text: `Measured sample rate ${measuredHz.toFixed(1)} Hz differs from nominal ${fs} Hz.` });
   if (calibrated === false) issues.push({ level: 'warn', text: 'No guard-pose calibration: axis-dependent features (type, target) are less reliable.' });
@@ -230,7 +253,7 @@ export function dataQuality(json: SessionJson | undefined, raw: RawData | undefi
   return {
     samples: raw?.n ?? 0, expected, droppedEst, droppedPct: expected ? (droppedEst / expected) * 100 : 0,
     gaps, maxGapS: gaps.length ? Math.max(...gaps.map((g) => g.dur)) : 0, measuredHz, jitterUs,
-    satSamples, satFraction, saturatedStrikes, calibrated, confHist, lowConfShare, issues,
+    satSamples, satFraction, saturatedStrikes, strikes: strikes.length, satLevel, clipLevel, saturationLevel, calibrated, confHist, lowConfShare, issues,
   };
 }
 

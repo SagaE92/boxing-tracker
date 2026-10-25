@@ -12,7 +12,7 @@
 <section class="card" aria-label="Data quality">
   <div class="card-h"><h2>Data quality</h2><span class="sub">how much to trust this session</span></div>
   <div class="dq">
-    <div class="item"><span class="k">Saturation <Tip text={TIPS.saturation} /></span><b class="num {dq.satFraction > 0.001 ? 'bad' : dq.satFraction > 0 ? 'warn' : 'ok'}">{pct(dq.satFraction, 3)}</b><span class="small muted">{dq.satSamples.toLocaleString()} samples · {dq.saturatedStrikes} clipped strike(s)</span></div>
+    <div class="item"><span class="k">Saturation <Tip text={TIPS.saturation} /></span><b class="num {dq.saturationLevel}">{pct(dq.satFraction, 3)}</b><span class="small muted">{dq.satSamples.toLocaleString()} samples · <span class={dq.clipLevel === 'ok' ? '' : dq.clipLevel}>{dq.saturatedStrikes} of {dq.strikes} strikes clipped</span></span></div>
     <div class="item"><span class="k">BLE gaps <Tip text={TIPS.dropped} /></span>
       {#if session.raw}<b class="num {dq.gaps.length ? 'warn' : 'ok'}">{dq.gaps.length} gap(s)</b><span class="small muted">~{dq.droppedEst.toLocaleString()} samples lost ({fmt(dq.droppedPct, 3)}%){dq.gaps.length ? ` · longest ${(dq.maxGapS * 1000).toFixed(0)} ms` : ''}</span>
       {:else}<b class="dim">n/a</b><span class="small muted">needs raw CSV</span>{/if}</div>

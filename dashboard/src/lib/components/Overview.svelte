@@ -82,10 +82,10 @@
       {:else}
         <Stat label="Mean peak" value={fmt(sm.meanPeak, 1)} unit="g" tip={TIPS.meanPeak} sub="acceleration, not force" />
       {/if}
-      <Stat label="Max peak" value={peakText(sm.maxPeak, sm.maxPeakSaturated)} unit="g" tip={TIPS.maxPeak} tone={sm.maxPeakSaturated ? 'warn' : ''}
+      <Stat label="Max peak" value={peakText(sm.maxPeak, sm.maxPeakSaturated)} unit="g" tip={TIPS.maxPeak} tone={sm.maxPeakSaturated ? (dq.saturationLevel === 'ok' ? 'warn' : dq.saturationLevel) : ''}
         sub={sm.maxPeakSaturated ? `clipped at ±${range} g/axis · lower bound` : `not clipped · 3-axis magnitude${sm.saturatedStrikes ? ` · max clipped ${peakText(maxClipped, true)}` : ''}`} />
       <Stat label="Speed (est.)" value={fmt(sm.meanSpeed, 1)} unit="m/s" tip={TIPS.speed} sub={`max ~${fmt(sm.maxSpeed, 1)} m/s · estimate`} />
-      <Stat label="Clipped strikes" value={String(sm.saturatedStrikes)} tip={TIPS.saturation} tone={sm.saturatedStrikes ? 'warn' : ''} sub={`${pct(dq.satFraction, 3)} of samples saturated`} />
+      <Stat label="Clipped strikes" value={String(sm.saturatedStrikes)} tip={TIPS.saturation} tone={dq.saturationLevel === 'ok' ? '' : dq.saturationLevel} sub={`${pct(dq.satFraction, 3)} of samples saturated`} />
       <Stat label="Confidence" value={sm.meanConfidence === null ? '—' : `${Math.round(sm.meanConfidence * 100)}%`} tip={TIPS.confidence} sub={`${sm.lowConfidence} strike(s) below 50%`} />
       <Stat label="Kick / clinch" value={`${allSm.kicks} · ${allSm.clinches}`} tip={TIPS.nonStrike} sub={`kick/body events · clinch ${fmt(allSm.clinchTimeS, 0)} s`}>
         <span class="badge low" style="align-self:flex-start;margin-top:.2rem">low confidence · not in totals</span>
@@ -131,7 +131,7 @@
   <section class="card">
     <div class="card-h">
       <h2>Session timeline</h2>
-      <span class="sub">peak g per strike · rounds shaded, rests hatched · lines link combos (&lt;{app.comboGapMs} ms) · red ring = clipped · ■ = kick/body · grey band = clinch · bottom strip = density · drag to zoom the signal view</span>
+      <span class="sub">peak g per strike · rounds shaded, rests hatched · lines link combos (&lt;{app.comboGapMs} ms) · amber ring = clipped (≥) · ■ = kick/body · grey band = clinch · bottom strip = density · drag to zoom the signal view</span>
     </div>
     <Timeline session={s} events={filtered} labels={s.labels ?? []} comboGapMs={app.comboGapMs} selectedId={app.selectedId} range={app.range}
       onselect={(id) => app.selectStrike(id)} onrange={(r) => (app.range = r)} />

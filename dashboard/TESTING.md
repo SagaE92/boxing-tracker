@@ -38,6 +38,18 @@ Last full run: 2026-10-25, headless Chromium (Playwright 1.64 bundled build), No
 | Viewports 375 / 390 / 414 / 820 px + 1440 desktop: no horizontal overflow on any tab | `responsive …px` ×4 |
 | 1 h, 416 Hz session (~1.49 M samples): load, render, zoom, wheel, heap | `perf.spec.ts` |
 
+## Saturation severity scheme
+
+Clipped strikes and saturated samples share one scale (`clippedStrikeLevel` / `satSampleLevel` in `src/lib/stats.ts`, `SAT_THRESHOLDS`), used by the Overview card, the data-quality panel, the warning banner and the strike detail:
+
+| Level | Clipped strikes (share of strikes) | Saturated raw samples | Meaning |
+|---|---|---|---|
+| green / ok | 0 | 0 | no clipping |
+| **amber / warn** | > 0 and < 10 % | > 0 and < 1 % | some peaks are lower bounds (shown as `≥`) |
+| **red / bad** | ≥ 10 % | ≥ 1 % | peak-g means, maxima and trends substantially understated; high-g IMU path needed |
+
+The banner shows one combined line at the worse of the two levels. Clipping marks in charts (timeline ring, signal shading, ±16 g lines, strike-table badge) are amber. Unit-tested in `stats.test.ts`; the heavy-saturation e2e test checks that card, panel and banner agree.
+
 ## Performance (1 h @ 416 Hz, `screenshots/perf.json`)
 
 | Metric | Result | Budget asserted |

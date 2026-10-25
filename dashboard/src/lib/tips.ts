@@ -9,7 +9,7 @@ export const TIPS = {
   types: 'Strike type from the detector\'s rule-based classifier. Every event has a confidence (0–1); low-confidence types are shown with a "low conf." tag.',
   hand: 'Which hand threw the strike, from the session\'s sensor hand (lead/rear) and stance. Strikes from the other hand are seen only through body motion and are less reliable.',
   target: 'Estimated head vs body level from forearm orientation at the peak. Needs calibration; treat as a hint.',
-  saturation: 'Share of raw samples where an accelerometer axis hit its ±16 g limit. Clipped strikes have peak g as a lower bound. A high share means the high-g sensor path is needed.',
+  saturation: 'Clipped strikes and saturated samples use one scale. Green: none. Amber: some clipping; those strikes\' peak g is a lower bound (≥). Red: ≥ 10 % of strikes clipped or ≥ 1 % of raw samples saturated (an accelerometer axis at its ±16 g limit); peak-g means, maxima and trends are then substantially understated and the high-g sensor path is needed.',
   confidence: 'Classifier confidence for the predicted type, 0–1. Filter out low-confidence events with the slider.',
   nonStrike: 'Kick/body movement and clinch are NOT strikes and are excluded from strike totals. A sensor in a hand wrap cannot measure kicks; it only sees the body motion that comes with them, so these are low-confidence.',
   clinch: 'Clinch is a duration event (start to end), shown as a band on the timeline. Excluded from strike totals.',

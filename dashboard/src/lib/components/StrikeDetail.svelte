@@ -41,8 +41,8 @@
         { label: 'ax', stroke: AXIS_COLORS.x, width: 1, points: { show: false } },
         { label: 'ay', stroke: AXIS_COLORS.y, width: 1, points: { show: false } },
         { label: 'az', stroke: AXIS_COLORS.z, width: 1, points: { show: false } },
-        { label: 'clipped', stroke: '#f87171', width: 0, points: { show: true, size: 7, fill: '#f87171', stroke: '#f87171' } }],
-      hooks: { draw: [(u) => { hline(u, range, 'rgba(248,113,113,.6)', [2, 4], 'y', `${range} g`); hline(u, -range, 'rgba(248,113,113,.6)', [2, 4]); }] },
+        { label: 'clipped', stroke: '#fbbf24', width: 0, points: { show: true, size: 7, fill: '#fbbf24', stroke: '#fbbf24' } }],
+      hooks: { draw: [(u) => { hline(u, range, 'rgba(251,191,36,.6)', [2, 4], 'y', `${range} g`); hline(u, -range, 'rgba(251,191,36,.6)', [2, 4]); }] },
     } as uPlot.Options, [x, m, ax, ay, az, st] as uPlot.AlignedData, elA));
     plots.push(new uPlot({
       ...common(170), scales: { x: { time: false } },
@@ -72,7 +72,7 @@
     <div><span class="k">Hand / target</span><b>{event.hand ?? '—'} · {event.target ?? '—'}</b></div>
     <div><span class="k">Rotation ∫ω (x,y,z)</span><b class="num">{event.gyro_int_dps_s.map((v) => v.toFixed(0)).join(', ')}°</b></div>
   </div>
-  {#if event.saturated}<div class="alert bad" style="margin-bottom:.6rem"><span class="ico">!</span><span>This strike clipped at ±{range} g, so its peak g is a lower bound. The real peak was higher.</span></div>{/if}
+  {#if event.saturated}<div class="alert warn" style="margin-bottom:.6rem"><span class="ico">!</span><span>This strike clipped at ±{range} g on at least one axis, so its peak g is a lower bound: the real peak was at least this.</span></div>{/if}
   {#if nonStrike}<div class="alert info" style="margin-bottom:.6rem"><span class="ico">i</span><span>{TIPS.nonStrike}</span></div>{/if}
   {#if session.raw}
     <div bind:this={elA}></div>
