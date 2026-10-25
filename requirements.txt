@@ -1,0 +1,4 @@
+numpy>=1.26
+bleak>=0.22
+pytest>=8
+jsonschema>=4.20

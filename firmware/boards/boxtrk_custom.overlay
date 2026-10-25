@@ -11,7 +11,7 @@
  *   slot0_partition / slot1_partition / boot_partition for MCUboot
  *
  * If the custom board uses LSM6DSO32 (+-32 g) a new driver/compatible is
- * needed (register map is different); see docs/risks.md.
+ * needed (register map is different); see docs/hardware-notes.md.
  */
 
 / {

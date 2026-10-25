@@ -1,0 +1,67 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  python:
+    name: analysis + tools (pytest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      # also compiles firmware/src portable modules with gcc (host tests)
+      - run: python -m pytest -q analysis/tests tools/tests
+
+  dashboard:
+    name: dashboard build + type-check
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: dashboard
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: dashboard/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - run: npm run check
+
+  firmware:
+    name: firmware (Zephyr v4.1.0, sysbuild + MCUboot)
+    runs-on: ubuntu-latest
+    # The same build passes locally (upstream Zephyr v4.1.0 + SDK 0.17.0) but this
+    # workflow has not run on GitHub yet; remove continue-on-error once it is green.
+    continue-on-error: true
+    container: ghcr.io/zephyrproject-rtos/ci:v0.27.4
+    env:
+      CMAKE_PREFIX_PATH: /opt/toolchains
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: boxing-tracker
+      - name: west init/update (Zephyr v4.1.0, only needed modules)
+        run: |
+          west init -m https://github.com/zephyrproject-rtos/zephyr --mr v4.1.0 zws
+          cd zws
+          west config manifest.project-filter -- '-.*,+cmsis,+cmsis_6,+hal_nordic,+mcuboot,+zcbor,+tinycrypt,+mbedtls,+segger'
+          west update --narrow -o=--depth=1
+      - name: build
+        run: |
+          cd zws
+          west build -p always -b xiao_ble/nrf52840/sense --sysbuild \
+            -d build ../boxing-tracker/firmware
+      - uses: actions/upload-artifact@v4
+        with:
+          name: firmware-xiao
+          path: |
+            zws/build/firmware/zephyr/zephyr.signed.bin
+            zws/build/firmware/zephyr/zephyr.signed.hex
+            zws/build/mcuboot/zephyr/zephyr.uf2
