@@ -1,14 +1,14 @@
 name: dashboard → GitHub Pages
 
-# Builds dashboard/ (Vite + Svelte, demo data included), runs unit + e2e tests,
-# and deploys dist/ to https://sagae92.github.io/boxing-tracker/ on pushes to main.
+# Builds dashboard/ (Vite + Svelte, demo data included) and deploys dist/ to
+# https://sagae92.github.io/boxing-tracker/ on pushes to main only.
+# Dashboard check / unit / e2e tests run on pull requests in ci.yml (no duplicate build).
 # One-time setup: repo Settings → Pages → Source: "GitHub Actions".
 
 on:
   push:
     branches: [main]
     paths: ['dashboard/**', 'docs/session.schema.json', '.github/workflows/pages.yml']
-  workflow_dispatch:
 
 permissions:
   contents: read
@@ -33,23 +33,7 @@ jobs:
           cache: npm
           cache-dependency-path: dashboard/package-lock.json
       - run: npm ci
-      - run: npm run check
       - run: npm run build
-      - run: npm test
-      - name: Install Chromium for e2e
-        run: npx playwright install --with-deps chromium
-      - name: e2e + screenshots
-        run: npm run test:e2e
-        env:
-          CI: '1'
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: dashboard-e2e
-          path: |
-            dashboard/screenshots/
-            dashboard/playwright-report/
-          retention-days: 14
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
