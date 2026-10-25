@@ -71,10 +71,12 @@ test.describe('demo session', () => {
     fs.writeFileSync(path.join(SHOTS, 'export-summary.png'), png.buf);
     const sum = await dl(/Summary CSV/);
     expect(sum.buf.toString()).toMatch(/^metric,value\nsession_id,demo\nstrikes,\d+/);
-    expect(sum.buf.toString()).toContain('max_peak_g_is_lower_bound');
+    expect(sum.buf.toString()).toContain('max_peak_g_clipped');
+    expect(sum.buf.toString()).toContain('mean_peak_g_unclipped');
     const evs = await dl(/All events CSV/);
     const lines = evs.buf.toString().trim().split('\n');
-    expect(lines[0]).toContain('peak_g_is_lower_bound');
+    expect(lines[0]).toContain(',peak_g,clipped,peak_g_text,');
+    expect(lines.some((l) => l.includes(',true,>='))).toBe(true);
     expect(lines.length).toBeGreaterThan(100);
     expect(evs.buf.toString()).not.toContain('kick_or_body_movement'); // excluded by default
   });

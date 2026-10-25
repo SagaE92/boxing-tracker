@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { applyFilters, combos, comboStats, dataQuality, defaultFilters, fatigue, linfit, matchLabels, roundStats, summarize } from '../../src/lib/stats';
+import { applyFilters, combos, comboStats, dataQuality, defaultFilters, fatigue, linfit, matchLabels, peakText, roundStats, summarize } from '../../src/lib/stats';
+import { eventsCsv, summaryCsv } from '../../src/lib/exporters';
 import { decimate, envelope, satRuns } from '../../src/lib/decimate';
 import { parseRaw } from '../../src/lib/csv';
 import type { LabelRow, SessionJson } from '../../src/lib/types';
@@ -22,6 +23,26 @@ describe('summarize', () => {
     expect(s.clinches).toBe(1);
     expect(s.clinchTimeS).toBe(6);
     expect(s.saturatedStrikes).toBe(1);
+  });
+  it('reports unclipped mean separately from the mean incl. clipped lower bounds', () => {
+    const s = summarize(events, 60);
+    expect(s.meanPeakUnclipped).toBe(4);
+    expect(s.unclippedStrikes).toBe(1);
+    expect(s.maxPeakUnclipped).toBe(4);
+    expect(peakText(s.maxPeak, s.maxPeakSaturated)).toBe('≥16.2');
+    expect(peakText(s.maxPeakUnclipped, false)).toBe('4.0');
+    expect(peakText(null, true)).toBe('—');
+  });
+  it('exports clipped columns in CSV', () => {
+    const csv = eventsCsv(events.slice(0, 2)).split('\n');
+    expect(csv[0]).toContain('peak_g,clipped,peak_g_text');
+    expect(csv[2]).toContain('16.2,true,>=16.2');
+    expect(csv[1]).toContain('4,false,4');
+    const sc = summaryCsv('x', summarize(events, 60));
+    expect(sc).toContain('mean_peak_g_unclipped,4');
+    expect(sc).toContain('mean_peak_g_incl_clipped_is_lower_bound,true');
+    expect(sc).toContain('max_peak_g_clipped,true');
+    expect(sc).toContain('clipped_strikes,1');
   });
   it('can include kick events when asked (clinch never counts as a strike)', () => {
     const s = summarize(events, 60, true);

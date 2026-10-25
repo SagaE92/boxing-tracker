@@ -56,7 +56,10 @@ export function applyFilters(events: StrikeEvent[], f: Filters): StrikeEvent[] {
 export interface SummaryStats {
   strikes: number; nonStrike: number; kicks: number; clinches: number; clinchTimeS: number;
   activeTimeS: number; perMin: number;
+  /** Mean over all strikes; clipped strikes contribute their lower bound, so if any are clipped this is itself a lower bound. */
   meanPeak: number | null; maxPeak: number | null; maxPeakSaturated: boolean;
+  /** Mean over strikes that did not clip (exact values only). */
+  meanPeakUnclipped: number | null; maxPeakUnclipped: number | null; unclippedStrikes: number;
   meanSpeed: number | null; maxSpeed: number | null;
   byType: Record<string, number>; byHand: { L: number; R: number; unknown: number };
   byTarget: { head: number; body: number; unknown: number };
@@ -88,6 +91,9 @@ export function summarize(events: StrikeEvent[], activeTimeS: number, includeNon
     clinches: clin.length, clinchTimeS: sum(clin.map((e) => e.t_end_s - e.t_start_s)),
     activeTimeS, perMin: activeTimeS > 0 ? strikes.length / (activeTimeS / 60) : 0,
     meanPeak: mean(peaks), maxPeak, maxPeakSaturated: strikes.some((e) => e.saturated && e.peak_g === maxPeak),
+    meanPeakUnclipped: mean(strikes.filter((e) => !e.saturated).map((e) => e.peak_g)),
+    maxPeakUnclipped: maxOf(strikes.filter((e) => !e.saturated).map((e) => e.peak_g)),
+    unclippedStrikes: strikes.filter((e) => !e.saturated).length,
     meanSpeed: mean(speeds), maxSpeed: maxOf(speeds), byType, byHand, byTarget,
     saturatedStrikes: strikes.filter((e) => e.saturated).length,
     meanConfidence: mean(strikes.map((e) => e.confidence)),
@@ -98,6 +104,8 @@ export function summarize(events: StrikeEvent[], activeTimeS: number, includeNon
 export interface RoundStats {
   round: Round; number: number; strikes: number; perMin: number; restAfterS: number | null;
   meanPeak: number | null; maxPeak: number | null; meanSpeed: number | null;
+  /** clipped strikes in the round; maxPeakSat = the round's max is a clipped lower bound */
+  clipped: number; maxPeakSat: boolean;
   withinPeakChangePct: number | null; withinSpeedChangePct: number | null; nonStrike: number;
 }
 /** Round-by-round breakdown with within-round decline (linear fit start→end). */
@@ -120,6 +128,8 @@ export function roundStats(json: SessionJson, events: StrikeEvent[]): RoundStats
       round: r, number: i + 1, strikes: st.length, perMin: dur > 0 ? st.length / (dur / 60) : 0,
       restAfterS: rest ? rest.t_end_s - rest.t_start_s : null,
       meanPeak: mean(st.map((e) => e.peak_g)), maxPeak: maxOf(st.map((e) => e.peak_g)), meanSpeed: mean(speeds),
+      clipped: st.filter((e) => e.saturated).length,
+      maxPeakSat: st.some((e) => e.saturated && e.peak_g === maxOf(st.map((x) => x.peak_g))),
       withinPeakChangePct: within(st.map((e) => e.peak_g)), withinSpeedChangePct: within(st.map((e) => e.speed_mps_est)),
       nonStrike: ev.length - st.length,
     };
@@ -303,7 +313,7 @@ export function matchLabels(events: StrikeEvent[], labels: LabelRow[], tolMs = 2
 // ---------------- Trends ----------------
 export interface SessionTrend {
   key: string; name: string; date: Date; strikes: number; perMin: number;
-  meanPeak: number | null; maxPeak: number | null; maxPeakSat: boolean; meanSpeed: number | null; maxSpeed: number | null;
+  meanPeak: number | null; maxPeak: number | null; maxPeakSat: boolean; clipped: number; meanSpeed: number | null; maxSpeed: number | null;
   byType: Record<string, number>; fat: Fatigue; rounds: RoundStats[]; nonStrike: number; satFraction: number;
 }
 export function sessionTrend(s: LoadedSession): SessionTrend | null {
@@ -314,7 +324,7 @@ export function sessionTrend(s: LoadedSession): SessionTrend | null {
   const rs = roundStats(j, j.punches);
   return {
     key: s.key, name: s.name, date: new Date(j.session.start_time_iso), strikes: sm.strikes, perMin: sm.perMin,
-    meanPeak: sm.meanPeak, maxPeak: sm.maxPeak, maxPeakSat: sm.maxPeakSaturated, meanSpeed: sm.meanSpeed, maxSpeed: sm.maxSpeed,
+    meanPeak: sm.meanPeak, maxPeak: sm.maxPeak, maxPeakSat: sm.maxPeakSaturated, clipped: sm.saturatedStrikes, meanSpeed: sm.meanSpeed, maxSpeed: sm.maxSpeed,
     byType: sm.byType, fat: fatigue(rs), rounds: rs, nonStrike: sm.nonStrike,
     satFraction: s.raw ? s.raw.satCount / s.raw.n : j.summary.saturated_sample_fraction,
   };
@@ -329,6 +339,8 @@ export function personalBests(ts: SessionTrend[]) {
 }
 
 // ---------------- formatting ----------------
+/** Peak g text. `lowerBound` = the value is (or includes) a clipped peak, so the true value is at least this: "≥18.5". */
+export const peakText = (v: number | null | undefined, lowerBound: boolean, d = 1) => (v === null || v === undefined || !Number.isFinite(v) ? '—' : `${lowerBound ? '≥' : ''}${v.toFixed(d)}`);
 export const fmt = (v: number | null | undefined, d = 1, unit = '') => (v === null || v === undefined || !Number.isFinite(v) ? '—' : `${v.toFixed(d)}${unit}`);
 export const pct = (v: number | null | undefined, d = 0) => (v === null || v === undefined ? '—' : `${(v * 100).toFixed(d)}%`);
 export function fmtTime(s: number, withMs = false): string {
