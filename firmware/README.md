@@ -29,6 +29,25 @@ MCUmgr SMP over BLE (image + OS groups) is enabled in `prj.conf`; MCUboot does
 test-then-confirm swaps (swap-using-move), signed with MCUboot's **development key**
 (`root-ec-p256.pem`) — replace it before giving a device to anyone.
 
+## Security (prototype only)
+
+**Do not ship this configuration.** Two things must change before any public firmware
+release or before a device leaves the developer's hands:
+
+1. **MCUboot signs with the development key.** Images are signed with MCUboot's public
+   sample key (`root-ec-p256.pem`), whose private half is published upstream, so anyone
+   can build an image this bootloader will accept. Generate a production key
+   (`imgtool keygen -t ecdsa-p256`), keep the private key out of the repo (CI secret /
+   HSM), and point sysbuild at it (e.g. `SB_CONFIG_BOOT_SIGNATURE_KEY_FILE`).
+2. **SMP/DFU over BLE is unauthenticated.** The MCUmgr SMP characteristic needs no
+   pairing or bonding, so any nearby phone can upload an image or reset the device
+   (combined with 1., flash arbitrary firmware). Require an authenticated, bonded link
+   (e.g. `CONFIG_BT_SMP=y`, `CONFIG_MCUMGR_TRANSPORT_BT_PERM_RW_AUTHEN=y`, LE Secure
+   Connections with passkey/numeric comparison), or only enable SMP in a
+   button-triggered DFU mode.
+
+Tracked as issue drafts (not yet filed).
+
 ## Build status (honest)
 
 Built successfully on 2026-10-25 in a Linux box with **upstream Zephyr v4.1.0**
