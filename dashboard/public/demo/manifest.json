@@ -1,0 +1,8 @@
+{
+  "note": "Main session: analysis/samples (analysis/synth.py recording processed by analysis/detector.py). Earlier sessions: dashboard/scripts/gen-demo.mjs. All synthetic, no real recordings yet.",
+  "sessions": [
+    { "id": "demo-2026-10-10", "files": ["demo-2026-10-10_session.json"] },
+    { "id": "demo-2026-10-17", "files": ["demo-2026-10-17_session.json"] },
+    { "id": "demo", "files": ["demo_session.json", "demo_raw.csv.gz", "demo_labels.csv"] }
+  ]
+}

@@ -1,0 +1,5671 @@
+{
+ "schema_version": "1.0.0",
+ "generator": {
+  "name": "dashboard/scripts/gen-demo.mjs (synthetic demo, not detector output)",
+  "version": "0.1.0"
+ },
+ "session": {
+  "id": "demo-2026-10-17",
+  "start_time_iso": "2026-10-17T18:00:00.000Z",
+  "duration_s": 676,
+  "sample_rate_hz": 416,
+  "accel_range_g": 16,
+  "gyro_range_dps": 2000,
+  "hand_worn": "R",
+  "hand": "rear",
+  "stance": "orthodox",
+  "sensor_mount": "hand_wrap",
+  "calibration": {
+   "guard_gravity_g": [
+    0.281,
+    -0.221,
+    0.934
+   ],
+   "forward_axis": [
+    1,
+    0,
+    0
+   ],
+   "t_start_s": 1,
+   "t_end_s": 6
+  }
+ },
+ "detector_params": {
+  "threshold_g": 3.5,
+  "refractory_ms": 150,
+  "window_ms": 150
+ },
+ "rounds": [
+  {
+   "index": 0,
+   "t_start_s": 8,
+   "t_end_s": 188,
+   "kind": "round"
+  },
+  {
+   "index": 1,
+   "t_start_s": 188,
+   "t_end_s": 248,
+   "kind": "rest"
+  },
+  {
+   "index": 2,
+   "t_start_s": 248,
+   "t_end_s": 428,
+   "kind": "round"
+  },
+  {
+   "index": 3,
+   "t_start_s": 428,
+   "t_end_s": 488,
+   "kind": "rest"
+  },
+  {
+   "index": 4,
+   "t_start_s": 488,
+   "t_end_s": 668,
+   "kind": "round"
+  }
+ ],
+ "punches": [
+  {
+   "id": 0,
+   "t_peak_s": 10.9832,
+   "t_start_s": 10.9399,
+   "t_end_s": 11.0168,
+   "type": "rear_uppercut",
+   "confidence": 0.82,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.328,
+   "speed_mps_est": 7.12,
+   "duration_ms": 76.9,
+   "gyro_int_dps_s": [
+    4.94,
+    -96.6,
+    7.27
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 1,
+   "t_peak_s": 11.2692,
+   "t_start_s": 11.2139,
+   "t_end_s": 11.3125,
+   "type": "lead_hook",
+   "confidence": 0.46,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 5.394,
+   "speed_mps_est": 9.26,
+   "duration_ms": 98.6,
+   "gyro_int_dps_s": [
+    -2.46,
+    0.89,
+    29.04
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 2,
+   "t_peak_s": 13.1274,
+   "t_start_s": 13.0817,
+   "t_end_s": 13.1659,
+   "type": "cross",
+   "confidence": 0.77,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 10.141,
+   "speed_mps_est": 7.91,
+   "duration_ms": 84.1,
+   "gyro_int_dps_s": [
+    32.82,
+    -3.95,
+    1.9
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 3,
+   "t_peak_s": 15.3966,
+   "t_start_s": 15.351,
+   "t_end_s": 15.4327,
+   "type": "cross",
+   "confidence": 0.88,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 8.399,
+   "speed_mps_est": 6.65,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    48.52,
+    -4.09,
+    1.79
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 4,
+   "t_peak_s": 17.0313,
+   "t_start_s": 16.988,
+   "t_end_s": 17.0673,
+   "type": "cross",
+   "confidence": 0.71,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 9.065,
+   "speed_mps_est": 8.1,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    40.72,
+    4.03,
+    5.56
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 5,
+   "t_peak_s": 17.4255,
+   "t_start_s": 17.2764,
+   "t_end_s": 17.4952,
+   "type": "kick_or_body_movement",
+   "confidence": 0.4,
+   "target": null,
+   "hand": null,
+   "peak_g": 4.672,
+   "speed_mps_est": null,
+   "duration_ms": 218.8,
+   "gyro_int_dps_s": [
+    -2.58,
+    -1.84,
+    29.24
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 6,
+   "t_peak_s": 18.6538,
+   "t_start_s": 18.5144,
+   "t_end_s": 18.6923,
+   "type": "lead_uppercut",
+   "confidence": 0.57,
+   "target": "body",
+   "hand": "L",
+   "peak_g": 9.055,
+   "speed_mps_est": 7.18,
+   "duration_ms": 177.9,
+   "gyro_int_dps_s": [
+    4.62,
+    -3.68,
+    33.58
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 7,
+   "t_peak_s": 18.9639,
+   "t_start_s": 18.9231,
+   "t_end_s": 18.9976,
+   "type": "rear_hook",
+   "confidence": 0.75,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 15.842,
+   "speed_mps_est": 8.53,
+   "duration_ms": 74.5,
+   "gyro_int_dps_s": [
+    -2.56,
+    -1.03,
+    129.35
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 8,
+   "t_peak_s": 21.3341,
+   "t_start_s": 21.2885,
+   "t_end_s": 21.3702,
+   "type": "cross",
+   "confidence": 0.72,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.305,
+   "speed_mps_est": 7.61,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    35.68,
+    2.23,
+    2.06
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 9,
+   "t_peak_s": 22.6514,
+   "t_start_s": 22.5024,
+   "t_end_s": 22.7284,
+   "type": "kick_or_body_movement",
+   "confidence": 0.23,
+   "target": null,
+   "hand": null,
+   "peak_g": 4.875,
+   "speed_mps_est": null,
+   "duration_ms": 226,
+   "gyro_int_dps_s": [
+    3.51,
+    4.02,
+    25.56
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 10,
+   "t_peak_s": 24.1442,
+   "t_start_s": 24.0986,
+   "t_end_s": 24.1803,
+   "type": "rear_uppercut",
+   "confidence": 0.72,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 6.367,
+   "speed_mps_est": 5.84,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    4.62,
+    -113.75,
+    0.67
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 11,
+   "t_peak_s": 24.5,
+   "t_start_s": 24.4471,
+   "t_end_s": 24.5409,
+   "type": "lead_hook",
+   "confidence": 0.72,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 6.501,
+   "speed_mps_est": 8.08,
+   "duration_ms": 93.8,
+   "gyro_int_dps_s": [
+    -4.97,
+    -1.45,
+    25.29
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 12,
+   "t_peak_s": 26.8341,
+   "t_start_s": 26.6851,
+   "t_end_s": 26.8798,
+   "type": "rear_hook",
+   "confidence": 0.55,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 9.048,
+   "speed_mps_est": 7.25,
+   "duration_ms": 194.7,
+   "gyro_int_dps_s": [
+    -4.67,
+    1.09,
+    44.42
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 13,
+   "t_peak_s": 28.149,
+   "t_start_s": 28.1058,
+   "t_end_s": 28.1851,
+   "type": "lead_uppercut",
+   "confidence": 0.75,
+   "target": "body",
+   "hand": "L",
+   "peak_g": 4.481,
+   "speed_mps_est": 6.54,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    -0.79,
+    4.06,
+    36.46
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 14,
+   "t_peak_s": 28.5433,
+   "t_start_s": 28.4928,
+   "t_end_s": 28.5841,
+   "type": "rear_hook",
+   "confidence": 0.55,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.092,
+   "speed_mps_est": 7.28,
+   "duration_ms": 91.3,
+   "gyro_int_dps_s": [
+    1.17,
+    -2.02,
+    22.62
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 15,
+   "t_peak_s": 30.3942,
+   "t_start_s": 30.3534,
+   "t_end_s": 30.4255,
+   "type": "rear_uppercut",
+   "confidence": 0.85,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 7.63,
+   "speed_mps_est": 5.38,
+   "duration_ms": 72.1,
+   "gyro_int_dps_s": [
+    1.78,
+    -78.24,
+    -1.66
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 16,
+   "t_peak_s": 30.7764,
+   "t_start_s": 30.726,
+   "t_end_s": 30.8173,
+   "type": "lead_hook",
+   "confidence": 0.57,
+   "target": null,
+   "hand": "L",
+   "peak_g": 5.259,
+   "speed_mps_est": 9.33,
+   "duration_ms": 91.3,
+   "gyro_int_dps_s": [
+    -1.88,
+    -2.22,
+    24.83
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 17,
+   "t_peak_s": 32.9928,
+   "t_start_s": 32.9519,
+   "t_end_s": 33.0264,
+   "type": "cross",
+   "confidence": 0.85,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 8.631,
+   "speed_mps_est": 8.47,
+   "duration_ms": 74.5,
+   "gyro_int_dps_s": [
+    22.9,
+    -2.12,
+    1.08
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 18,
+   "t_peak_s": 33.3654,
+   "t_start_s": 33.3173,
+   "t_end_s": 33.4014,
+   "type": "lead_hook",
+   "confidence": 0.54,
+   "target": "body",
+   "hand": "L",
+   "peak_g": 5.371,
+   "speed_mps_est": 6.41,
+   "duration_ms": 84.1,
+   "gyro_int_dps_s": [
+    4.87,
+    -1.95,
+    39.03
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 19,
+   "t_peak_s": 33.6995,
+   "t_start_s": 33.6563,
+   "t_end_s": 33.7356,
+   "type": "cross",
+   "confidence": 0.66,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 9.861,
+   "speed_mps_est": 7.27,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    38.82,
+    4.03,
+    1.96
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 20,
+   "t_peak_s": 38.976,
+   "t_start_s": 38.9303,
+   "t_end_s": 39.0144,
+   "type": "cross",
+   "confidence": 0.77,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.289,
+   "speed_mps_est": 6.56,
+   "duration_ms": 84.1,
+   "gyro_int_dps_s": [
+    33.06,
+    -0.75,
+    2.05
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 21,
+   "t_peak_s": 41.4014,
+   "t_start_s": 41.3582,
+   "t_end_s": 41.4375,
+   "type": "rear_hook",
+   "confidence": 0.55,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 7.71,
+   "speed_mps_est": 8.77,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    26.83,
+    3.35,
+    10.38
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 22,
+   "t_peak_s": 41.7067,
+   "t_start_s": 41.6563,
+   "t_end_s": 41.7476,
+   "type": "lead_hook",
+   "confidence": 0.4,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 3.801,
+   "speed_mps_est": 7.36,
+   "duration_ms": 91.3,
+   "gyro_int_dps_s": [
+    4.12,
+    1.78,
+    47.37
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 23,
+   "t_peak_s": 43.3413,
+   "t_start_s": 43.2909,
+   "t_end_s": 43.3822,
+   "type": "lead_uppercut",
+   "confidence": 0.59,
+   "target": "body",
+   "hand": "L",
+   "peak_g": 4.63,
+   "speed_mps_est": 5.27,
+   "duration_ms": 91.3,
+   "gyro_int_dps_s": [
+    5,
+    -2.42,
+    39.99
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 24,
+   "t_peak_s": 43.6635,
+   "t_start_s": 43.6058,
+   "t_end_s": 43.7091,
+   "type": "rear_hook",
+   "confidence": 0.34,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 6.203,
+   "speed_mps_est": 7.03,
+   "duration_ms": 103.4,
+   "gyro_int_dps_s": [
+    -4.79,
+    3.74,
+    27.48
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 25,
+   "t_peak_s": 45.1827,
+   "t_start_s": 45.137,
+   "t_end_s": 45.2212,
+   "type": "rear_hook",
+   "confidence": 0.93,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 9.398,
+   "speed_mps_est": 6.62,
+   "duration_ms": 84.1,
+   "gyro_int_dps_s": [
+    -4.43,
+    -1.45,
+    151.53
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 26,
+   "t_peak_s": 46.9255,
+   "t_start_s": 46.7764,
+   "t_end_s": 46.9712,
+   "type": "lead_hook",
+   "confidence": 0.6,
+   "target": "body",
+   "hand": "L",
+   "peak_g": 7.194,
+   "speed_mps_est": 7.12,
+   "duration_ms": 194.7,
+   "gyro_int_dps_s": [
+    16.08,
+    2.9,
+    37.44
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 27,
+   "t_peak_s": 47.2091,
+   "t_start_s": 47.1611,
+   "t_end_s": 47.25,
+   "type": "cross",
+   "confidence": 0.69,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 8.602,
+   "speed_mps_est": 6.67,
+   "duration_ms": 88.9,
+   "gyro_int_dps_s": [
+    62.71,
+    2.81,
+    2.06
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 28,
+   "t_peak_s": 49.6106,
+   "t_start_s": 49.5649,
+   "t_end_s": 49.6442,
+   "type": "overhand",
+   "confidence": 0.77,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 8.472,
+   "speed_mps_est": 7.27,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    2.33,
+    51.09,
+    122.47
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 29,
+   "t_peak_s": 51.9279,
+   "t_start_s": 51.8774,
+   "t_end_s": 51.9688,
+   "type": "lead_uppercut",
+   "confidence": 0.6,
+   "target": "body",
+   "hand": "L",
+   "peak_g": 4.387,
+   "speed_mps_est": 6.56,
+   "duration_ms": 91.3,
+   "gyro_int_dps_s": [
+    1.93,
+    -2.92,
+    47.02
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 30,
+   "t_peak_s": 52.3293,
+   "t_start_s": 52.1923,
+   "t_end_s": 52.3678,
+   "type": "lead_hook",
+   "confidence": 0.46,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 7.629,
+   "speed_mps_est": 7.36,
+   "duration_ms": 175.5,
+   "gyro_int_dps_s": [
+    -1.25,
+    -0.28,
+    25.75
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 31,
+   "t_peak_s": 54.7716,
+   "t_start_s": 54.7308,
+   "t_end_s": 54.8053,
+   "type": "rear_hook",
+   "confidence": 0.57,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 9.712,
+   "speed_mps_est": 7.35,
+   "duration_ms": 74.5,
+   "gyro_int_dps_s": [
+    38.15,
+    3.79,
+    1.42
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 32,
+   "t_peak_s": 55.1827,
+   "t_start_s": 55.125,
+   "t_end_s": 55.2284,
+   "type": "lead_uppercut",
+   "confidence": 0.32,
+   "target": "body",
+   "hand": "L",
+   "peak_g": 7.194,
+   "speed_mps_est": 7.61,
+   "duration_ms": 103.4,
+   "gyro_int_dps_s": [
+    -4.42,
+    -1.43,
+    32.71
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 33,
+   "t_peak_s": 58.4832,
+   "t_start_s": 58.4327,
+   "t_end_s": 58.5216,
+   "type": "lead_hook",
+   "confidence": 0.49,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 4.502,
+   "speed_mps_est": 6.43,
+   "duration_ms": 88.9,
+   "gyro_int_dps_s": [
+    -1.3,
+    -0.71,
+    74.42
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 34,
+   "t_peak_s": 58.75,
+   "t_start_s": 58.7019,
+   "t_end_s": 58.7909,
+   "type": "rear_hook",
+   "confidence": 0.74,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 9.682,
+   "speed_mps_est": 9.02,
+   "duration_ms": 88.9,
+   "gyro_int_dps_s": [
+    4.75,
+    -4.05,
+    119.48
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 35,
+   "t_peak_s": 59.8077,
+   "t_start_s": 59.762,
+   "t_end_s": 59.8413,
+   "type": "lead_hook",
+   "confidence": 0.44,
+   "target": null,
+   "hand": "L",
+   "peak_g": 3.939,
+   "speed_mps_est": 9.9,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    -4.59,
+    -4.01,
+    29.31
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 36,
+   "t_peak_s": 60.2091,
+   "t_start_s": 60.1635,
+   "t_end_s": 60.2476,
+   "type": "cross",
+   "confidence": 0.66,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 9.821,
+   "speed_mps_est": 6.73,
+   "duration_ms": 84.1,
+   "gyro_int_dps_s": [
+    57,
+    1.97,
+    1.64
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 37,
+   "t_peak_s": 64.3894,
+   "t_start_s": 64.2957,
+   "t_end_s": 64.4663,
+   "type": "rear_uppercut",
+   "confidence": 0.7,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 4.996,
+   "speed_mps_est": 5.89,
+   "duration_ms": 170.7,
+   "gyro_int_dps_s": [
+    -3.87,
+    -78.54,
+    0.7
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 38,
+   "t_peak_s": 64.7332,
+   "t_start_s": 64.6899,
+   "t_end_s": 64.7668,
+   "type": "lead_hook",
+   "confidence": 0.48,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 4.405,
+   "speed_mps_est": 9.95,
+   "duration_ms": 76.9,
+   "gyro_int_dps_s": [
+    2.57,
+    3.38,
+    35.56
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 39,
+   "t_peak_s": 66.8606,
+   "t_start_s": 66.8149,
+   "t_end_s": 66.8966,
+   "type": "overhand",
+   "confidence": 0.79,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 8.176,
+   "speed_mps_est": 6.56,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    -4.11,
+    54.69,
+    151.42
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 40,
+   "t_peak_s": 71.2212,
+   "t_start_s": 71.1731,
+   "t_end_s": 71.262,
+   "type": "cross",
+   "confidence": 0.77,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 8.043,
+   "speed_mps_est": 8.69,
+   "duration_ms": 88.9,
+   "gyro_int_dps_s": [
+    54.12,
+    -0.21,
+    21.48
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 41,
+   "t_peak_s": 71.5938,
+   "t_start_s": 71.4447,
+   "t_end_s": 71.6851,
+   "type": "kick_or_body_movement",
+   "confidence": 0.29,
+   "target": null,
+   "hand": null,
+   "peak_g": 4.617,
+   "speed_mps_est": null,
+   "duration_ms": 240.4,
+   "gyro_int_dps_s": [
+    0.1,
+    3.63,
+    26.87
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 42,
+   "t_peak_s": 75.6731,
+   "t_start_s": 75.6298,
+   "t_end_s": 75.7067,
+   "type": "cross",
+   "confidence": 0.9,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.617,
+   "speed_mps_est": 6.29,
+   "duration_ms": 76.9,
+   "gyro_int_dps_s": [
+    33.53,
+    -0.08,
+    -1.4
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 43,
+   "t_peak_s": 76.0024,
+   "t_start_s": 75.9567,
+   "t_end_s": 76.0385,
+   "type": "lead_hook",
+   "confidence": 0.59,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 4.595,
+   "speed_mps_est": 6.34,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    -4.08,
+    3.93,
+    28.56
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 44,
+   "t_peak_s": 76.351,
+   "t_start_s": 76.3029,
+   "t_end_s": 76.3918,
+   "type": "cross",
+   "confidence": 0.92,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.494,
+   "speed_mps_est": 7.32,
+   "duration_ms": 88.9,
+   "gyro_int_dps_s": [
+    35.58,
+    -2.58,
+    -1.94
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 45,
+   "t_peak_s": 80.4495,
+   "t_start_s": 80.4038,
+   "t_end_s": 80.4856,
+   "type": "rear_hook",
+   "confidence": 0.34,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 7.923,
+   "speed_mps_est": 6.71,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    43.85,
+    3.89,
+    2.47
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 46,
+   "t_peak_s": 80.7668,
+   "t_start_s": 80.7188,
+   "t_end_s": 80.8077,
+   "type": "overhand",
+   "confidence": 0.31,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 3.543,
+   "speed_mps_est": 9.3,
+   "duration_ms": 88.9,
+   "gyro_int_dps_s": [
+    -2.24,
+    -2,
+    34.97
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 47,
+   "t_peak_s": 82.851,
+   "t_start_s": 82.7019,
+   "t_end_s": 82.8918,
+   "type": "lead_hook",
+   "confidence": 0.74,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 7.878,
+   "speed_mps_est": 8.94,
+   "duration_ms": 189.9,
+   "gyro_int_dps_s": [
+    -3.84,
+    1.07,
+    25
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 48,
+   "t_peak_s": 83.2356,
+   "t_start_s": 83.1947,
+   "t_end_s": 83.2668,
+   "type": "rear_hook",
+   "confidence": 0.87,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 6.3,
+   "speed_mps_est": 9.05,
+   "duration_ms": 72.1,
+   "gyro_int_dps_s": [
+    3.85,
+    -3.88,
+    137.11
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 49,
+   "t_peak_s": 89.3822,
+   "t_start_s": 89.3341,
+   "t_end_s": 89.4231,
+   "type": "cross",
+   "confidence": 0.93,
+   "target": null,
+   "hand": "R",
+   "peak_g": 8.142,
+   "speed_mps_est": 7.01,
+   "duration_ms": 88.9,
+   "gyro_int_dps_s": [
+    57.9,
+    3.51,
+    -0.55
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 50,
+   "t_peak_s": 89.7861,
+   "t_start_s": 89.7332,
+   "t_end_s": 89.8269,
+   "type": "lead_hook",
+   "confidence": 0.61,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 5.304,
+   "speed_mps_est": 6.99,
+   "duration_ms": 93.8,
+   "gyro_int_dps_s": [
+    -4.16,
+    -3.87,
+    35.88
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 51,
+   "t_peak_s": 90.1899,
+   "t_start_s": 90.1442,
+   "t_end_s": 90.226,
+   "type": "jab",
+   "confidence": 0.39,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 9.805,
+   "speed_mps_est": 7.47,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    44.38,
+    1.59,
+    1.85
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 52,
+   "t_peak_s": 91.7933,
+   "t_start_s": 91.7452,
+   "t_end_s": 91.8317,
+   "type": "cross",
+   "confidence": 0.89,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 9.841,
+   "speed_mps_est": 7.07,
+   "duration_ms": 86.5,
+   "gyro_int_dps_s": [
+    34.44,
+    -0.14,
+    0.63
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 53,
+   "t_peak_s": 93.0577,
+   "t_start_s": 93.012,
+   "t_end_s": 93.0938,
+   "type": "jab",
+   "confidence": 0.33,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 7.55,
+   "speed_mps_est": 6.87,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    40.14,
+    -3.23,
+    1.96
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 54,
+   "t_peak_s": 94.7452,
+   "t_start_s": 94.5962,
+   "t_end_s": 94.7933,
+   "type": "lead_hook",
+   "confidence": 0.48,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 8.644,
+   "speed_mps_est": 8.25,
+   "duration_ms": 197.1,
+   "gyro_int_dps_s": [
+    3.01,
+    3.49,
+    40.89
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 55,
+   "t_peak_s": 98.2115,
+   "t_start_s": 98.1587,
+   "t_end_s": 98.2524,
+   "type": "jab",
+   "confidence": 0.43,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 3.657,
+   "speed_mps_est": 5.17,
+   "duration_ms": 93.8,
+   "gyro_int_dps_s": [
+    -3.13,
+    3.99,
+    38.29
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 56,
+   "t_peak_s": 100.0986,
+   "t_start_s": 100.0577,
+   "t_end_s": 100.1298,
+   "type": "cross",
+   "confidence": 0.76,
+   "target": null,
+   "hand": "R",
+   "peak_g": 5.855,
+   "speed_mps_est": 7.08,
+   "duration_ms": 72.1,
+   "gyro_int_dps_s": [
+    45.62,
+    -0.5,
+    12.32
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 57,
+   "t_peak_s": 103.3221,
+   "t_start_s": 103.2837,
+   "t_end_s": 103.3558,
+   "type": "overhand",
+   "confidence": 0.96,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.636,
+   "speed_mps_est": 8.36,
+   "duration_ms": 72.1,
+   "gyro_int_dps_s": [
+    5.05,
+    36.04,
+    128.86
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 58,
+   "t_peak_s": 105.4784,
+   "t_start_s": 105.4351,
+   "t_end_s": 105.512,
+   "type": "cross",
+   "confidence": 0.94,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.63,
+   "speed_mps_est": 7.13,
+   "duration_ms": 76.9,
+   "gyro_int_dps_s": [
+    33.62,
+    -3.65,
+    1.9
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 59,
+   "t_peak_s": 107.4639,
+   "t_start_s": 107.4183,
+   "t_end_s": 107.5024,
+   "type": "cross",
+   "confidence": 0.97,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.734,
+   "speed_mps_est": 6.78,
+   "duration_ms": 84.1,
+   "gyro_int_dps_s": [
+    43.64,
+    -2.6,
+    -1.9
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 60,
+   "t_peak_s": 109.0625,
+   "t_start_s": 109.0144,
+   "t_end_s": 109.101,
+   "type": "overhand",
+   "confidence": 0.69,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 12.162,
+   "speed_mps_est": 8.15,
+   "duration_ms": 86.5,
+   "gyro_int_dps_s": [
+    -4.96,
+    45.93,
+    126.2
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 61,
+   "t_peak_s": 111.0529,
+   "t_start_s": 111.0024,
+   "t_end_s": 111.0938,
+   "type": "jab",
+   "confidence": 0.57,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 3.93,
+   "speed_mps_est": 5.72,
+   "duration_ms": 91.3,
+   "gyro_int_dps_s": [
+    5.81,
+    -3.47,
+    32.16
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 62,
+   "t_peak_s": 111.363,
+   "t_start_s": 111.3197,
+   "t_end_s": 111.399,
+   "type": "cross",
+   "confidence": 0.85,
+   "target": null,
+   "hand": "R",
+   "peak_g": 9.264,
+   "speed_mps_est": 7.16,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    33.65,
+    2.8,
+    21.82
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 63,
+   "t_peak_s": 114.0361,
+   "t_start_s": 113.9856,
+   "t_end_s": 114.0769,
+   "type": "lead_hook",
+   "confidence": 0.41,
+   "target": "body",
+   "hand": "L",
+   "peak_g": 5.118,
+   "speed_mps_est": 8.15,
+   "duration_ms": 91.3,
+   "gyro_int_dps_s": [
+    4.56,
+    -0.64,
+    33.63
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 64,
+   "t_peak_s": 114.4375,
+   "t_start_s": 114.3966,
+   "t_end_s": 114.4712,
+   "type": "cross",
+   "confidence": 0.97,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 8.465,
+   "speed_mps_est": 6.14,
+   "duration_ms": 74.5,
+   "gyro_int_dps_s": [
+    19.33,
+    -2.67,
+    -0.6
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 65,
+   "t_peak_s": 116.8077,
+   "t_start_s": 116.7596,
+   "t_end_s": 116.8462,
+   "type": "cross",
+   "confidence": 0.84,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.955,
+   "speed_mps_est": 6.09,
+   "duration_ms": 86.5,
+   "gyro_int_dps_s": [
+    37.06,
+    0.52,
+    -0.9
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 66,
+   "t_peak_s": 118.5865,
+   "t_start_s": 118.5433,
+   "t_end_s": 118.6226,
+   "type": "cross",
+   "confidence": 0.9,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 8.879,
+   "speed_mps_est": 6.11,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    49.3,
+    -2.81,
+    11.34
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 67,
+   "t_peak_s": 121.1683,
+   "t_start_s": 121.1034,
+   "t_end_s": 121.2308,
+   "type": "spinning_backfist",
+   "confidence": 0.96,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 9.933,
+   "speed_mps_est": 7.91,
+   "duration_ms": 127.4,
+   "gyro_int_dps_s": [
+    1.55,
+    -1.41,
+    -169.8
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 68,
+   "t_peak_s": 123.6394,
+   "t_start_s": 123.5986,
+   "t_end_s": 123.6731,
+   "type": "cross",
+   "confidence": 0.82,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.666,
+   "speed_mps_est": 6.75,
+   "duration_ms": 74.5,
+   "gyro_int_dps_s": [
+    41.46,
+    3.53,
+    9.9
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 69,
+   "t_peak_s": 123.9111,
+   "t_start_s": 123.8558,
+   "t_end_s": 123.9543,
+   "type": "rear_hook",
+   "confidence": 0.38,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.973,
+   "speed_mps_est": 6.98,
+   "duration_ms": 98.6,
+   "gyro_int_dps_s": [
+    6.18,
+    2.13,
+    21.1
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 70,
+   "t_peak_s": 124.2019,
+   "t_start_s": 124.1563,
+   "t_end_s": 124.2428,
+   "type": "cross",
+   "confidence": 0.72,
+   "target": null,
+   "hand": "R",
+   "peak_g": 8.739,
+   "speed_mps_est": 6.95,
+   "duration_ms": 86.5,
+   "gyro_int_dps_s": [
+    35.27,
+    -3.65,
+    1.6
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 71,
+   "t_peak_s": 126.0481,
+   "t_start_s": 125.9976,
+   "t_end_s": 126.0865,
+   "type": "jab",
+   "confidence": 0.57,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 3.64,
+   "speed_mps_est": 5.07,
+   "duration_ms": 88.9,
+   "gyro_int_dps_s": [
+    -4.86,
+    3.53,
+    46.09
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 72,
+   "t_peak_s": 126.351,
+   "t_start_s": 126.3029,
+   "t_end_s": 126.3918,
+   "type": "rear_hook",
+   "confidence": 0.88,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 14.771,
+   "speed_mps_est": 9.08,
+   "duration_ms": 88.9,
+   "gyro_int_dps_s": [
+    4.7,
+    -2.57,
+    125.35
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 73,
+   "t_peak_s": 126.7236,
+   "t_start_s": 126.5745,
+   "t_end_s": 126.8053,
+   "type": "kick_or_body_movement",
+   "confidence": 0.28,
+   "target": null,
+   "hand": null,
+   "peak_g": 4.933,
+   "speed_mps_est": null,
+   "duration_ms": 230.8,
+   "gyro_int_dps_s": [
+    -4.45,
+    -1.44,
+    26.22
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 74,
+   "t_peak_s": 129.4663,
+   "t_start_s": 129.4231,
+   "t_end_s": 129.5,
+   "type": "cross",
+   "confidence": 0.72,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 9.363,
+   "speed_mps_est": 6.76,
+   "duration_ms": 76.9,
+   "gyro_int_dps_s": [
+    32.48,
+    2.14,
+    1.14
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 75,
+   "t_peak_s": 132.2596,
+   "t_start_s": 132.2188,
+   "t_end_s": 132.2933,
+   "type": "cross",
+   "confidence": 0.93,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 8.796,
+   "speed_mps_est": 7.24,
+   "duration_ms": 74.5,
+   "gyro_int_dps_s": [
+    38.73,
+    -1.83,
+    -1.71
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 76,
+   "t_peak_s": 134.4038,
+   "t_start_s": 134.351,
+   "t_end_s": 134.4447,
+   "type": "rear_hook",
+   "confidence": 0.37,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 3.966,
+   "speed_mps_est": 8.08,
+   "duration_ms": 93.8,
+   "gyro_int_dps_s": [
+    -4.22,
+    -3.21,
+    46.89
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 77,
+   "t_peak_s": 134.7764,
+   "t_start_s": 134.7284,
+   "t_end_s": 134.8197,
+   "type": "rear_hook",
+   "confidence": 0.94,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 13.919,
+   "speed_mps_est": 6.82,
+   "duration_ms": 91.3,
+   "gyro_int_dps_s": [
+    3.9,
+    3.82,
+    94.63
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 78,
+   "t_peak_s": 138.351,
+   "t_start_s": 138.3029,
+   "t_end_s": 138.3894,
+   "type": "lead_hook",
+   "confidence": 0.45,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 4.519,
+   "speed_mps_est": 6.84,
+   "duration_ms": 86.5,
+   "gyro_int_dps_s": [
+    -4.97,
+    2.19,
+    38.04
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 79,
+   "t_peak_s": 139.3582,
+   "t_start_s": 139.2933,
+   "t_end_s": 139.4183,
+   "type": "spinning_backfist",
+   "confidence": 0.75,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 11.027,
+   "speed_mps_est": 7.56,
+   "duration_ms": 125,
+   "gyro_int_dps_s": [
+    2.88,
+    3.75,
+    -189.02
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 80,
+   "t_peak_s": 141.1659,
+   "t_start_s": 141.1154,
+   "t_end_s": 141.2067,
+   "type": "lead_hook",
+   "confidence": 0.45,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 6.17,
+   "speed_mps_est": 6.98,
+   "duration_ms": 91.3,
+   "gyro_int_dps_s": [
+    1.67,
+    -1.45,
+    25.41
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 81,
+   "t_peak_s": 141.5769,
+   "t_start_s": 141.5337,
+   "t_end_s": 141.6106,
+   "type": "rear_hook",
+   "confidence": 0.91,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.071,
+   "speed_mps_est": 5.75,
+   "duration_ms": 76.9,
+   "gyro_int_dps_s": [
+    -0.62,
+    3.8,
+    93.13
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 82,
+   "t_peak_s": 143.9808,
+   "t_start_s": 143.9351,
+   "t_end_s": 144.0144,
+   "type": "lead_uppercut",
+   "confidence": 0.46,
+   "target": "body",
+   "hand": "L",
+   "peak_g": 4.007,
+   "speed_mps_est": 5.94,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    3.13,
+    0.63,
+    106.06
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 83,
+   "t_peak_s": 144.2452,
+   "t_start_s": 144.1971,
+   "t_end_s": 144.2861,
+   "type": "rear_hook",
+   "confidence": 0.91,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 8.604,
+   "speed_mps_est": 8.3,
+   "duration_ms": 88.9,
+   "gyro_int_dps_s": [
+    1.59,
+    -3.98,
+    171.87
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 84,
+   "t_peak_s": 147.6755,
+   "t_start_s": 147.6226,
+   "t_end_s": 147.7163,
+   "type": "lead_uppercut",
+   "confidence": 0.32,
+   "target": "body",
+   "hand": "L",
+   "peak_g": 5.448,
+   "speed_mps_est": 8.59,
+   "duration_ms": 93.8,
+   "gyro_int_dps_s": [
+    -2.74,
+    -3.9,
+    43.04
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 85,
+   "t_peak_s": 148.0529,
+   "t_start_s": 148.0144,
+   "t_end_s": 148.0865,
+   "type": "rear_hook",
+   "confidence": 0.9,
+   "target": null,
+   "hand": "R",
+   "peak_g": 8.689,
+   "speed_mps_est": 8.52,
+   "duration_ms": 72.1,
+   "gyro_int_dps_s": [
+    2.97,
+    3.13,
+    105.48
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 86,
+   "t_peak_s": 150.0096,
+   "t_start_s": 149.9688,
+   "t_end_s": 150.0433,
+   "type": "rear_uppercut",
+   "confidence": 0.82,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 5.187,
+   "speed_mps_est": 6.62,
+   "duration_ms": 74.5,
+   "gyro_int_dps_s": [
+    -1.77,
+    -74.04,
+    4.31
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 87,
+   "t_peak_s": 150.2837,
+   "t_start_s": 150.2404,
+   "t_end_s": 150.3197,
+   "type": "overhand",
+   "confidence": 0.51,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 4.166,
+   "speed_mps_est": 7.88,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    4.85,
+    3.23,
+    29.6
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 88,
+   "t_peak_s": 152.5697,
+   "t_start_s": 152.5216,
+   "t_end_s": 152.6082,
+   "type": "cross",
+   "confidence": 0.93,
+   "target": null,
+   "hand": "R",
+   "peak_g": 6.915,
+   "speed_mps_est": 8.26,
+   "duration_ms": 86.5,
+   "gyro_int_dps_s": [
+    54.67,
+    3.96,
+    1.76
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 89,
+   "t_peak_s": 152.9231,
+   "t_start_s": 152.8678,
+   "t_end_s": 152.9639,
+   "type": "lead_uppercut",
+   "confidence": 0.41,
+   "target": "body",
+   "hand": "L",
+   "peak_g": 6.818,
+   "speed_mps_est": 6.8,
+   "duration_ms": 96.2,
+   "gyro_int_dps_s": [
+    -5.06,
+    -0.59,
+    34.19
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 90,
+   "t_peak_s": 155.2716,
+   "t_start_s": 155.226,
+   "t_end_s": 155.3053,
+   "type": "cross",
+   "confidence": 0.79,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.278,
+   "speed_mps_est": 6.2,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    26.76,
+    -3.07,
+    -0.03
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 91,
+   "t_peak_s": 155.5841,
+   "t_start_s": 155.5385,
+   "t_end_s": 155.6202,
+   "type": "lead_uppercut",
+   "confidence": 0.35,
+   "target": "body",
+   "hand": "L",
+   "peak_g": 5.463,
+   "speed_mps_est": 6.79,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    4.73,
+    -2.03,
+    30.14
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 92,
+   "t_peak_s": 157.9663,
+   "t_start_s": 157.9159,
+   "t_end_s": 158.0048,
+   "type": "cross",
+   "confidence": 0.94,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 8.78,
+   "speed_mps_est": 7.31,
+   "duration_ms": 88.9,
+   "gyro_int_dps_s": [
+    39.33,
+    1.53,
+    1.1
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 93,
+   "t_peak_s": 158.2981,
+   "t_start_s": 158.2476,
+   "t_end_s": 158.3389,
+   "type": "lead_hook",
+   "confidence": 0.72,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 4.648,
+   "speed_mps_est": 7.68,
+   "duration_ms": 91.3,
+   "gyro_int_dps_s": [
+    -4.98,
+    3.16,
+    27.81
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 94,
+   "t_peak_s": 158.7188,
+   "t_start_s": 158.6779,
+   "t_end_s": 158.75,
+   "type": "cross",
+   "confidence": 0.77,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.518,
+   "speed_mps_est": 7.58,
+   "duration_ms": 72.1,
+   "gyro_int_dps_s": [
+    32.32,
+    -4.07,
+    -1.86
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 95,
+   "t_peak_s": 161.4135,
+   "t_start_s": 161.3702,
+   "t_end_s": 161.4519,
+   "type": "cross",
+   "confidence": 0.75,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 8.886,
+   "speed_mps_est": 6.72,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    37.04,
+    3.54,
+    1.17
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 96,
+   "t_peak_s": 163.3077,
+   "t_start_s": 163.2596,
+   "t_end_s": 163.3486,
+   "type": "rear_hook",
+   "confidence": 0.95,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 12.361,
+   "speed_mps_est": 8.54,
+   "duration_ms": 88.9,
+   "gyro_int_dps_s": [
+    5.06,
+    -3,
+    147.53
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 97,
+   "t_peak_s": 163.6226,
+   "t_start_s": 163.4736,
+   "t_end_s": 163.6947,
+   "type": "kick_or_body_movement",
+   "confidence": 0.44,
+   "target": null,
+   "hand": null,
+   "peak_g": 4.299,
+   "speed_mps_est": null,
+   "duration_ms": 221.2,
+   "gyro_int_dps_s": [
+    -3.93,
+    3.35,
+    23.82
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 98,
+   "t_peak_s": 165.9471,
+   "t_start_s": 165.9038,
+   "t_end_s": 165.9808,
+   "type": "cross",
+   "confidence": 0.74,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.444,
+   "speed_mps_est": 6.33,
+   "duration_ms": 76.9,
+   "gyro_int_dps_s": [
+    27.83,
+    4.09,
+    1.3
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 99,
+   "t_peak_s": 167.7067,
+   "t_start_s": 167.6611,
+   "t_end_s": 167.7428,
+   "type": "cross",
+   "confidence": 0.9,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.821,
+   "speed_mps_est": 7.78,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    48.43,
+    -3.62,
+    8.8
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 100,
+   "t_peak_s": 168.0072,
+   "t_start_s": 167.9543,
+   "t_end_s": 168.0529,
+   "type": "lead_hook",
+   "confidence": 0.42,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 6.221,
+   "speed_mps_est": 6.11,
+   "duration_ms": 98.6,
+   "gyro_int_dps_s": [
+    4.26,
+    2.39,
+    36.32
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 101,
+   "t_peak_s": 168.3389,
+   "t_start_s": 168.2981,
+   "t_end_s": 168.3702,
+   "type": "cross",
+   "confidence": 0.87,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.879,
+   "speed_mps_est": 6.83,
+   "duration_ms": 72.1,
+   "gyro_int_dps_s": [
+    21.25,
+    2.44,
+    1.8
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 102,
+   "t_peak_s": 170.3413,
+   "t_start_s": 170.2837,
+   "t_end_s": 170.3918,
+   "type": "spinning_backfist",
+   "confidence": 0.73,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 8.778,
+   "speed_mps_est": 8.28,
+   "duration_ms": 108.2,
+   "gyro_int_dps_s": [
+    3.58,
+    3.87,
+    -184.92
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 103,
+   "t_peak_s": 171.9976,
+   "t_start_s": 171.9567,
+   "t_end_s": 172.0288,
+   "type": "cross",
+   "confidence": 0.7,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.928,
+   "speed_mps_est": 7.49,
+   "duration_ms": 72.1,
+   "gyro_int_dps_s": [
+    32.39,
+    -3.81,
+    1.23
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 104,
+   "t_peak_s": 173.7885,
+   "t_start_s": 173.7428,
+   "t_end_s": 173.8269,
+   "type": "lead_hook",
+   "confidence": 0.46,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 3.793,
+   "speed_mps_est": 6.26,
+   "duration_ms": 84.1,
+   "gyro_int_dps_s": [
+    -3.98,
+    3.9,
+    23.34
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 105,
+   "t_peak_s": 174.1466,
+   "t_start_s": 174.0986,
+   "t_end_s": 174.1851,
+   "type": "lead_hook",
+   "confidence": 0.69,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 5.345,
+   "speed_mps_est": 8.01,
+   "duration_ms": 86.5,
+   "gyro_int_dps_s": [
+    4.58,
+    -2.9,
+    31.98
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 106,
+   "t_peak_s": 176.5553,
+   "t_start_s": 176.5096,
+   "t_end_s": 176.5913,
+   "type": "cross",
+   "confidence": 0.79,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 8.902,
+   "speed_mps_est": 6.66,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    32.33,
+    -3.98,
+    3.06
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 107,
+   "t_peak_s": 176.9303,
+   "t_start_s": 176.8726,
+   "t_end_s": 176.9736,
+   "type": "rear_hook",
+   "confidence": 0.43,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.766,
+   "speed_mps_est": 6.53,
+   "duration_ms": 101,
+   "gyro_int_dps_s": [
+    -1.86,
+    2.98,
+    43.47
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 108,
+   "t_peak_s": 178.4856,
+   "t_start_s": 178.4423,
+   "t_end_s": 178.524,
+   "type": "rear_hook",
+   "confidence": 0.89,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 10.346,
+   "speed_mps_est": 6.98,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    -1.16,
+    -0.74,
+    106.58
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 109,
+   "t_peak_s": 180.2644,
+   "t_start_s": 180.2188,
+   "t_end_s": 180.2981,
+   "type": "overhand",
+   "confidence": 0.43,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 4.439,
+   "speed_mps_est": 8.05,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    5,
+    2.95,
+    22.4
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 110,
+   "t_peak_s": 181.3293,
+   "t_start_s": 181.2764,
+   "t_end_s": 181.3678,
+   "type": "lead_uppercut",
+   "confidence": 0.43,
+   "target": "body",
+   "hand": "L",
+   "peak_g": 7.171,
+   "speed_mps_est": 8.35,
+   "duration_ms": 91.3,
+   "gyro_int_dps_s": [
+    -4.09,
+    2.15,
+    30.44
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 111,
+   "t_peak_s": 181.6971,
+   "t_start_s": 181.6514,
+   "t_end_s": 181.738,
+   "type": "cross",
+   "confidence": 0.83,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 9.249,
+   "speed_mps_est": 7.17,
+   "duration_ms": 86.5,
+   "gyro_int_dps_s": [
+    45.18,
+    1.99,
+    -1.36
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 112,
+   "t_peak_s": 183.3125,
+   "t_start_s": 183.2716,
+   "t_end_s": 183.3462,
+   "type": "cross",
+   "confidence": 0.77,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 7.284,
+   "speed_mps_est": 6.44,
+   "duration_ms": 74.5,
+   "gyro_int_dps_s": [
+    47.46,
+    -2.92,
+    35.38
+   ],
+   "saturated": false,
+   "round_index": 0
+  },
+  {
+   "id": 113,
+   "t_peak_s": 251.1899,
+   "t_start_s": 251.1442,
+   "t_end_s": 251.226,
+   "type": "jab",
+   "confidence": 0.38,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 5.449,
+   "speed_mps_est": 7.51,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    38.48,
+    -0.93,
+    0.31
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 114,
+   "t_peak_s": 252.6995,
+   "t_start_s": 252.6514,
+   "t_end_s": 252.8486,
+   "type": "cross",
+   "confidence": 0.79,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.877,
+   "speed_mps_est": 7.02,
+   "duration_ms": 197.1,
+   "gyro_int_dps_s": [
+    47.65,
+    3.67,
+    40.82
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 115,
+   "t_peak_s": 255.3341,
+   "t_start_s": 255.2885,
+   "t_end_s": 255.3678,
+   "type": "lead_hook",
+   "confidence": 0.71,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 3.858,
+   "speed_mps_est": 8.43,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    -3.51,
+    -3.83,
+    36.38
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 116,
+   "t_peak_s": 255.7236,
+   "t_start_s": 255.6779,
+   "t_end_s": 255.7596,
+   "type": "cross",
+   "confidence": 0.71,
+   "target": null,
+   "hand": "R",
+   "peak_g": 5.16,
+   "speed_mps_est": 7.37,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    56.75,
+    1.09,
+    -2.03
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 117,
+   "t_peak_s": 258.8798,
+   "t_start_s": 258.8269,
+   "t_end_s": 258.9207,
+   "type": "overhand",
+   "confidence": 0.37,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.285,
+   "speed_mps_est": 8.92,
+   "duration_ms": 93.8,
+   "gyro_int_dps_s": [
+    0.79,
+    -2.7,
+    40.22
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 118,
+   "t_peak_s": 259.1995,
+   "t_start_s": 259.1563,
+   "t_end_s": 259.2332,
+   "type": "rear_hook",
+   "confidence": 0.66,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 5.825,
+   "speed_mps_est": 7.76,
+   "duration_ms": 76.9,
+   "gyro_int_dps_s": [
+    -3.22,
+    3.59,
+    86.71
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 119,
+   "t_peak_s": 261.7837,
+   "t_start_s": 261.7428,
+   "t_end_s": 261.8173,
+   "type": "rear_hook",
+   "confidence": 0.68,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 9.421,
+   "speed_mps_est": 5.96,
+   "duration_ms": 74.5,
+   "gyro_int_dps_s": [
+    5.06,
+    0.08,
+    122.09
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 120,
+   "t_peak_s": 264.3053,
+   "t_start_s": 264.2548,
+   "t_end_s": 264.3438,
+   "type": "cross",
+   "confidence": 0.84,
+   "target": null,
+   "hand": "R",
+   "peak_g": 7.801,
+   "speed_mps_est": 7,
+   "duration_ms": 88.9,
+   "gyro_int_dps_s": [
+    40.4,
+    -4.04,
+    1.89
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 121,
+   "t_peak_s": 266.2548,
+   "t_start_s": 266.1995,
+   "t_end_s": 266.2981,
+   "type": "lead_hook",
+   "confidence": 0.69,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 5.852,
+   "speed_mps_est": 7.57,
+   "duration_ms": 98.6,
+   "gyro_int_dps_s": [
+    1.93,
+    -0.55,
+    35.91
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 122,
+   "t_peak_s": 266.6274,
+   "t_start_s": 266.5841,
+   "t_end_s": 266.6635,
+   "type": "rear_hook",
+   "confidence": 0.66,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.481,
+   "speed_mps_est": 8.29,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    -1.48,
+    -3.2,
+    98.41
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 123,
+   "t_peak_s": 268.8558,
+   "t_start_s": 268.8149,
+   "t_end_s": 268.8894,
+   "type": "cross",
+   "confidence": 0.78,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.027,
+   "speed_mps_est": 6.96,
+   "duration_ms": 74.5,
+   "gyro_int_dps_s": [
+    42.07,
+    -3.12,
+    0.69
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 124,
+   "t_peak_s": 273.2596,
+   "t_start_s": 273.2139,
+   "t_end_s": 273.2981,
+   "type": "jab",
+   "confidence": 0.58,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 7.589,
+   "speed_mps_est": 7.03,
+   "duration_ms": 84.1,
+   "gyro_int_dps_s": [
+    38.82,
+    -3.65,
+    12.44
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 125,
+   "t_peak_s": 273.5841,
+   "t_start_s": 273.4351,
+   "t_end_s": 273.6538,
+   "type": "kick_or_body_movement",
+   "confidence": 0.2,
+   "target": null,
+   "hand": null,
+   "peak_g": 4.204,
+   "speed_mps_est": null,
+   "duration_ms": 218.8,
+   "gyro_int_dps_s": [
+    -2.74,
+    2.75,
+    27.08
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 126,
+   "t_peak_s": 275.8269,
+   "t_start_s": 275.7861,
+   "t_end_s": 275.8606,
+   "type": "cross",
+   "confidence": 0.74,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.402,
+   "speed_mps_est": 6.05,
+   "duration_ms": 74.5,
+   "gyro_int_dps_s": [
+    45.43,
+    3.05,
+    -1.15
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 127,
+   "t_peak_s": 277.4255,
+   "t_start_s": 277.3678,
+   "t_end_s": 277.4688,
+   "type": "lead_hook",
+   "confidence": 0.74,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 6.441,
+   "speed_mps_est": 7.79,
+   "duration_ms": 101,
+   "gyro_int_dps_s": [
+    -2.54,
+    -1.86,
+    28.26
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 128,
+   "t_peak_s": 279.4471,
+   "t_start_s": 279.4038,
+   "t_end_s": 279.4832,
+   "type": "rear_uppercut",
+   "confidence": 0.88,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.215,
+   "speed_mps_est": 5.68,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    4.92,
+    -85.47,
+    1.18
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 129,
+   "t_peak_s": 279.7716,
+   "t_start_s": 279.7236,
+   "t_end_s": 279.8077,
+   "type": "lead_hook",
+   "confidence": 0.45,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 4.908,
+   "speed_mps_est": 8.35,
+   "duration_ms": 84.1,
+   "gyro_int_dps_s": [
+    -3.78,
+    -3.78,
+    28.82
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 130,
+   "t_peak_s": 281.5481,
+   "t_start_s": 281.5,
+   "t_end_s": 281.5889,
+   "type": "cross",
+   "confidence": 0.82,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.878,
+   "speed_mps_est": 7.32,
+   "duration_ms": 88.9,
+   "gyro_int_dps_s": [
+    32.42,
+    3.98,
+    -1.47
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 131,
+   "t_peak_s": 283.101,
+   "t_start_s": 282.185,
+   "t_end_s": 293.947,
+   "type": "clinch",
+   "confidence": 0.36,
+   "target": null,
+   "hand": null,
+   "peak_g": 2.895,
+   "speed_mps_est": null,
+   "duration_ms": 11761.8,
+   "gyro_int_dps_s": [
+    2.69,
+    19.52,
+    -0.07
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 132,
+   "t_peak_s": 294.8846,
+   "t_start_s": 294.8365,
+   "t_end_s": 294.9255,
+   "type": "cross",
+   "confidence": 0.38,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 9.082,
+   "speed_mps_est": 6.98,
+   "duration_ms": 88.9,
+   "gyro_int_dps_s": [
+    4.98,
+    73.37,
+    151.68
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 133,
+   "t_peak_s": 296.8317,
+   "t_start_s": 296.7837,
+   "t_end_s": 296.8726,
+   "type": "cross",
+   "confidence": 0.89,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 6.649,
+   "speed_mps_est": 6.48,
+   "duration_ms": 88.9,
+   "gyro_int_dps_s": [
+    49.73,
+    1.05,
+    19.27
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 134,
+   "t_peak_s": 299.524,
+   "t_start_s": 299.4615,
+   "t_end_s": 299.5793,
+   "type": "spinning_backfist",
+   "confidence": 0.93,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 14.025,
+   "speed_mps_est": 6.92,
+   "duration_ms": 117.8,
+   "gyro_int_dps_s": [
+    4.68,
+    0.94,
+    -191.03
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 135,
+   "t_peak_s": 300.6418,
+   "t_start_s": 300.4928,
+   "t_end_s": 300.7115,
+   "type": "kick_or_body_movement",
+   "confidence": 0.43,
+   "target": null,
+   "hand": null,
+   "peak_g": 3.558,
+   "speed_mps_est": null,
+   "duration_ms": 218.8,
+   "gyro_int_dps_s": [
+    -5.05,
+    0.78,
+    39.42
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 136,
+   "t_peak_s": 302.8534,
+   "t_start_s": 302.8029,
+   "t_end_s": 302.8942,
+   "type": "lead_hook",
+   "confidence": 0.44,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 4.436,
+   "speed_mps_est": 5.97,
+   "duration_ms": 91.3,
+   "gyro_int_dps_s": [
+    -3.92,
+    0.99,
+    39.42
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 137,
+   "t_peak_s": 307.3389,
+   "t_start_s": 307.2957,
+   "t_end_s": 307.375,
+   "type": "jab",
+   "confidence": 0.38,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 6.879,
+   "speed_mps_est": 7.38,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    37.62,
+    0.07,
+    0.31
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 138,
+   "t_peak_s": 309.7572,
+   "t_start_s": 309.6587,
+   "t_end_s": 309.8365,
+   "type": "rear_uppercut",
+   "confidence": 0.88,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 3.989,
+   "speed_mps_est": 6.1,
+   "duration_ms": 177.9,
+   "gyro_int_dps_s": [
+    -3.37,
+    -82.83,
+    -1.01
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 139,
+   "t_peak_s": 310.149,
+   "t_start_s": 310.0962,
+   "t_end_s": 310.1899,
+   "type": "lead_hook",
+   "confidence": 0.59,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 6.664,
+   "speed_mps_est": 6.32,
+   "duration_ms": 93.8,
+   "gyro_int_dps_s": [
+    3.58,
+    0.67,
+    35.78
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 140,
+   "t_peak_s": 313.9038,
+   "t_start_s": 313.8558,
+   "t_end_s": 313.9423,
+   "type": "lead_hook",
+   "confidence": 0.57,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 4.642,
+   "speed_mps_est": 8.09,
+   "duration_ms": 86.5,
+   "gyro_int_dps_s": [
+    0.19,
+    2.28,
+    34.28
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 141,
+   "t_peak_s": 314.1803,
+   "t_start_s": 314.1394,
+   "t_end_s": 314.2139,
+   "type": "rear_hook",
+   "confidence": 0.78,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 8.44,
+   "speed_mps_est": 6.97,
+   "duration_ms": 74.5,
+   "gyro_int_dps_s": [
+    3.8,
+    -3.37,
+    78.3
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 142,
+   "t_peak_s": 316.1466,
+   "t_start_s": 316.0986,
+   "t_end_s": 316.1875,
+   "type": "cross",
+   "confidence": 0.68,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 8.716,
+   "speed_mps_est": 5.84,
+   "duration_ms": 88.9,
+   "gyro_int_dps_s": [
+    38.44,
+    1.9,
+    0.72
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 143,
+   "t_peak_s": 316.4952,
+   "t_start_s": 316.4471,
+   "t_end_s": 316.5313,
+   "type": "rear_hook",
+   "confidence": 0.42,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.479,
+   "speed_mps_est": 8.38,
+   "duration_ms": 84.1,
+   "gyro_int_dps_s": [
+    3.58,
+    -4.06,
+    38.79
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 144,
+   "t_peak_s": 318.4423,
+   "t_start_s": 318.4014,
+   "t_end_s": 318.4736,
+   "type": "rear_uppercut",
+   "confidence": 0.67,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 7.26,
+   "speed_mps_est": 6.14,
+   "duration_ms": 72.1,
+   "gyro_int_dps_s": [
+    -2.82,
+    -75.9,
+    1.65
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 145,
+   "t_peak_s": 318.8462,
+   "t_start_s": 318.8005,
+   "t_end_s": 318.8822,
+   "type": "lead_hook",
+   "confidence": 0.54,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 3.991,
+   "speed_mps_est": 8.7,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    2.1,
+    -3.23,
+    39.82
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 146,
+   "t_peak_s": 321.4784,
+   "t_start_s": 321.4327,
+   "t_end_s": 321.512,
+   "type": "cross",
+   "confidence": 0.91,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 5.052,
+   "speed_mps_est": 8.02,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    35.53,
+    4.05,
+    1.78
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 147,
+   "t_peak_s": 321.8317,
+   "t_start_s": 321.7788,
+   "t_end_s": 321.8726,
+   "type": "lead_uppercut",
+   "confidence": 0.38,
+   "target": "body",
+   "hand": "L",
+   "peak_g": 4.539,
+   "speed_mps_est": 7.86,
+   "duration_ms": 93.8,
+   "gyro_int_dps_s": [
+    4.75,
+    -1.04,
+    40.92
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 148,
+   "t_peak_s": 322.2404,
+   "t_start_s": 322.1923,
+   "t_end_s": 322.2788,
+   "type": "cross",
+   "confidence": 0.77,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.941,
+   "speed_mps_est": 7.53,
+   "duration_ms": 86.5,
+   "gyro_int_dps_s": [
+    29.77,
+    -2.23,
+    -1.94
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 149,
+   "t_peak_s": 324.2861,
+   "t_start_s": 324.2332,
+   "t_end_s": 324.3269,
+   "type": "overhand",
+   "confidence": 0.49,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.787,
+   "speed_mps_est": 7.22,
+   "duration_ms": 93.8,
+   "gyro_int_dps_s": [
+    -0.08,
+    -4.1,
+    37.7
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 150,
+   "t_peak_s": 326.7308,
+   "t_start_s": 326.6899,
+   "t_end_s": 326.7596,
+   "type": "rear_uppercut",
+   "confidence": 0.68,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 6.475,
+   "speed_mps_est": 4.88,
+   "duration_ms": 69.7,
+   "gyro_int_dps_s": [
+    -4.61,
+    -84.86,
+    0.71
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 151,
+   "t_peak_s": 327.149,
+   "t_start_s": 327.0986,
+   "t_end_s": 327.1875,
+   "type": "rear_hook",
+   "confidence": 0.5,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.275,
+   "speed_mps_est": 6.15,
+   "duration_ms": 88.9,
+   "gyro_int_dps_s": [
+    5,
+    3.62,
+    29.12
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 152,
+   "t_peak_s": 331.8269,
+   "t_start_s": 331.7861,
+   "t_end_s": 331.8582,
+   "type": "cross",
+   "confidence": 0.75,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.952,
+   "speed_mps_est": 7.23,
+   "duration_ms": 72.1,
+   "gyro_int_dps_s": [
+    26.4,
+    -0.93,
+    1.25
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 153,
+   "t_peak_s": 335.3125,
+   "t_start_s": 335.2692,
+   "t_end_s": 335.3462,
+   "type": "cross",
+   "confidence": 0.89,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 6.131,
+   "speed_mps_est": 6.85,
+   "duration_ms": 76.9,
+   "gyro_int_dps_s": [
+    37.16,
+    -3.62,
+    1.1
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 154,
+   "t_peak_s": 335.7019,
+   "t_start_s": 335.649,
+   "t_end_s": 335.7476,
+   "type": "lead_uppercut",
+   "confidence": 0.59,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 4.913,
+   "speed_mps_est": 5.9,
+   "duration_ms": 98.6,
+   "gyro_int_dps_s": [
+    4.21,
+    0.62,
+    41.76
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 155,
+   "t_peak_s": 338.4639,
+   "t_start_s": 338.4183,
+   "t_end_s": 338.5,
+   "type": "cross",
+   "confidence": 0.87,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 8.812,
+   "speed_mps_est": 6.48,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    28.84,
+    -0.22,
+    4.16
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 156,
+   "t_peak_s": 341.613,
+   "t_start_s": 341.5649,
+   "t_end_s": 341.762,
+   "type": "cross",
+   "confidence": 0.68,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.964,
+   "speed_mps_est": 6.89,
+   "duration_ms": 197.1,
+   "gyro_int_dps_s": [
+    36.96,
+    3.39,
+    29.75
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 157,
+   "t_peak_s": 344.8173,
+   "t_start_s": 344.7668,
+   "t_end_s": 344.8582,
+   "type": "overhand",
+   "confidence": 0.75,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 11.458,
+   "speed_mps_est": 7.8,
+   "duration_ms": 91.3,
+   "gyro_int_dps_s": [
+    4.76,
+    49.16,
+    169.13
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 158,
+   "t_peak_s": 350.2212,
+   "t_start_s": 350.0913,
+   "t_end_s": 350.3702,
+   "type": "cross",
+   "confidence": 0.75,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.74,
+   "speed_mps_est": 6.58,
+   "duration_ms": 278.8,
+   "gyro_int_dps_s": [
+    48.48,
+    2.22,
+    40.44
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 159,
+   "t_peak_s": 352.9063,
+   "t_start_s": 352.8582,
+   "t_end_s": 352.9471,
+   "type": "jab",
+   "confidence": 0.45,
+   "target": "body",
+   "hand": "L",
+   "peak_g": 7.122,
+   "speed_mps_est": 5.28,
+   "duration_ms": 88.9,
+   "gyro_int_dps_s": [
+    47.64,
+    -0.19,
+    -0.75
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 160,
+   "t_peak_s": 355.6563,
+   "t_start_s": 355.613,
+   "t_end_s": 355.6899,
+   "type": "cross",
+   "confidence": 0.9,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.11,
+   "speed_mps_est": 7.9,
+   "duration_ms": 76.9,
+   "gyro_int_dps_s": [
+    47.82,
+    -0.43,
+    -1.37
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 161,
+   "t_peak_s": 356.9255,
+   "t_start_s": 356.7764,
+   "t_end_s": 356.9688,
+   "type": "lead_hook",
+   "confidence": 0.5,
+   "target": "body",
+   "hand": "L",
+   "peak_g": 7.562,
+   "speed_mps_est": 6.75,
+   "duration_ms": 192.3,
+   "gyro_int_dps_s": [
+    6.05,
+    2.89,
+    34.83
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 162,
+   "t_peak_s": 357.2091,
+   "t_start_s": 357.1635,
+   "t_end_s": 357.2476,
+   "type": "rear_hook",
+   "confidence": 0.48,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.285,
+   "speed_mps_est": 7.58,
+   "duration_ms": 84.1,
+   "gyro_int_dps_s": [
+    38.48,
+    2.77,
+    2.06
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 163,
+   "t_peak_s": 358.5962,
+   "t_start_s": 358.5481,
+   "t_end_s": 358.6322,
+   "type": "lead_hook",
+   "confidence": 0.56,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 6.202,
+   "speed_mps_est": 7.86,
+   "duration_ms": 84.1,
+   "gyro_int_dps_s": [
+    3.3,
+    -2.97,
+    30.52
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 164,
+   "t_peak_s": 358.9808,
+   "t_start_s": 358.9351,
+   "t_end_s": 359.0168,
+   "type": "rear_hook",
+   "confidence": 0.33,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.243,
+   "speed_mps_est": 7.78,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    43.66,
+    -0.63,
+    2.07
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 165,
+   "t_peak_s": 361.3005,
+   "t_start_s": 361.2596,
+   "t_end_s": 361.3365,
+   "type": "rear_hook",
+   "confidence": 0.68,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 8.991,
+   "speed_mps_est": 6.17,
+   "duration_ms": 76.9,
+   "gyro_int_dps_s": [
+    -3.53,
+    1.58,
+    116.06
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 166,
+   "t_peak_s": 363.738,
+   "t_start_s": 363.6923,
+   "t_end_s": 363.7716,
+   "type": "jab",
+   "confidence": 0.52,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 8.552,
+   "speed_mps_est": 7.43,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    46.27,
+    4.08,
+    1.86
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 167,
+   "t_peak_s": 364.1202,
+   "t_start_s": 364.0673,
+   "t_end_s": 364.1611,
+   "type": "rear_hook",
+   "confidence": 0.31,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.604,
+   "speed_mps_est": 6.73,
+   "duration_ms": 93.8,
+   "gyro_int_dps_s": [
+    4.93,
+    -2.43,
+    34.51
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 168,
+   "t_peak_s": 364.5313,
+   "t_start_s": 364.488,
+   "t_end_s": 364.5649,
+   "type": "rear_hook",
+   "confidence": 0.55,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.477,
+   "speed_mps_est": 7.5,
+   "duration_ms": 76.9,
+   "gyro_int_dps_s": [
+    27.19,
+    -0.78,
+    -1.97
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 169,
+   "t_peak_s": 367.2764,
+   "t_start_s": 367.2332,
+   "t_end_s": 367.3101,
+   "type": "cross",
+   "confidence": 0.92,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.394,
+   "speed_mps_est": 6.27,
+   "duration_ms": 76.9,
+   "gyro_int_dps_s": [
+    44.34,
+    1.48,
+    1.51
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 170,
+   "t_peak_s": 372.4543,
+   "t_start_s": 372.4135,
+   "t_end_s": 372.4856,
+   "type": "cross",
+   "confidence": 0.72,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.377,
+   "speed_mps_est": 6.57,
+   "duration_ms": 72.1,
+   "gyro_int_dps_s": [
+    31.22,
+    2.43,
+    2.86
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 171,
+   "t_peak_s": 372.8269,
+   "t_start_s": 372.7668,
+   "t_end_s": 372.8726,
+   "type": "rear_hook",
+   "confidence": 0.41,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.008,
+   "speed_mps_est": 6.29,
+   "duration_ms": 105.8,
+   "gyro_int_dps_s": [
+    -3.15,
+    1.61,
+    44.45
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 172,
+   "t_peak_s": 374.2788,
+   "t_start_s": 374.2356,
+   "t_end_s": 374.3125,
+   "type": "overhand",
+   "confidence": 0.9,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 6.556,
+   "speed_mps_est": 6.3,
+   "duration_ms": 76.9,
+   "gyro_int_dps_s": [
+    0.21,
+    37.83,
+    142.56
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 173,
+   "t_peak_s": 375.6995,
+   "t_start_s": 375.6514,
+   "t_end_s": 375.738,
+   "type": "cross",
+   "confidence": 0.8,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.128,
+   "speed_mps_est": 5.73,
+   "duration_ms": 86.5,
+   "gyro_int_dps_s": [
+    42.15,
+    0.56,
+    -1.91
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 174,
+   "t_peak_s": 380.4303,
+   "t_start_s": 380.3846,
+   "t_end_s": 380.4639,
+   "type": "overhand",
+   "confidence": 0.59,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.16,
+   "speed_mps_est": 6.06,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    0.3,
+    4.01,
+    29.33
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 175,
+   "t_peak_s": 380.8221,
+   "t_start_s": 380.7813,
+   "t_end_s": 380.8558,
+   "type": "cross",
+   "confidence": 0.71,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.366,
+   "speed_mps_est": 7.34,
+   "duration_ms": 74.5,
+   "gyro_int_dps_s": [
+    44.49,
+    -3.01,
+    1.22
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 176,
+   "t_peak_s": 383.137,
+   "t_start_s": 383.0913,
+   "t_end_s": 383.1731,
+   "type": "rear_hook",
+   "confidence": 0.6,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.573,
+   "speed_mps_est": 6.21,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    31.39,
+    -3.99,
+    1.8
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 177,
+   "t_peak_s": 391.2067,
+   "t_start_s": 391.1611,
+   "t_end_s": 391.2404,
+   "type": "cross",
+   "confidence": 0.88,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.115,
+   "speed_mps_est": 7.12,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    33.44,
+    -0.58,
+    0.67
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 178,
+   "t_peak_s": 393.3486,
+   "t_start_s": 393.2981,
+   "t_end_s": 393.387,
+   "type": "lead_hook",
+   "confidence": 0.69,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 4.898,
+   "speed_mps_est": 6.18,
+   "duration_ms": 88.9,
+   "gyro_int_dps_s": [
+    5.34,
+    -2.28,
+    22.61
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 179,
+   "t_peak_s": 393.6899,
+   "t_start_s": 393.6466,
+   "t_end_s": 393.726,
+   "type": "cross",
+   "confidence": 0.65,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.962,
+   "speed_mps_est": 6.25,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    39.13,
+    3.96,
+    2.04
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 180,
+   "t_peak_s": 396.2572,
+   "t_start_s": 396.2091,
+   "t_end_s": 396.2933,
+   "type": "cross",
+   "confidence": 0.95,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.631,
+   "speed_mps_est": 6.17,
+   "duration_ms": 84.1,
+   "gyro_int_dps_s": [
+    54.74,
+    -0.62,
+    4.09
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 181,
+   "t_peak_s": 396.5601,
+   "t_start_s": 396.5096,
+   "t_end_s": 396.5986,
+   "type": "overhand",
+   "confidence": 0.54,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 3.51,
+   "speed_mps_est": 6.74,
+   "duration_ms": 88.9,
+   "gyro_int_dps_s": [
+    1.29,
+    -3.94,
+    26.61
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 182,
+   "t_peak_s": 398.7788,
+   "t_start_s": 398.7356,
+   "t_end_s": 398.8125,
+   "type": "overhand",
+   "confidence": 0.54,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 4.307,
+   "speed_mps_est": 6.86,
+   "duration_ms": 76.9,
+   "gyro_int_dps_s": [
+    4.25,
+    -3.95,
+    20.52
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 183,
+   "t_peak_s": 401.1563,
+   "t_start_s": 401.113,
+   "t_end_s": 401.1923,
+   "type": "cross",
+   "confidence": 0.76,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.907,
+   "speed_mps_est": 6.9,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    46.24,
+    -1.69,
+    -0.44
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 184,
+   "t_peak_s": 407.9087,
+   "t_start_s": 407.8654,
+   "t_end_s": 407.9447,
+   "type": "cross",
+   "confidence": 0.69,
+   "target": null,
+   "hand": "R",
+   "peak_g": 4.883,
+   "speed_mps_est": 5.65,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    34.09,
+    0.2,
+    0.69
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 185,
+   "t_peak_s": 409.4712,
+   "t_start_s": 409.4279,
+   "t_end_s": 409.512,
+   "type": "cross",
+   "confidence": 0.84,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 6.222,
+   "speed_mps_est": 6.82,
+   "duration_ms": 84.1,
+   "gyro_int_dps_s": [
+    33.85,
+    2.07,
+    39.09
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 186,
+   "t_peak_s": 409.8077,
+   "t_start_s": 409.6587,
+   "t_end_s": 409.8942,
+   "type": "kick_or_body_movement",
+   "confidence": 0.21,
+   "target": null,
+   "hand": null,
+   "peak_g": 3.932,
+   "speed_mps_est": null,
+   "duration_ms": 235.6,
+   "gyro_int_dps_s": [
+    -4.62,
+    -4.02,
+    34.2
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 187,
+   "t_peak_s": 411.2524,
+   "t_start_s": 411.1947,
+   "t_end_s": 411.3053,
+   "type": "spinning_backfist",
+   "confidence": 0.93,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.503,
+   "speed_mps_est": 6.73,
+   "duration_ms": 110.6,
+   "gyro_int_dps_s": [
+    -1.88,
+    0.5,
+    -153.36
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 188,
+   "t_peak_s": 413.0601,
+   "t_start_s": 413.0144,
+   "t_end_s": 413.0986,
+   "type": "cross",
+   "confidence": 0.9,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.126,
+   "speed_mps_est": 6.11,
+   "duration_ms": 84.1,
+   "gyro_int_dps_s": [
+    51.94,
+    -3.28,
+    1.97
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 189,
+   "t_peak_s": 413.9255,
+   "t_start_s": 413.8822,
+   "t_end_s": 413.9615,
+   "type": "jab",
+   "confidence": 0.41,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 3.894,
+   "speed_mps_est": 2.01,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    1.07,
+    1.86,
+    -1.83
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 190,
+   "t_peak_s": 415.4207,
+   "t_start_s": 415.2716,
+   "t_end_s": 415.5,
+   "type": "unknown",
+   "confidence": 0.52,
+   "target": "head",
+   "hand": null,
+   "peak_g": 3.758,
+   "speed_mps_est": 1.33,
+   "duration_ms": 228.4,
+   "gyro_int_dps_s": [
+    -0.69,
+    -4.06,
+    35.42
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 191,
+   "t_peak_s": 418.1827,
+   "t_start_s": 418.1442,
+   "t_end_s": 418.2139,
+   "type": "overhand",
+   "confidence": 0.96,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 8.257,
+   "speed_mps_est": 6.01,
+   "duration_ms": 69.7,
+   "gyro_int_dps_s": [
+    -2.1,
+    46.35,
+    93.45
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 192,
+   "t_peak_s": 420.2572,
+   "t_start_s": 420.2139,
+   "t_end_s": 420.2909,
+   "type": "lead_uppercut",
+   "confidence": 0.59,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 4.896,
+   "speed_mps_est": 4.27,
+   "duration_ms": 76.9,
+   "gyro_int_dps_s": [
+    5.06,
+    2.85,
+    53.46
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 193,
+   "t_peak_s": 422.3149,
+   "t_start_s": 422.2692,
+   "t_end_s": 422.351,
+   "type": "overhand",
+   "confidence": 0.35,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.8,
+   "speed_mps_est": 8.96,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    -1.01,
+    -0.64,
+    33.46
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 194,
+   "t_peak_s": 422.625,
+   "t_start_s": 422.5841,
+   "t_end_s": 422.6587,
+   "type": "cross",
+   "confidence": 0.83,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 4.855,
+   "speed_mps_est": 6.49,
+   "duration_ms": 74.5,
+   "gyro_int_dps_s": [
+    45.56,
+    4.08,
+    0.49
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 195,
+   "t_peak_s": 424.9423,
+   "t_start_s": 424.9038,
+   "t_end_s": 424.9736,
+   "type": "overhand",
+   "confidence": 0.9,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 5.941,
+   "speed_mps_est": 6.39,
+   "duration_ms": 69.7,
+   "gyro_int_dps_s": [
+    4,
+    46.91,
+    130.66
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 196,
+   "t_peak_s": 425.9712,
+   "t_start_s": 425.9231,
+   "t_end_s": 426.0096,
+   "type": "lead_hook",
+   "confidence": 0.47,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 4.79,
+   "speed_mps_est": 6.8,
+   "duration_ms": 86.5,
+   "gyro_int_dps_s": [
+    -4.73,
+    4.07,
+    26.6
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 197,
+   "t_peak_s": 426.387,
+   "t_start_s": 426.3413,
+   "t_end_s": 426.4255,
+   "type": "rear_hook",
+   "confidence": 0.86,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 8.226,
+   "speed_mps_est": 5.8,
+   "duration_ms": 84.1,
+   "gyro_int_dps_s": [
+    5.07,
+    -3.14,
+    94.78
+   ],
+   "saturated": false,
+   "round_index": 2
+  },
+  {
+   "id": 198,
+   "t_peak_s": 489.9976,
+   "t_start_s": 489.9519,
+   "t_end_s": 490.0361,
+   "type": "rear_hook",
+   "confidence": 0.71,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 11.644,
+   "speed_mps_est": 6.97,
+   "duration_ms": 84.1,
+   "gyro_int_dps_s": [
+    -2.24,
+    -2.61,
+    151.29
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 199,
+   "t_peak_s": 492.0913,
+   "t_start_s": 491.9856,
+   "t_end_s": 492.1779,
+   "type": "rear_uppercut",
+   "confidence": 0.83,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 5.161,
+   "speed_mps_est": 5.81,
+   "duration_ms": 192.3,
+   "gyro_int_dps_s": [
+    -4.09,
+    -136.4,
+    -0.69
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 200,
+   "t_peak_s": 492.5481,
+   "t_start_s": 492.4952,
+   "t_end_s": 492.5913,
+   "type": "lead_hook",
+   "confidence": 0.52,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 6.618,
+   "speed_mps_est": 6.83,
+   "duration_ms": 96.2,
+   "gyro_int_dps_s": [
+    5.05,
+    3.77,
+    30.99
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 201,
+   "t_peak_s": 494.476,
+   "t_start_s": 494.4351,
+   "t_end_s": 494.5072,
+   "type": "rear_hook",
+   "confidence": 0.5,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 4.687,
+   "speed_mps_est": 5.46,
+   "duration_ms": 72.1,
+   "gyro_int_dps_s": [
+    27.73,
+    -1.94,
+    -1.29
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 202,
+   "t_peak_s": 497.1971,
+   "t_start_s": 497.1466,
+   "t_end_s": 497.3462,
+   "type": "rear_hook",
+   "confidence": 0.73,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 13.363,
+   "speed_mps_est": 6.08,
+   "duration_ms": 199.5,
+   "gyro_int_dps_s": [
+    4.97,
+    2.96,
+    199.06
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 203,
+   "t_peak_s": 497.4712,
+   "t_start_s": 497.3221,
+   "t_end_s": 497.5481,
+   "type": "kick_or_body_movement",
+   "confidence": 0.43,
+   "target": null,
+   "hand": null,
+   "peak_g": 3.976,
+   "speed_mps_est": null,
+   "duration_ms": 226,
+   "gyro_int_dps_s": [
+    -3.98,
+    -2.7,
+    25.14
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 204,
+   "t_peak_s": 500.0793,
+   "t_start_s": 500.024,
+   "t_end_s": 500.1274,
+   "type": "spinning_backfist",
+   "confidence": 0.92,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.473,
+   "speed_mps_est": 7.83,
+   "duration_ms": 103.4,
+   "gyro_int_dps_s": [
+    1.1,
+    -0.93,
+    -203.68
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 205,
+   "t_peak_s": 505.3365,
+   "t_start_s": 505.2885,
+   "t_end_s": 505.375,
+   "type": "lead_hook",
+   "confidence": 0.55,
+   "target": "body",
+   "hand": "L",
+   "peak_g": 4.673,
+   "speed_mps_est": 7.32,
+   "duration_ms": 86.5,
+   "gyro_int_dps_s": [
+    4.87,
+    -3.84,
+    41
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 206,
+   "t_peak_s": 505.6466,
+   "t_start_s": 505.5986,
+   "t_end_s": 505.6851,
+   "type": "cross",
+   "confidence": 0.92,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.536,
+   "speed_mps_est": 6.05,
+   "duration_ms": 86.5,
+   "gyro_int_dps_s": [
+    58.22,
+    -0.64,
+    -1.19
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 207,
+   "t_peak_s": 506.9856,
+   "t_start_s": 506.9303,
+   "t_end_s": 507.0361,
+   "type": "spinning_backfist",
+   "confidence": 0.78,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.321,
+   "speed_mps_est": 7.53,
+   "duration_ms": 105.8,
+   "gyro_int_dps_s": [
+    0.39,
+    3.7,
+    -203.46
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 208,
+   "t_peak_s": 509.0072,
+   "t_start_s": 508.9615,
+   "t_end_s": 509.0409,
+   "type": "cross",
+   "confidence": 0.68,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.964,
+   "speed_mps_est": 5.03,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    32.68,
+    -0.03,
+    1.92
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 209,
+   "t_peak_s": 509.3702,
+   "t_start_s": 509.3221,
+   "t_end_s": 509.4087,
+   "type": "lead_hook",
+   "confidence": 0.56,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 6.458,
+   "speed_mps_est": 6.43,
+   "duration_ms": 86.5,
+   "gyro_int_dps_s": [
+    3.27,
+    3.66,
+    29
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 210,
+   "t_peak_s": 512.351,
+   "t_start_s": 512.3101,
+   "t_end_s": 512.3822,
+   "type": "cross",
+   "confidence": 0.8,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.198,
+   "speed_mps_est": 6.16,
+   "duration_ms": 72.1,
+   "gyro_int_dps_s": [
+    24.65,
+    0.22,
+    4
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 211,
+   "t_peak_s": 512.6442,
+   "t_start_s": 512.5913,
+   "t_end_s": 512.6851,
+   "type": "lead_hook",
+   "confidence": 0.56,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 7.22,
+   "speed_mps_est": 7.18,
+   "duration_ms": 93.8,
+   "gyro_int_dps_s": [
+    4.22,
+    4.06,
+    39.97
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 212,
+   "t_peak_s": 512.9976,
+   "t_start_s": 512.9543,
+   "t_end_s": 513.0337,
+   "type": "cross",
+   "confidence": 0.66,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.124,
+   "speed_mps_est": 6.64,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    46.44,
+    -2.2,
+    1.15
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 213,
+   "t_peak_s": 515.1875,
+   "t_start_s": 515.1466,
+   "t_end_s": 515.2236,
+   "type": "cross",
+   "confidence": 0.74,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.61,
+   "speed_mps_est": 7.09,
+   "duration_ms": 76.9,
+   "gyro_int_dps_s": [
+    24.08,
+    -1.53,
+    -1.78
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 214,
+   "t_peak_s": 515.8053,
+   "t_start_s": 515.7596,
+   "t_end_s": 515.8438,
+   "type": "cross",
+   "confidence": 0.76,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.842,
+   "speed_mps_est": 5.16,
+   "duration_ms": 84.1,
+   "gyro_int_dps_s": [
+    46.55,
+    2.76,
+    -1.49
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 215,
+   "t_peak_s": 517.5409,
+   "t_start_s": 517.4952,
+   "t_end_s": 517.5769,
+   "type": "lead_hook",
+   "confidence": 0.44,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 6.108,
+   "speed_mps_est": 7.17,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    -4.54,
+    -3.69,
+    23.5
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 216,
+   "t_peak_s": 517.8654,
+   "t_start_s": 517.8197,
+   "t_end_s": 517.9014,
+   "type": "cross",
+   "confidence": 0.73,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.558,
+   "speed_mps_est": 7.37,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    43.42,
+    -0.74,
+    1.49
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 217,
+   "t_peak_s": 519.4111,
+   "t_start_s": 519.3654,
+   "t_end_s": 519.4495,
+   "type": "cross",
+   "confidence": 0.7,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 8.281,
+   "speed_mps_est": 7.29,
+   "duration_ms": 84.1,
+   "gyro_int_dps_s": [
+    34.23,
+    3.12,
+    5.07
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 218,
+   "t_peak_s": 522.6899,
+   "t_start_s": 522.6442,
+   "t_end_s": 522.7308,
+   "type": "jab",
+   "confidence": 0.36,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 8.018,
+   "speed_mps_est": 6.93,
+   "duration_ms": 86.5,
+   "gyro_int_dps_s": [
+    58.83,
+    3.78,
+    -0.66
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 219,
+   "t_peak_s": 525.1514,
+   "t_start_s": 525.0962,
+   "t_end_s": 525.1971,
+   "type": "lead_hook",
+   "confidence": 0.59,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 5.885,
+   "speed_mps_est": 7.25,
+   "duration_ms": 101,
+   "gyro_int_dps_s": [
+    -3.67,
+    -0.73,
+    35.86
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 220,
+   "t_peak_s": 528.1731,
+   "t_start_s": 526.268,
+   "t_end_s": 535.918,
+   "type": "clinch",
+   "confidence": 0.46,
+   "target": null,
+   "hand": null,
+   "peak_g": 2.873,
+   "speed_mps_est": null,
+   "duration_ms": 9649.5,
+   "gyro_int_dps_s": [
+    20.46,
+    -4.99,
+    -1.4
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 221,
+   "t_peak_s": 536.4904,
+   "t_start_s": 536.4447,
+   "t_end_s": 536.5288,
+   "type": "lead_hook",
+   "confidence": 0.41,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 5.312,
+   "speed_mps_est": 6.09,
+   "duration_ms": 84.1,
+   "gyro_int_dps_s": [
+    3.75,
+    -4.07,
+    44.97
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 222,
+   "t_peak_s": 536.762,
+   "t_start_s": 536.7236,
+   "t_end_s": 536.7909,
+   "type": "rear_hook",
+   "confidence": 0.78,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.687,
+   "speed_mps_est": 7.33,
+   "duration_ms": 67.3,
+   "gyro_int_dps_s": [
+    -4.97,
+    -0.58,
+    72.07
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 223,
+   "t_peak_s": 539.4519,
+   "t_start_s": 539.4038,
+   "t_end_s": 539.4952,
+   "type": "overhand",
+   "confidence": 0.36,
+   "target": null,
+   "hand": "R",
+   "peak_g": 12.124,
+   "speed_mps_est": 5.91,
+   "duration_ms": 91.3,
+   "gyro_int_dps_s": [
+    4.97,
+    2.41,
+    131.01
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 224,
+   "t_peak_s": 541.9399,
+   "t_start_s": 541.8966,
+   "t_end_s": 541.9784,
+   "type": "overhand",
+   "confidence": 0.87,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.706,
+   "speed_mps_est": 6.74,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    1.49,
+    58.09,
+    124.71
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 225,
+   "t_peak_s": 544.3462,
+   "t_start_s": 544.3029,
+   "t_end_s": 544.3822,
+   "type": "rear_hook",
+   "confidence": 0.79,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.097,
+   "speed_mps_est": 6.96,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    -2.49,
+    -3.88,
+    110.56
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 226,
+   "t_peak_s": 546.7404,
+   "t_start_s": 546.6971,
+   "t_end_s": 546.7788,
+   "type": "cross",
+   "confidence": 0.72,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 4.362,
+   "speed_mps_est": 5.4,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    41.95,
+    -1.04,
+    0.51
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 227,
+   "t_peak_s": 549.8389,
+   "t_start_s": 549.7788,
+   "t_end_s": 549.8846,
+   "type": "lead_hook",
+   "confidence": 0.56,
+   "target": "body",
+   "hand": "L",
+   "peak_g": 7.405,
+   "speed_mps_est": 5.79,
+   "duration_ms": 105.8,
+   "gyro_int_dps_s": [
+    -5,
+    -4.1,
+    36.39
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 228,
+   "t_peak_s": 550.2332,
+   "t_start_s": 550.1923,
+   "t_end_s": 550.2668,
+   "type": "cross",
+   "confidence": 0.66,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 8.06,
+   "speed_mps_est": 6.92,
+   "duration_ms": 74.5,
+   "gyro_int_dps_s": [
+    29.09,
+    2.45,
+    1.25
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 229,
+   "t_peak_s": 551.8702,
+   "t_start_s": 551.8269,
+   "t_end_s": 551.9038,
+   "type": "rear_hook",
+   "confidence": 0.91,
+   "target": null,
+   "hand": "R",
+   "peak_g": 9.894,
+   "speed_mps_est": 7.5,
+   "duration_ms": 76.9,
+   "gyro_int_dps_s": [
+    3.88,
+    -1.85,
+    121.77
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 230,
+   "t_peak_s": 555.0409,
+   "t_start_s": 555,
+   "t_end_s": 555.0745,
+   "type": "cross",
+   "confidence": 0.7,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.978,
+   "speed_mps_est": 5.27,
+   "duration_ms": 74.5,
+   "gyro_int_dps_s": [
+    47.63,
+    1.78,
+    -0.88
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 231,
+   "t_peak_s": 557.4784,
+   "t_start_s": 557.4375,
+   "t_end_s": 557.512,
+   "type": "rear_uppercut",
+   "confidence": 0.88,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 6.116,
+   "speed_mps_est": 6.12,
+   "duration_ms": 74.5,
+   "gyro_int_dps_s": [
+    -4.14,
+    -108.44,
+    -1.96
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 232,
+   "t_peak_s": 557.8894,
+   "t_start_s": 557.8389,
+   "t_end_s": 557.9303,
+   "type": "rear_hook",
+   "confidence": 0.53,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 4.627,
+   "speed_mps_est": 6.75,
+   "duration_ms": 91.3,
+   "gyro_int_dps_s": [
+    4.69,
+    -0.21,
+    46.45
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 233,
+   "t_peak_s": 559.8582,
+   "t_start_s": 559.8125,
+   "t_end_s": 559.8942,
+   "type": "cross",
+   "confidence": 0.93,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.968,
+   "speed_mps_est": 6.29,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    33.63,
+    -4.07,
+    -2.06
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 234,
+   "t_peak_s": 560.2188,
+   "t_start_s": 560.1731,
+   "t_end_s": 560.2524,
+   "type": "lead_hook",
+   "confidence": 0.7,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 4.807,
+   "speed_mps_est": 5.15,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    9.35,
+    2.17,
+    27.05
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 235,
+   "t_peak_s": 560.488,
+   "t_start_s": 560.4447,
+   "t_end_s": 560.5216,
+   "type": "cross",
+   "confidence": 0.89,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.91,
+   "speed_mps_est": 5.64,
+   "duration_ms": 76.9,
+   "gyro_int_dps_s": [
+    40.71,
+    3.58,
+    -1.81
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 236,
+   "t_peak_s": 566.2524,
+   "t_start_s": 566.2067,
+   "t_end_s": 566.2909,
+   "type": "cross",
+   "confidence": 0.68,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.432,
+   "speed_mps_est": 6.86,
+   "duration_ms": 84.1,
+   "gyro_int_dps_s": [
+    53.48,
+    -0.49,
+    -1.5
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 237,
+   "t_peak_s": 568.6755,
+   "t_start_s": 568.6346,
+   "t_end_s": 568.7091,
+   "type": "cross",
+   "confidence": 0.8,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.792,
+   "speed_mps_est": 5.8,
+   "duration_ms": 74.5,
+   "gyro_int_dps_s": [
+    38.32,
+    -3.9,
+    -2.05
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 238,
+   "t_peak_s": 571.2188,
+   "t_start_s": 571.1659,
+   "t_end_s": 571.262,
+   "type": "lead_hook",
+   "confidence": 0.41,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 4.252,
+   "speed_mps_est": 7.05,
+   "duration_ms": 96.2,
+   "gyro_int_dps_s": [
+    -0.49,
+    -0.28,
+    47.93
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 239,
+   "t_peak_s": 571.5096,
+   "t_start_s": 571.4663,
+   "t_end_s": 571.5481,
+   "type": "rear_hook",
+   "confidence": 0.78,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.809,
+   "speed_mps_est": 6.88,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    -3.1,
+    4.12,
+    118.7
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 240,
+   "t_peak_s": 574.2668,
+   "t_start_s": 574.226,
+   "t_end_s": 574.3005,
+   "type": "overhand",
+   "confidence": 0.96,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.452,
+   "speed_mps_est": 5.27,
+   "duration_ms": 74.5,
+   "gyro_int_dps_s": [
+    0.71,
+    34.34,
+    78.74
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 241,
+   "t_peak_s": 576.4087,
+   "t_start_s": 576.3654,
+   "t_end_s": 576.4447,
+   "type": "overhand",
+   "confidence": 0.91,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 10.175,
+   "speed_mps_est": 5.52,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    5.05,
+    48.73,
+    83.23
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 242,
+   "t_peak_s": 581.4038,
+   "t_start_s": 581.3582,
+   "t_end_s": 581.4423,
+   "type": "cross",
+   "confidence": 0.83,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.324,
+   "speed_mps_est": 6.51,
+   "duration_ms": 84.1,
+   "gyro_int_dps_s": [
+    32.31,
+    3.4,
+    1.35
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 243,
+   "t_peak_s": 584.1923,
+   "t_start_s": 584.1514,
+   "t_end_s": 584.226,
+   "type": "rear_hook",
+   "confidence": 0.8,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 11.25,
+   "speed_mps_est": 4.65,
+   "duration_ms": 74.5,
+   "gyro_int_dps_s": [
+    3.45,
+    -3.54,
+    100.33
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 244,
+   "t_peak_s": 585.7668,
+   "t_start_s": 585.7284,
+   "t_end_s": 585.7981,
+   "type": "cross",
+   "confidence": 0.96,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.727,
+   "speed_mps_est": 7.01,
+   "duration_ms": 69.7,
+   "gyro_int_dps_s": [
+    36.79,
+    2.04,
+    -1.94
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 245,
+   "t_peak_s": 589.351,
+   "t_start_s": 589.3077,
+   "t_end_s": 589.387,
+   "type": "rear_hook",
+   "confidence": 0.79,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 5.903,
+   "speed_mps_est": 4.97,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    2.63,
+    3.82,
+    178.74
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 246,
+   "t_peak_s": 592.7163,
+   "t_start_s": 592.6731,
+   "t_end_s": 592.75,
+   "type": "cross",
+   "confidence": 0.81,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 4.277,
+   "speed_mps_est": 6.39,
+   "duration_ms": 76.9,
+   "gyro_int_dps_s": [
+    36.38,
+    3.51,
+    -1.36
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 247,
+   "t_peak_s": 594.3558,
+   "t_start_s": 594.3173,
+   "t_end_s": 594.3846,
+   "type": "cross",
+   "confidence": 0.93,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 4.343,
+   "speed_mps_est": 6.65,
+   "duration_ms": 67.3,
+   "gyro_int_dps_s": [
+    39.05,
+    -3.78,
+    1.15
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 248,
+   "t_peak_s": 599.3413,
+   "t_start_s": 599.3005,
+   "t_end_s": 599.375,
+   "type": "cross",
+   "confidence": 0.96,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.281,
+   "speed_mps_est": 5.42,
+   "duration_ms": 74.5,
+   "gyro_int_dps_s": [
+    40.92,
+    3.91,
+    7.73
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 249,
+   "t_peak_s": 599.6202,
+   "t_start_s": 599.5649,
+   "t_end_s": 599.6635,
+   "type": "rear_hook",
+   "confidence": 0.48,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 4.95,
+   "speed_mps_est": 5.42,
+   "duration_ms": 98.6,
+   "gyro_int_dps_s": [
+    1.93,
+    -1.27,
+    25.89
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 250,
+   "t_peak_s": 602.1322,
+   "t_start_s": 602.0793,
+   "t_end_s": 602.1755,
+   "type": "lead_hook",
+   "confidence": 0.68,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 6.846,
+   "speed_mps_est": 6.89,
+   "duration_ms": 96.2,
+   "gyro_int_dps_s": [
+    -4.85,
+    -3.78,
+    37.36
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 251,
+   "t_peak_s": 602.4688,
+   "t_start_s": 602.4279,
+   "t_end_s": 602.5024,
+   "type": "rear_hook",
+   "confidence": 0.89,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 10.484,
+   "speed_mps_est": 6.27,
+   "duration_ms": 74.5,
+   "gyro_int_dps_s": [
+    3.91,
+    2.71,
+    117.88
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 252,
+   "t_peak_s": 604.4159,
+   "t_start_s": 604.3149,
+   "t_end_s": 604.5,
+   "type": "rear_uppercut",
+   "confidence": 0.72,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 4.296,
+   "speed_mps_est": 4.52,
+   "duration_ms": 185.1,
+   "gyro_int_dps_s": [
+    -4.45,
+    -108.92,
+    -0.1
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 253,
+   "t_peak_s": 606.8173,
+   "t_start_s": 606.7692,
+   "t_end_s": 606.8558,
+   "type": "cross",
+   "confidence": 0.8,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 7.491,
+   "speed_mps_est": 5.4,
+   "duration_ms": 86.5,
+   "gyro_int_dps_s": [
+    33.22,
+    0.71,
+    -1.09
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 254,
+   "t_peak_s": 610.2957,
+   "t_start_s": 610.2476,
+   "t_end_s": 610.3341,
+   "type": "cross",
+   "confidence": 0.8,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.766,
+   "speed_mps_est": 5.99,
+   "duration_ms": 86.5,
+   "gyro_int_dps_s": [
+    44.98,
+    3.42,
+    -0.03
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 255,
+   "t_peak_s": 613.238,
+   "t_start_s": 613.1923,
+   "t_end_s": 613.2788,
+   "type": "rear_hook",
+   "confidence": 0.96,
+   "target": null,
+   "hand": "R",
+   "peak_g": 8.709,
+   "speed_mps_est": 7.08,
+   "duration_ms": 86.5,
+   "gyro_int_dps_s": [
+    3.91,
+    -3.85,
+    117.94
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 256,
+   "t_peak_s": 615.7668,
+   "t_start_s": 615.6827,
+   "t_end_s": 615.8438,
+   "type": "rear_uppercut",
+   "confidence": 0.9,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 3.902,
+   "speed_mps_est": 5.08,
+   "duration_ms": 161.1,
+   "gyro_int_dps_s": [
+    2.19,
+    -102.97,
+    -1.54
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 257,
+   "t_peak_s": 616.1635,
+   "t_start_s": 616.1178,
+   "t_end_s": 616.1971,
+   "type": "lead_hook",
+   "confidence": 0.53,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 3.584,
+   "speed_mps_est": 5.08,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    -1.74,
+    1.52,
+    35.56
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 258,
+   "t_peak_s": 618.637,
+   "t_start_s": 618.5986,
+   "t_end_s": 618.6683,
+   "type": "rear_hook",
+   "confidence": 0.67,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 8.542,
+   "speed_mps_est": 6.23,
+   "duration_ms": 69.7,
+   "gyro_int_dps_s": [
+    4.27,
+    -3.53,
+    103.89
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 259,
+   "t_peak_s": 626.7716,
+   "t_start_s": 626.7308,
+   "t_end_s": 626.8029,
+   "type": "cross",
+   "confidence": 0.94,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 5.416,
+   "speed_mps_est": 6.2,
+   "duration_ms": 72.1,
+   "gyro_int_dps_s": [
+    28.46,
+    -0.34,
+    10.39
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 260,
+   "t_peak_s": 627.0481,
+   "t_start_s": 626.9952,
+   "t_end_s": 627.0913,
+   "type": "lead_hook",
+   "confidence": 0.52,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 6.188,
+   "speed_mps_est": 5.51,
+   "duration_ms": 96.2,
+   "gyro_int_dps_s": [
+    2.82,
+    4.06,
+    38
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 261,
+   "t_peak_s": 629.2548,
+   "t_start_s": 629.2115,
+   "t_end_s": 629.2885,
+   "type": "cross",
+   "confidence": 0.7,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 4.941,
+   "speed_mps_est": 6.39,
+   "duration_ms": 76.9,
+   "gyro_int_dps_s": [
+    27.15,
+    4.03,
+    -2.05
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 262,
+   "t_peak_s": 634.0913,
+   "t_start_s": 634.0457,
+   "t_end_s": 634.1274,
+   "type": "cross",
+   "confidence": 0.96,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 4.594,
+   "speed_mps_est": 4.72,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    43.77,
+    -1.8,
+    0.98
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 263,
+   "t_peak_s": 634.4231,
+   "t_start_s": 634.3726,
+   "t_end_s": 634.4639,
+   "type": "lead_hook",
+   "confidence": 0.48,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 5.067,
+   "speed_mps_est": 6.16,
+   "duration_ms": 91.3,
+   "gyro_int_dps_s": [
+    -4.46,
+    -2.92,
+    30.29
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 264,
+   "t_peak_s": 634.8029,
+   "t_start_s": 634.7548,
+   "t_end_s": 634.8389,
+   "type": "cross",
+   "confidence": 0.71,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.969,
+   "speed_mps_est": 5.24,
+   "duration_ms": 84.1,
+   "gyro_int_dps_s": [
+    55.05,
+    4.03,
+    1.79
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 265,
+   "t_peak_s": 636.4519,
+   "t_start_s": 636.4038,
+   "t_end_s": 636.4904,
+   "type": "overhand",
+   "confidence": 0.43,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 3.576,
+   "speed_mps_est": 6.47,
+   "duration_ms": 86.5,
+   "gyro_int_dps_s": [
+    4.62,
+    -3.9,
+    27.78
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 266,
+   "t_peak_s": 640.8918,
+   "t_start_s": 640.851,
+   "t_end_s": 640.9231,
+   "type": "rear_hook",
+   "confidence": 0.65,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.252,
+   "speed_mps_est": 5.65,
+   "duration_ms": 72.1,
+   "gyro_int_dps_s": [
+    2.75,
+    -3.85,
+    85.65
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 267,
+   "t_peak_s": 644.3438,
+   "t_start_s": 644.3029,
+   "t_end_s": 644.3774,
+   "type": "cross",
+   "confidence": 0.7,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 4.346,
+   "speed_mps_est": 5.9,
+   "duration_ms": 74.5,
+   "gyro_int_dps_s": [
+    35.34,
+    -3.88,
+    1.67
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 268,
+   "t_peak_s": 644.6659,
+   "t_start_s": 644.6202,
+   "t_end_s": 644.7019,
+   "type": "overhand",
+   "confidence": 0.37,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 4.254,
+   "speed_mps_est": 5.32,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    10.52,
+    2.21,
+    26.56
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 269,
+   "t_peak_s": 644.9543,
+   "t_start_s": 644.9063,
+   "t_end_s": 644.9928,
+   "type": "cross",
+   "confidence": 0.7,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 6.57,
+   "speed_mps_est": 6.44,
+   "duration_ms": 86.5,
+   "gyro_int_dps_s": [
+    45.84,
+    3.33,
+    0.96
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 270,
+   "t_peak_s": 646.9038,
+   "t_start_s": 646.8606,
+   "t_end_s": 646.9375,
+   "type": "lead_hook",
+   "confidence": 0.68,
+   "target": "body",
+   "hand": "L",
+   "peak_g": 4.002,
+   "speed_mps_est": 6.31,
+   "duration_ms": 76.9,
+   "gyro_int_dps_s": [
+    -2.84,
+    2.53,
+    26.61
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 271,
+   "t_peak_s": 650.6899,
+   "t_start_s": 650.6322,
+   "t_end_s": 650.7428,
+   "type": "spinning_backfist",
+   "confidence": 0.67,
+   "target": "body",
+   "hand": "R",
+   "peak_g": 9.04,
+   "speed_mps_est": 7.09,
+   "duration_ms": 110.6,
+   "gyro_int_dps_s": [
+    -4.46,
+    -0.35,
+    -154.18
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 272,
+   "t_peak_s": 654.9135,
+   "t_start_s": 654.8558,
+   "t_end_s": 654.9663,
+   "type": "unknown",
+   "confidence": 0.42,
+   "target": "head",
+   "hand": null,
+   "peak_g": 7.993,
+   "speed_mps_est": 7.56,
+   "duration_ms": 110.6,
+   "gyro_int_dps_s": [
+    4.59,
+    3.76,
+    -183.1
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 273,
+   "t_peak_s": 658.8438,
+   "t_start_s": 658.7981,
+   "t_end_s": 658.8798,
+   "type": "rear_hook",
+   "confidence": 0.31,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 6.147,
+   "speed_mps_est": 6.99,
+   "duration_ms": 81.7,
+   "gyro_int_dps_s": [
+    8.16,
+    -3.3,
+    39.2
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 274,
+   "t_peak_s": 659.125,
+   "t_start_s": 659.0817,
+   "t_end_s": 659.1611,
+   "type": "cross",
+   "confidence": 0.9,
+   "target": null,
+   "hand": "R",
+   "peak_g": 5.751,
+   "speed_mps_est": 5.55,
+   "duration_ms": 79.3,
+   "gyro_int_dps_s": [
+    34.42,
+    2.47,
+    -0.15
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 275,
+   "t_peak_s": 662.1611,
+   "t_start_s": 662.113,
+   "t_end_s": 662.1995,
+   "type": "cross",
+   "confidence": 0.86,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.189,
+   "speed_mps_est": 5,
+   "duration_ms": 86.5,
+   "gyro_int_dps_s": [
+    23.61,
+    -3.49,
+    -1.78
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 276,
+   "t_peak_s": 662.5697,
+   "t_start_s": 662.5144,
+   "t_end_s": 662.6106,
+   "type": "lead_hook",
+   "confidence": 0.44,
+   "target": "head",
+   "hand": "L",
+   "peak_g": 6.323,
+   "speed_mps_est": 5.7,
+   "duration_ms": 96.2,
+   "gyro_int_dps_s": [
+    5,
+    3.94,
+    38.3
+   ],
+   "saturated": false,
+   "round_index": 4
+  },
+  {
+   "id": 277,
+   "t_peak_s": 664.8197,
+   "t_start_s": 664.774,
+   "t_end_s": 664.8582,
+   "type": "rear_hook",
+   "confidence": 0.77,
+   "target": "head",
+   "hand": "R",
+   "peak_g": 7.59,
+   "speed_mps_est": 4.96,
+   "duration_ms": 84.1,
+   "gyro_int_dps_s": [
+    4.79,
+    4.06,
+    156.11
+   ],
+   "saturated": false,
+   "round_index": 4
+  }
+ ],
+ "summary": {
+  "punch_count": 267,
+  "punches_per_min": 29.67,
+  "punches_per_round": [
+   108,
+   81,
+   78
+  ],
+  "mean_peak_g": 6.815,
+  "max_peak_g": 15.842,
+  "mean_speed_mps_est": 6.801,
+  "max_speed_mps_est": 9.95,
+  "by_type": {
+   "jab": 12,
+   "cross": 96,
+   "lead_hook": 49,
+   "rear_hook": 51,
+   "lead_uppercut": 13,
+   "rear_uppercut": 13,
+   "overhand": 23,
+   "spinning_backfist": 8,
+   "kick_or_body_movement": 9,
+   "clinch": 2,
+   "unknown": 2
+  },
+  "by_hand": {
+   "L": 74,
+   "R": 191,
+   "unknown": 2
+  },
+  "by_target": {
+   "head": 188,
+   "body": 64,
+   "unknown": 15
+  },
+  "non_punch_count": 11,
+  "clinch_time_s": 21.41,
+  "saturated_sample_fraction": 0
+ }
+}
