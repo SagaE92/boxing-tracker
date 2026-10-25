@@ -42,7 +42,7 @@
 {#if ts.length < 2}
   <div class="card empty">
     <h2>Trends need 2+ sessions</h2>
-    <p class="muted">Drop several <span class="mono">session.json</span> files at once (or one by one) to compare volume, peak g, type mix and fatigue across sessions. The demo loads three.</p>
+    <p class="muted">Drop several <span class="mono">session.json</span> files at once (or one by one) to compare volume, peak g, type mix and fatigue across sessions. The demo loads four.</p>
     <button class="btn primary" onclick={() => app.demo()}>Load demo sessions</button>
   </div>
 {:else}
