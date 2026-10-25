@@ -1,0 +1,65 @@
+# Boxing tracker application options
+mainmenu "Boxing Tracker"
+
+menu "Boxing Tracker"
+
+config BTRK_RING_SAMPLES
+	int "IMU sample ring buffer length (power of two)"
+	default 512
+	help
+	  512 samples = ~1.23 s at 416 Hz; 16 bytes/sample.
+
+config BTRK_FIFO_WTM_SAMPLES
+	int "LSM6DS3TR-C FIFO watermark in 6-axis samples"
+	default 12
+	range 1 80
+	help
+	  Interrupt fires when this many gyro+accel sample pairs are in the
+	  FIFO (~29 ms at 416 Hz). Bigger = fewer wakeups, more latency.
+
+config BTRK_DETECT_THRESHOLD_CG
+	int "Default punch threshold on |a|-1g, in 0.01 g"
+	default 350
+
+config BTRK_DETECT_REFRACTORY_MS
+	int "Default punch refractory period (ms)"
+	default 150
+
+config BTRK_ADV_FAST_TIMEOUT_S
+	int "Fast advertising duration after wake (s)"
+	default 30
+
+config BTRK_ADV_TIMEOUT_S
+	int "Total advertising time without a connection before System OFF (s)"
+	default 300
+
+config BTRK_CONN_IDLE_TIMEOUT_S
+	int "Connected but no session: disconnect after (s)"
+	default 600
+
+config BTRK_SESSION_IDLE_TIMEOUT_S
+	int "Session with no strikes: auto-stop after (s)"
+	default 600
+
+config BTRK_CAL_GUARD_MS
+	int "Calibration: guard-pose hold time at session start (ms)"
+	default 2000
+
+config BTRK_WOM_THRESHOLD_MG
+	int "Wake-on-motion threshold (mg, rounded to FS/64 = 31.25 mg at +-2 g)"
+	default 125
+
+config BTRK_SESSION_STORAGE
+	bool "Store punch events on-device when disconnected (NOT IMPLEMENTED YET)"
+	default n
+	help
+	  Placeholder for logging events to internal flash / QSPI NOR so the
+	  phone need not stay connected. See docs/power.md.
+
+module = BTRK
+module-str = boxing tracker
+source "subsys/logging/Kconfig.template.log_config"
+
+endmenu
+
+source "Kconfig.zephyr"

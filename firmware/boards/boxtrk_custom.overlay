@@ -1,0 +1,37 @@
+/*
+ * PLACEHOLDER for the future custom tracker PCB (nRF52840 + IMU + charger).
+ * Not built or tested. When the custom board exists, create a real Zephyr
+ * board definition (boards/<vendor>/boxtrk_v1/) and rename this file to
+ * boards/boxtrk_v1_nrf52840.overlay. The app code only depends on:
+ *
+ *   chosen { boxtrk,imu = <IMU node with compatible "boxtrk,lsm6ds3trc-fifo">; }
+ *   (the IMU node must have irq-gpios = INT1, routed to a GPIO that can wake
+ *    the nRF52840 from System OFF - any GPIO can via SENSE)
+ *   aliases { boxtrk-led = <optional LED>; }
+ *   slot0_partition / slot1_partition / boot_partition for MCUboot
+ *
+ * If the custom board uses LSM6DSO32 (+-32 g) a new driver/compatible is
+ * needed (register map is different); see docs/risks.md.
+ */
+
+/ {
+	chosen {
+		boxtrk,imu = &imu0;
+	};
+};
+
+&i2c0 {
+	status = "okay";
+	clock-frequency = <I2C_BITRATE_FAST>;
+	/* pinctrl-0 = <&i2c0_default>; -- define for your pins */
+
+	imu0: imu@6a {
+		compatible = "boxtrk,lsm6ds3trc-fifo";
+		reg = <0x6a>;
+		irq-gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>; /* TODO: real INT1 pin */
+	};
+};
+
+/* No UF2 bootloader on the custom board: use a standard MCUboot layout
+ * (boot_partition at 0x0, 48 KB) instead of nrf52840_uf2_mcuboot_partitions.dtsi,
+ * and update sysbuild/mcuboot.overlay accordingly. */

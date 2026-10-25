@@ -1,0 +1,54 @@
+/*
+ * Seeed XIAO nRF52840 Sense - everything board-specific for the app lives here.
+ *
+ * - Onboard LSM6DS3TR-C at I2C0 0x6A, INT1 -> P0.11, powered by the
+ *   "lsm6ds3tr-c-en" fixed regulator (P1.08) from the board DTS. That GPIO
+ *   keeps its state in System OFF, so the IMU stays powered for wake-on-motion.
+ * - We replace the in-tree st,lsm6dsl sensor binding with our own FIFO driver.
+ * - Flash map: UF2 bootloader kept, MCUboot chain-loaded at 0x27000.
+ */
+#include "nrf52840_uf2_mcuboot_partitions.dtsi"
+
+/ {
+	chosen {
+		zephyr,code-partition = &slot0_partition;
+		boxtrk,imu = &lsm6ds3tr_c;
+	};
+
+	aliases {
+		boxtrk-led = &led2;	/* blue: BLE/session indicator */
+	};
+};
+
+&lsm6ds3tr_c {
+	compatible = "boxtrk,lsm6ds3trc-fifo";
+	irq-gpios = <&gpio0 11 GPIO_ACTIVE_HIGH>;
+	status = "okay";
+};
+
+/* Unused on the tracker: keep off to save power */
+&pdm0 {
+	status = "disabled";
+};
+
+&qspi {
+	/* P25Q16H NOR: candidate for on-device session storage (CONFIG_BTRK_SESSION_STORAGE).
+	 * Kept enabled so the driver puts it in deep power-down (has-dpd). */
+	status = "okay";
+};
+
+&uart0 {
+	status = "disabled";
+};
+
+&i2c1 {
+	status = "disabled";
+};
+
+&spi2 {
+	status = "disabled";
+};
+
+&ieee802154 {
+	status = "disabled";
+};

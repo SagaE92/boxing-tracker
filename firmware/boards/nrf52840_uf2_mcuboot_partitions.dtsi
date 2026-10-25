@@ -1,0 +1,55 @@
+/*
+ * Flash map for an nRF52840 that keeps the Adafruit nRF52 UF2 bootloader
+ * (+ the SoftDevice/MBR region it expects) and chain-loads MCUboot:
+ *
+ *   0x00000 - 0x27000  MBR + SoftDevice S140 v7 (untouched, 156 KB)
+ *   0x27000 - 0x33000  MCUboot              (48 KB)  <- "application" for UF2 bootloader
+ *   0x33000 - 0x8F000  slot0 / image-0      (368 KB) <- this app (signed)
+ *   0x8F000 - 0xEB000  slot1 / image-1      (368 KB) <- DFU upload target
+ *   0xEB000 - 0xF4000  storage (settings)   (36 KB)
+ *   0xF4000 - 0x100000 Adafruit UF2 bootloader (read-only, 48 KB)
+ *
+ * Used by both the app (boards/*.overlay) and MCUboot (sysbuild/mcuboot.overlay).
+ * A custom board WITHOUT the UF2 bootloader should use the standard
+ * nrf52840 MCUboot layout instead (boot at 0x0); see boards/boxtrk_custom.overlay.
+ */
+
+/delete-node/ &reserved_partition_0;
+/delete-node/ &code_partition;
+/delete-node/ &storage_partition;
+/delete-node/ &boot_partition;
+
+&flash0 {
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		sd_partition: partition@0 {
+			label = "mbr-softdevice";
+			read-only;
+			reg = <0x00000000 0x00027000>;
+		};
+		boot_partition: partition@27000 {
+			label = "mcuboot";
+			reg = <0x00027000 0x0000c000>;
+		};
+		slot0_partition: partition@33000 {
+			label = "image-0";
+			reg = <0x00033000 0x0005c000>;
+		};
+		slot1_partition: partition@8f000 {
+			label = "image-1";
+			reg = <0x0008f000 0x0005c000>;
+		};
+		storage_partition: partition@eb000 {
+			label = "storage";
+			reg = <0x000eb000 0x00009000>;
+		};
+		uf2_partition: partition@f4000 {
+			label = "uf2-bootloader";
+			read-only;
+			reg = <0x000f4000 0x0000c000>;
+		};
+	};
+};

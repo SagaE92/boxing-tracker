@@ -1,0 +1,8 @@
+build/
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+firmware/tests/host/out/
+node_modules/
+dist/

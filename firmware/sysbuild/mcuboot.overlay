@@ -1,0 +1,8 @@
+/* MCUboot image devicetree: same flash map as the app, MCUboot runs from boot_partition */
+#include "../boards/nrf52840_uf2_mcuboot_partitions.dtsi"
+
+/ {
+	chosen {
+		zephyr,code-partition = &boot_partition;
+	};
+};

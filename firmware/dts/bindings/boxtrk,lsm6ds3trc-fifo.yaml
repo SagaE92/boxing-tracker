@@ -1,0 +1,14 @@
+description: |
+  ST LSM6DS3TR-C 6-axis IMU driven by the boxing-tracker FIFO driver
+  (src/imu_lsm6ds3trc.c): continuous FIFO, watermark interrupt on INT1,
+  wake-on-motion on INT1 before System OFF.
+
+compatible: "boxtrk,lsm6ds3trc-fifo"
+
+include: i2c-device.yaml
+
+properties:
+  irq-gpios:
+    type: phandle-array
+    required: true
+    description: INT1 pin (FIFO watermark + wake-up)
