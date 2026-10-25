@@ -1,0 +1,459 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SagaE92/boxing-tracker/docs/session.schema.json",
+  "title": "Boxing tracker session (detector output)",
+  "description": "Output of analysis/detector.py for one recorded session. All *_s times are seconds relative to the first raw sample, on the device clock: t = (device_time_us - device_time_us[0]) / 1e6 (unwrap uint32 rollover if the firmware uses a 32-bit µs counter). Labels CSV times (host_time_s) are aligned by subtracting the raw CSV's first host_time_s. schema_version follows semver: MAJOR = breaking change, MINOR = additive optional fields, PATCH = docs only. Consumers accept any 1.x.y.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generator",
+    "session",
+    "detector_params",
+    "rounds",
+    "punches",
+    "summary"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^1\\.\\d+\\.\\d+$",
+      "description": "Schema version this file conforms to. Current: 1.0.0"
+    },
+    "generator": {
+      "type": "object",
+      "required": [
+        "name",
+        "version"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "examples": [
+            "analysis/detector.py"
+          ]
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "session": {
+      "type": "object",
+      "required": [
+        "id",
+        "start_time_iso",
+        "duration_s",
+        "sample_rate_hz",
+        "accel_range_g",
+        "gyro_range_dps",
+        "hand_worn",
+        "hand",
+        "stance"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "start_time_iso": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Wall-clock time of the first raw sample, ISO 8601 with offset."
+        },
+        "duration_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "sample_rate_hz": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "accel_range_g": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Full-scale accel range, e.g. 16 for LSM6DS3TR-C at ±16 g."
+        },
+        "gyro_range_dps": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "hand_worn": {
+          "enum": [
+            "L",
+            "R",
+            null
+          ],
+          "description": "Wrist the device is worn on, if known."
+        },
+        "hand": {
+          "enum": [
+            "lead",
+            "rear",
+            null
+          ],
+          "description": "Which hand wears the sensor (inside the hand wrap)."
+        },
+        "stance": {
+          "enum": [
+            "orthodox",
+            "southpaw",
+            null
+          ],
+          "description": "Orthodox = left hand leads. With hand + stance, hand_worn (L/R) follows."
+        },
+        "sensor_mount": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Optional, e.g. 'hand_wrap'."
+        },
+        "calibration": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "Optional guard-pose calibration captured at session start.",
+          "required": [
+            "guard_gravity_g",
+            "forward_axis",
+            "t_start_s",
+            "t_end_s"
+          ],
+          "properties": {
+            "guard_gravity_g": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 3,
+              "maxItems": 3,
+              "description": "Mean accel vector (g, sensor frame) while holding guard."
+            },
+            "forward_axis": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 3,
+              "maxItems": 3,
+              "description": "Unit vector (sensor frame) of the punching direction."
+            },
+            "t_start_s": {
+              "type": "number",
+              "minimum": 0
+            },
+            "t_end_s": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        }
+      }
+    },
+    "detector_params": {
+      "type": "object",
+      "required": [
+        "threshold_g",
+        "refractory_ms",
+        "window_ms"
+      ],
+      "properties": {
+        "threshold_g": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Threshold on |a| - 1 g."
+        },
+        "refractory_ms": {
+          "type": "number",
+          "minimum": 0
+        },
+        "window_ms": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Half-width of the feature window around the peak (e.g. 150 → ±150 ms)."
+        }
+      }
+    },
+    "rounds": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "index",
+          "t_start_s",
+          "t_end_s",
+          "kind"
+        ],
+        "properties": {
+          "index": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "0-based. Rounds and rests share one index sequence in time order."
+          },
+          "t_start_s": {
+            "type": "number",
+            "minimum": 0
+          },
+          "t_end_s": {
+            "type": "number",
+            "minimum": 0
+          },
+          "kind": {
+            "enum": [
+              "round",
+              "rest"
+            ]
+          }
+        }
+      }
+    },
+    "punches": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "t_peak_s",
+          "t_start_s",
+          "t_end_s",
+          "type",
+          "confidence",
+          "target",
+          "hand",
+          "peak_g",
+          "speed_mps_est",
+          "duration_ms",
+          "gyro_int_dps_s",
+          "saturated",
+          "round_index"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "t_peak_s": {
+            "type": "number",
+            "minimum": 0
+          },
+          "t_start_s": {
+            "type": "number",
+            "minimum": 0
+          },
+          "t_end_s": {
+            "type": "number",
+            "minimum": 0
+          },
+          "type": {
+            "enum": [
+              "jab",
+              "cross",
+              "lead_hook",
+              "rear_hook",
+              "lead_uppercut",
+              "rear_uppercut",
+              "overhand",
+              "spinning_backfist",
+              "kick_or_body_movement",
+              "clinch",
+              "unknown"
+            ],
+            "description": "Event type (v1). Strikes: jab, cross, lead_hook, rear_hook, lead_uppercut, rear_uppercut, overhand, spinning_backfist, unknown. NON-STRIKE, low-confidence events, excluded from every punch/strike statistic in summary: kick_or_body_movement (a hand-wrap sensor cannot measure kicks; this is body motion that looks like one) and clinch (a DURATION event: t_start_s..t_end_s spans the clinch, t_peak_s is its strongest sample, speed_mps_est null)."
+          },
+          "hand": {
+            "enum": [
+              "L",
+              "R",
+              null
+            ]
+          },
+          "peak_g": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Peak |a| - 1 g in the window (g). A LOWER BOUND when saturated is true. This is acceleration, not force or power."
+          },
+          "speed_mps_est": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0,
+            "description": "Heuristic hand-speed estimate from integrating accel; not ground truth."
+          },
+          "duration_ms": {
+            "type": "number",
+            "minimum": 0
+          },
+          "gyro_int_dps_s": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 3,
+            "maxItems": 3,
+            "description": "Integral of gyro x/y/z over the window, in degrees (dps·s)."
+          },
+          "saturated": {
+            "type": "boolean",
+            "description": "True if any accel axis clipped inside the window."
+          },
+          "round_index": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0,
+            "description": "Index into rounds[] of the round containing t_peak_s, or null."
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Classifier confidence in `type`, 0-1."
+          },
+          "target": {
+            "enum": [
+              "head",
+              "body",
+              null
+            ],
+            "description": "Estimated target level, or null if not estimated."
+          }
+        }
+      },
+      "description": "All detected events (strikes, kick_or_body_movement and clinch), sorted by t_peak_s. Array name kept for compatibility."
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "punch_count",
+        "punches_per_min",
+        "punches_per_round",
+        "mean_peak_g",
+        "max_peak_g",
+        "mean_speed_mps_est",
+        "max_speed_mps_est",
+        "by_type",
+        "by_hand",
+        "saturated_sample_fraction"
+      ],
+      "properties": {
+        "punch_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Strike events only (every type except kick_or_body_movement and clinch)."
+        },
+        "punches_per_min": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Over active (round) time if rounds exist, else whole session."
+        },
+        "punches_per_round": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "description": "One entry per rounds[] item with kind == round, in order."
+        },
+        "mean_peak_g": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "max_peak_g": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "mean_speed_mps_est": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "max_speed_mps_est": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "by_type": {
+          "type": "object",
+          "propertyNames": {
+            "enum": [
+              "jab",
+              "cross",
+              "lead_hook",
+              "rear_hook",
+              "lead_uppercut",
+              "rear_uppercut",
+              "overhand",
+              "spinning_backfist",
+              "kick_or_body_movement",
+              "clinch",
+              "unknown"
+            ]
+          },
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "description": "Counts per type, including the non-strike types."
+        },
+        "by_hand": {
+          "type": "object",
+          "propertyNames": {
+            "enum": [
+              "L",
+              "R",
+              "unknown"
+            ]
+          },
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "description": "Punch events only, keyed L, R, unknown (hand null)."
+        },
+        "saturated_sample_fraction": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Fraction of raw samples with sat = 1."
+        },
+        "non_punch_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Optional. Count of kick_or_body_movement + clinch events."
+        },
+        "by_target": {
+          "type": "object",
+          "propertyNames": {
+            "enum": [
+              "head",
+              "body",
+              "unknown"
+            ]
+          },
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "description": "Optional. Punch events by target; null target counted as unknown."
+        },
+        "clinch_time_s": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Optional. Total duration of clinch events."
+        }
+      }
+    }
+  }
+}
