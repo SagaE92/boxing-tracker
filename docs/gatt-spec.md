@@ -154,6 +154,71 @@ Invalid writes fail with ATT error 0x13 (value not allowed) or 0x0D (length).
 | Events only (normal session) | 100–200 ms | 4 | 6 s |
 | Raw streaming / DFU | 7.5–15 ms | 0 | 4 s (MCUmgr also raises it during DFU) |
 
+## Two sensors, one inside each wrap (protocol v1.1, planned)
+
+A kickboxer wears one tracker inside each hand wrap. Per-device size and battery targets
+are unchanged (see `docs/power.md`); the phone/laptop (central) connects to both at once.
+**Status:** host side done (`tools/logger.py --device`, `analysis/detector.py --stream`,
+schema 1.1.0); the firmware items below are specified but not implemented yet.
+
+### Hand role, set at pairing and stored on the device
+
+* The role is the existing Config `hand` byte (0x0006 offset 1: 0 lead, 1 rear). In v1.1 the
+  firmware persists it with Zephyr settings (`CONFIG_SETTINGS` + `CONFIG_NVS`, key
+  `btrk/role`) when the central writes Config, so it survives power-off and is known before
+  any connection.
+* Advertising adds **service data** for the 0x0001 service UUID: `u8 role` (0 unset, 1 lead,
+  2 rear) + `u16 device_id_suffix` (low 16 bits of the FICR device ID). The central can then
+  pick "lead" and "rear" without connecting (`proto.parse_role_service_data`). An unset
+  device advertises role 0 and the app asks the user which wrap it is in (pairing step:
+  "tap the tracker in your LEAD hand wrap" → motion → write Config).
+* The device name stays `BoxTrk`; the role is not in the name so renaming is never needed.
+
+### 0x0008 Time sync (read), 4 bytes — v1.1
+
+| Offset | Type | Field |
+|---|---|---|
+| 0 | u32 | `device_time_us` — the same 32-bit microsecond counter as the raw stream's `t0_us`, sampled when the read is handled |
+
+The central aligns clocks with NTP-style exchanges (`tools/logger.py DeviceRecorder.sync_burst`):
+
+1. **At connect** and then **every 30 s** (`--sync-every`) and **at stop**, do a burst of 8 reads
+   per device. For each: `t_req`, read, `t_resp` on the host clock; record
+   (`host = (t_req + t_resp)/2`, `device_time_us`, `rtt = t_resp − t_req`) in `<out>_sync.csv`.
+2. Offline (`analysis/detector.py fit_clock`), per device: keep the lowest-RTT third of each
+   5 s window (least asymmetric), unwrap the u32 counter, fit
+   `host_time = a + b·device_time` (offset `a`, drift `b − 1`), and map every sample onto one
+   session timeline (t = 0 at the earliest aligned first sample).
+3. Firmware without 0x0008: the logger also records (device time of each notification's last
+   sample, host arrival time) every ~2 s; BLE latency only adds delay, so the lower envelope
+   of those points is fitted instead (drift is recovered; a common latency bias remains).
+
+**Skew tolerance: target ≤ 2 ms between the two sensors after alignment.** Why that number:
+
+* It is under one sample period (2.4 ms at 416 Hz), so a strike's peak lands on the same or
+  the adjacent sample on both timelines.
+* It is ~75× smaller than the 150 ms refractory window and ~150× smaller than the 300 ms
+  minimum gap between punches in a combo, so the merge (cross-sensor crosstalk window 60 ms,
+  combo gap 600 ms) never mis-orders strikes from the two hands.
+* It is achievable: with a 7.5 ms connection interval the best round trip is one interval;
+  the absolute error of one exchange is at most half of that (≤ 3.75 ms) and is mostly a
+  *systematic* bias that both sensors share (same firmware, same interval), so it cancels
+  between them. Drift is the real risk: nRF52840 32 MHz crystals are ±20–40 ppm, i.e. up
+  to ~140 ms per hour uncorrected; fitting `b` removes it (tests: ≤ 1 ppm residual).
+* Tests: `tools/tests/test_logger.py::test_time_sync_bursts_align_two_sensors_within_2ms`
+  (fake BLE link, 32-bit wrap, ±35/−20 ppm) and
+  `analysis/tests/test_two_sensors.py::test_rtt_sync_aligns_within_tolerance_over_40_min`.
+
+### Merging the two streams
+
+Detection runs per device (each with its own calibration and `hand` role); events are then
+merged by time (`detector.merge_events`): a peak on the other wrist within 60 ms that is
+< 50 % of the stronger one is crosstalk (body motion from the punching hand) and is dropped;
+two comparable peaks are both kept (near-simultaneous strikes). Kick/body movement and clinch,
+which both sensors feel, are merged into one event. Rounds are the union of both devices'
+round spans. Each event carries `device_id` (schema 1.1.0, `session.devices[]` holds role,
+wrist, firmware version and the applied clock offset/drift).
+
 ## Planned (not in v1)
 
 * On-device event log (`CONFIG_BTRK_SESSION_STORAGE`, internal flash or the XIAO's

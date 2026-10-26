@@ -107,6 +107,27 @@ path (events only, long interval, or flash logging), standby leakage (protection
 LDO quiescent, divider), and false wakes (raise the WoM threshold or require ~2 s of
 motion before advertising).
 
+## Two sensors (one inside each wrap)
+
+The kit is now **two identical devices**, one per hand wrap, each with the **same
+per-device budget and size target** as above (40–60 mAh cell, ≤ 25 × 20 mm board,
+~1 week across up to ~10 sessions). Nothing is shared between the hands, so the table
+above applies to each device unchanged; the pair simply needs two cells and two charges
+(a dual pogo-pin dock charges both at once).
+
+What two sensors add per device is small:
+
+| Item | Per device, per week |
+|---|---|
+| Time-sync bursts (8 reads at connect + every 30 s, raw/dev mode only) | < 0.01 mAh (a few extra connection events) |
+| Role in advertising service data (3 bytes) | none measurable (same advertising events) |
+| Phone holding two connections | none on the device side (each device still has one link) |
+
+In events-only mode (the default) no clock sync over BLE is needed during the session:
+each device timestamps events on its own clock and is aligned at the post-session sync
+(offset + drift from the sync exchanges at connect/disconnect), so the weekly totals above
+stand. Only the phone pays for the second connection.
+
 ## Charging
 
 * The prototype XIAO charges at a fixed 50 mA (100 mA with P0.13 low) — that is 1C+
