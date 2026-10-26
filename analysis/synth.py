@@ -316,6 +316,279 @@ def make_demo(seed=7, hand="rear", stance="orthodox", rounds=3, round_s=180.0, r
     return s, cal, labels, rounds_t
 
 
+# ---------------------------------------------------------------- fatigue (multi-round demos)
+class FatigueSession(Session):
+    """Session whose strike() scales the strike's linear pulse by self.f (rotation by sqrt(f)),
+    so a tired strike is both lower-g and slower (speed is integrated from acceleration)."""
+    f: float = 1.0
+
+    def strike(self, t, base, target=None, hard=False):
+        lo, hi = max(0, int((t - 1.0) * FS)), min(self.n, int((t + 1.0) * FS))
+        lin0, om0 = self.lin[lo:hi].copy(), self.omega[lo:hi].copy()
+        n_truth = len(self.truths)
+        super().strike(t, base, target=target, hard=hard)
+        self.lin[lo:hi] = lin0 + self.f * (self.lin[lo:hi] - lin0)
+        self.omega[lo:hi] = om0 + np.sqrt(self.f) * (self.omega[lo:hi] - om0)
+        for tr in self.truths[n_truth:]:
+            if tr.amp_g is not None:
+                tr.amp_g *= self.f
+
+
+@dataclass
+class FatigueProfile:
+    """Per-round fatigue for a kickboxing session (round k = 0 .. rounds-1).
+
+    Gentle fade every round, plus a late-session fade from `late_from` (1-based round):
+      * amplitude  f_k = 1 - fade_round*k - late_amp*(late rounds so far)   (lower g + speed)
+      * pauses     between combos x (1 + pause_round*k + late_pause*late)  (lower output)
+      * combos     at most `max_combo_early` strikes, `max_combo_late` in late rounds
+      * kicks      `kicks_early` per round, `kicks_late` in late rounds
+      * hooks      share of hooks in the mix is cut by `late_hook_cut` in late rounds
+    Within a round, amplitude also fades by `fade_within` from bell to bell."""
+    fade_round: float = 0.01
+    fade_within: float = 0.05
+    pause_round: float = 0.02
+    late_from: int = 8
+    late_amp: float = 0.03
+    late_pause: float = 0.08
+    max_combo_early: int = 4
+    max_combo_late: int = 3
+    kicks_early: int = 4
+    kicks_late: int = 1
+    late_hook_cut: float = 0.4
+
+    @classmethod
+    def moderate(cls) -> "FatigueProfile":
+        """The bundled demo's profile (dashboard demo-10x3): a realistic, not dramatic, late fade,
+        about 20-25 % fewer strikes and 8-12 % lower hand speed in the last 3 rounds than in the
+        first 3 (after the detector, seed 21). The defaults above are steeper so the short pytest
+        sessions show the fade clearly."""
+        return cls(fade_round=0.003, late_amp=0.003, pause_round=0.012, late_pause=0.03, late_hook_cut=0.3)
+
+    def late(self, k: int) -> int:
+        """Number of late rounds up to and including round k (0 before late_from)."""
+        return max(0, k + 2 - self.late_from)
+
+    def amp(self, k: int) -> float:
+        return 1.0 - self.fade_round * k - self.late_amp * self.late(k)
+
+    def pause(self, k: int) -> float:
+        return 1.0 + self.pause_round * k + self.late_pause * self.late(k)
+
+    def max_combo(self, k: int) -> int:
+        return self.max_combo_late if self.late(k) else self.max_combo_early
+
+    def kicks(self, k: int) -> int:
+        return self.kicks_late if self.late(k) else self.kicks_early
+
+
+def make_fatigue_session(seed=21, hand="rear", stance="orthodox", rounds=10, round_s=180.0, rest_s=60.0,
+                         profile: Optional[FatigueProfile] = None):
+    """N x M-minute kickboxing session with a realistic late-round fade (see FatigueProfile).
+    Returns (session, labels) with labels as (t_s, label, note) incl. round/rest markers,
+    calibration and truth:<type> ground truth."""
+    pf = profile or FatigueProfile()
+    lead_in = 12.0
+    dur = lead_in + rounds * round_s + (rounds - 1) * rest_s + 8.0
+    s = FatigueSession(int(dur * FS), hand, stance, seed)
+    cal = calibration_preamble(s)
+    r = s.rng
+    labels = [(2.5, "sync", "clap"), (cal[0], "cal_start", "hold guard, then one straight"), (cal[1], "cal_end", "")]
+    t = lead_in
+    for k in range(rounds):
+        late = pf.late(k) > 0
+        hooks = int(round(28 * (1 - pf.late_hook_cut))) if late else 28
+        mix = ["straight"] * 42 + ["hook"] * hooks + ["uppercut"] * 12 + ["overhand"] * 7 + ["spinning_backfist"] * 3
+        t0, t1 = t, t + round_s
+        labels += [(t0, "round", f"round {k+1} start"), (t1, "rest", f"round {k+1} end")]
+        s.footwork(t0, t1)
+        busy = []
+        # tired fighters clinch more
+        if r.random() < (0.9 if late else 0.5):
+            c_lo = min(30.0, 0.3 * round_s)
+            ca = t0 + r.uniform(c_lo, max(c_lo + 1.0, round_s - 25))
+            s.clinch(ca, r.uniform(5, 9) * (1.4 if late else 1.0))
+            busy.append((ca - 1, ca + 14))
+        n_k = 0
+        for _ in range(40):
+            if n_k >= pf.kicks(k):
+                break
+            kt = t0 + r.uniform(8, round_s - 8)
+            if not any(a - 1.5 <= kt <= b + 1.5 for a, b in busy):
+                s.kick_or_body(kt)
+                busy.append((kt - 0.6, kt + 0.6))
+                n_k += 1
+        start_f = pf.amp(k)
+        tt = t0 + 2.0
+        while tt < t1 - 2:
+            prog = (tt - t0) / round_s
+            s.f = start_f * (1.0 - pf.fade_within * prog) * r.uniform(0.95, 1.04)
+            for _ in range(int(r.integers(1, pf.max_combo(k) + 1))):
+                if not any(a <= tt <= b for a, b in busy):
+                    base = mix[int(r.integers(len(mix)))]
+                    tg = "body" if base in ("straight", "hook") and r.random() < 0.25 else None
+                    s.strike(tt, base, target=tg, hard=(base == "hook" and r.random() < 0.3 * s.f))
+                tt += r.uniform(0.3, 0.45) * (1 + 0.03 * k)
+            tt += r.uniform(1.4, 3.6) * pf.pause(k)
+        t = t1 + rest_s
+    for tr in s.truths:
+        if tr.base == "clap":
+            continue
+        note = "synthetic ground truth" + (f"; target={tr.target}" if tr.target else "")
+        if tr.base == "clinch":
+            labels += [(tr.t_s, "clinch_start", note), (tr.t_end_s, "clinch_end", note)]
+        else:
+            labels.append((tr.t_s, f"truth:{tr.type}", note))
+    return s, labels
+
+
+# ---------------------------------------------------------------- two sensors (one per wrap)
+LEAD_BASES = ("straight", "hook", "uppercut")
+
+
+def make_two_hand_fatigue_session(seed=21, stance="orthodox", rounds=10, round_s=180.0, rest_s=60.0,
+                                  profile: Optional[FatigueProfile] = None, lead_share=0.5,
+                                  lead_share_late_drop=0.05, lead_late_fade=0.05, crosstalk_g=(0.5, 1.4)):
+    """Same fight plan as make_fatigue_session, but every strike is thrown by the lead or the
+    rear hand and rendered into that hand's sensor; the other sensor sees a small crosstalk
+    pulse (body motion, < detector threshold). Kicks, clinches and footwork are whole-body and
+    appear in both. Late rounds: both hands fade, the lead hand more (extra `lead_late_fade` of
+    amplitude per late round and `lead_share_late_drop` less share), so the rear share rises.
+    Returns ({"lead": FatigueSession, "rear": FatigueSession}, labels)."""
+    pf = profile or FatigueProfile()
+    lead_in = 12.0
+    dur = lead_in + rounds * round_s + (rounds - 1) * rest_s + 8.0
+    n = int(dur * FS)
+    S = {"lead": FatigueSession(n, "lead", stance, seed + 1), "rear": FatigueSession(n, "rear", stance, seed + 2)}
+    r = np.random.default_rng(seed)
+    cal = (0.0, 0.0)
+    for s in S.values():
+        cal = calibration_preamble(s)
+    labels = [(2.5, "sync", "clap"), (cal[0], "cal_start", "hold guard, then one straight (both hands)"), (cal[1], "cal_end", "")]
+
+    def both(fn, *args):
+        for s in S.values():
+            getattr(s, fn)(*args)
+
+    t = lead_in
+    for k in range(rounds):
+        late = pf.late(k)
+        hooks = int(round(28 * (1 - pf.late_hook_cut))) if late else 28
+        mix = ["straight"] * 42 + ["hook"] * hooks + ["uppercut"] * 12 + ["overhand"] * 7 + ["spinning_backfist"] * 3
+        p_lead = lead_share - lead_share_late_drop * late
+        t0, t1 = t, t + round_s
+        labels += [(t0, "round", f"round {k+1} start"), (t1, "rest", f"round {k+1} end")]
+        both("footwork", t0, t1)
+        busy = []
+        if r.random() < (0.9 if late else 0.5):
+            c_lo = min(30.0, 0.3 * round_s)
+            ca = t0 + r.uniform(c_lo, max(c_lo + 1.0, round_s - 25))
+            cd = r.uniform(5, 9) * (1.4 if late else 1.0)
+            both("clinch", ca, cd)
+            busy.append((ca - 1, ca + 14))
+        n_k = 0
+        for _ in range(40):
+            if n_k >= pf.kicks(k):
+                break
+            kt = t0 + r.uniform(8, round_s - 8)
+            if not any(a - 1.5 <= kt <= b + 1.5 for a, b in busy):
+                both("kick_or_body", kt)
+                busy.append((kt - 0.6, kt + 0.6))
+                n_k += 1
+        tt = t0 + 2.0
+        while tt < t1 - 2:
+            prog = (tt - t0) / round_s
+            f = pf.amp(k) * (1.0 - pf.fade_within * prog) * r.uniform(0.95, 1.04)
+            for _ in range(int(r.integers(1, pf.max_combo(k) + 1))):
+                if not any(a <= tt <= b for a, b in busy):
+                    base = mix[int(r.integers(len(mix)))]
+                    if base == "overhand":
+                        hand = "rear"
+                    elif base == "spinning_backfist":
+                        hand = "lead" if r.random() < 0.5 else "rear"
+                    else:
+                        hand = "lead" if r.random() < p_lead else "rear"
+                    other = "rear" if hand == "lead" else "lead"
+                    s = S[hand]
+                    s.f = f * (1.0 - lead_late_fade * late if hand == "lead" else 1.0)
+                    tg = "body" if base in ("straight", "hook") and r.random() < 0.25 else None
+                    s.strike(tt, base, target=tg, hard=(base == "hook" and r.random() < 0.3 * s.f))
+                    ang = r.uniform(0, 2 * math.pi)
+                    # small body-motion pulse on the other wrist; ~4 % are big enough to cross
+                    # the detector threshold and must be removed by detector.merge_events
+                    amp = r.uniform(4.0, 5.5) if r.random() < 0.04 else r.uniform(*crosstalk_g)
+                    S[other].add_lin(tt + r.uniform(0.0, 0.02), 0.035,
+                                     amp * np.array([math.cos(ang), math.sin(ang), 0.3]))
+                tt += r.uniform(0.3, 0.45) * (1 + 0.03 * k)
+            tt += r.uniform(1.4, 3.6) * pf.pause(k)
+        t = t1 + rest_s
+    seen_body = set()
+    for role, s in S.items():
+        for tr in s.truths:
+            if tr.base == "clap" or (role == "rear" and tr.base in ("kick", "clinch")):
+                continue
+            note = f"synthetic ground truth; hand={role}" + (f"; target={tr.target}" if tr.target else "")
+            if tr.base == "clinch":
+                labels += [(tr.t_s, "clinch_start", note), (tr.t_end_s, "clinch_end", note)]
+            else:
+                labels.append((tr.t_s, f"truth:{tr.type}", note))
+    return S, labels
+
+
+@dataclass
+class DeviceClock:
+    """Device clock model: device_time_us = dev_t0_us + true_t * (1 + skew_ppm * 1e-6) * 1e6.
+    The device starts logging `start_s` after true t = 0. BLE notifications carry 18 samples;
+    the host receives each `latency_ms` (+ exponential jitter) after its last sample."""
+    dev_t0_us: int
+    skew_ppm: float
+    start_s: float = 0.0
+    latency_ms: float = 12.0
+    jitter_ms: float = 4.0
+
+    def dev_us(self, true_t):
+        return self.dev_t0_us + np.round(np.asarray(true_t) * (1 + self.skew_ppm * 1e-6) * 1e6).astype(np.int64)
+
+
+def write_raw_csv_clock(path, accel, gyro, sat, host_t0, clock: DeviceClock, rng, end_s=None):
+    """Raw CSV as tools/logger.py writes it for one device of a two-sensor session: device
+    timestamps follow `clock`; host_time_s uses the logger's fixed anchor (first packet rx)."""
+    i0 = int(round(clock.start_s * FS))
+    i1 = len(accel) if end_s is None else min(len(accel), int(end_s * FS))
+    idx = np.arange(i0, i1)
+    true_t = idx / FS
+    dev = clock.dev_us(true_t)
+    first_pkt_last = min(17, len(idx) - 1)
+    a_host = host_t0 + true_t[first_pkt_last] + (clock.latency_ms + rng.exponential(clock.jitter_ms)) / 1e3
+    a_dev = dev[first_pkt_last]
+    host = a_host + (dev - a_dev) / 1e6
+    with open(path, "w", newline="") as fh:
+        w = csv.writer(fh)
+        w.writerow(C.RAW_HEADER)
+        for k, i in enumerate(idx):
+            w.writerow([f"{host[k]:.6f}", int(dev[k]),
+                        f"{accel[i,0]:.3f}", f"{accel[i,1]:.3f}", f"{accel[i,2]:.3f}",
+                        f"{gyro[i,0]:.1f}", f"{gyro[i,1]:.1f}", f"{gyro[i,2]:.1f}", int(sat[i])])
+
+
+SYNC_HEADER = ["device_id", "role", "host_time_s", "device_time_us", "rtt_ms", "source"]
+
+
+def sync_rows(device_id, role, clock: DeviceClock, host_t0, dur_s, rng, every_s=10.0, burst=8, conn_ms=7.5):
+    """Simulated time-sync exchanges (docs/gatt-spec.md 0x0008): at connect and every `every_s`,
+    a burst of reads; host_time_s = request/response midpoint, rtt = 1-3 connection intervals,
+    and the device stamps the read at an asymmetric point inside the round trip."""
+    rows = []
+    for ts in np.arange(clock.start_s, dur_s, every_s):
+        for b in range(burst):
+            t_req = ts + b * 0.05
+            rtt = conn_ms * int(rng.integers(1, 4)) + rng.uniform(0, 1.0)
+            t_dev = t_req + rtt / 1e3 * rng.uniform(0.35, 0.65)   # true time the device stamped it
+            mid = t_req + rtt / 2e3
+            rows.append([device_id, role, f"{host_t0 + mid:.6f}", int(clock.dev_us(t_dev)), f"{rtt:.2f}", "rtt"])
+    return rows
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--demo", required=True, help="output prefix, e.g. analysis/samples/demo")

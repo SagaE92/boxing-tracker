@@ -1,0 +1,1172 @@
+host_time_s,label,note
+1792996202.5000,sync,clap
+1792996203.0000,cal_start,"hold guard, then one straight (both hands)"
+1792996206.5000,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996206.5000,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996207.2000,cal_end,
+1792996212.0000,round,round 1 start
+1792996214.0000,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996217.6099,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996217.9100,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996218.3277,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996218.6531,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792996221.0548,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996221.4928,truth:jab,synthetic ground truth; hand=lead; target=body
+1792996221.8921,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996224.2183,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792996227.5569,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996227.9947,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996228.4089,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996228.7940,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996231.7906,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996232.2323,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996234.6121,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792996235.4733,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996235.8902,truth:jab,synthetic ground truth; hand=lead; target=body
+1792996236.1940,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792996238.7242,truth:jab,synthetic ground truth; hand=lead; target=body
+1792996239.0258,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996241.5978,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996243.7898,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996244.1912,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996246.1543,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996246.4939,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996249.3439,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996249.7699,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996250.1232,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996252.4885,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996252.8697,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996253.2925,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996253.6760,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996255.6220,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996258.0812,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996258.4696,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996258.9092,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996259.3407,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996262.6400,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996262.9772,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996263.3012,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792996265.7566,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996266.1046,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996266.4443,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996266.7942,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996270.1811,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996270.5610,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996271.0032,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996274.6365,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996275.0802,truth:jab,synthetic ground truth; hand=lead; target=body
+1792996275.4645,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996279.3266,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996279.6445,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996280.0144,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996280.4317,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996282.1839,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996282.5362,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996282.8886,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996286.1137,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996286.4355,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996286.8390,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996287.2249,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792996291.0917,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996293.6960,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792996295.6329,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996296.0657,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996296.4061,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996299.1898,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996299.4966,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996299.8475,truth:jab,synthetic ground truth; hand=lead; target=body
+1792996301.6007,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996302.0459,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996302.3809,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996302.7697,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996304.8148,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996305.1899,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996305.5999,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996305.9735,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996308.8766,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996309.1809,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996312.5011,truth:spinning_backfist,synthetic ground truth; hand=rear; target=head
+1792996314.9712,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996315.3499,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996318.2460,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996318.5865,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792996319.3589,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792996321.1752,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996321.5643,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996321.9225,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996322.3289,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996323.4372,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792996324.2656,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996326.0375,truth:jab,synthetic ground truth; hand=lead; target=body
+1792996326.3928,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996326.8116,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792996330.1923,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996330.5710,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996331.0151,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996331.3545,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996335.1899,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996335.6278,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996336.4074,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792996340.0325,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996340.3935,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792996342.7759,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996343.0907,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996343.4833,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996343.8804,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996347.0041,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996347.4309,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996347.8178,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996348.2454,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996350.6997,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996351.1008,truth:spinning_backfist,synthetic ground truth; hand=rear; target=head
+1792996351.5389,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792996354.9269,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996355.3372,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996355.7218,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996356.1316,truth:jab,synthetic ground truth; hand=lead; target=body
+1792996359.2719,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996359.6863,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996360.1342,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996360.4675,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996363.7474,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996365.6353,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996365.9872,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996366.3442,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996366.7348,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996368.6287,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996369.0437,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996369.4628,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996369.8105,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996373.6491,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996373.9684,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996374.3176,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996378.1790,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996378.6057,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996378.9870,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996379.3227,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996382.2535,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996382.6866,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996386.3629,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996386.7644,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996387.1975,truth:jab,synthetic ground truth; hand=lead; target=body
+1792996392.0000,rest,round 1 end
+1792996452.0000,round,round 2 start
+1792996454.0000,truth:jab,synthetic ground truth; hand=lead; target=body
+1792996454.4169,truth:jab,synthetic ground truth; hand=lead; target=body
+1792996457.2871,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996457.6516,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996458.1112,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996460.6190,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996461.0646,truth:jab,synthetic ground truth; hand=lead; target=body
+1792996461.3991,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996464.6279,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996465.0880,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996467.7226,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792996469.6815,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996470.0621,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996470.4506,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996470.8802,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996472.9794,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996473.3859,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996476.5208,truth:spinning_backfist,synthetic ground truth; hand=lead; target=head
+1792996476.8508,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996477.2179,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996477.5345,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996479.6241,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792996480.0322,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996480.3749,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996482.8695,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996483.2084,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996483.5277,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996483.9507,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996486.4628,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996486.8230,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996487.2157,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996489.7815,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792996490.1717,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996490.5975,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996493.8142,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996494.1261,truth:jab,synthetic ground truth; hand=lead; target=body
+1792996494.5782,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996495.0157,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996498.5344,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996500.6066,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996501.0095,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996501.3426,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996503.9021,clinch_start,synthetic ground truth; hand=lead
+1792996509.4288,clinch_end,synthetic ground truth; hand=lead
+1792996520.4306,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996520.8091,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996521.2715,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996524.4630,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996524.8861,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996526.8764,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996530.2113,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996530.5425,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996530.9893,truth:spinning_backfist,synthetic ground truth; hand=lead; target=head
+1792996533.2159,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996533.6020,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792996533.9351,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996534.2500,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996537.0403,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996537.4560,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996537.8974,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996538.2128,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996542.3169,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792996543.0095,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792996546.8135,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996547.2238,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996547.6519,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996550.2656,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996550.6385,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996553.8106,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996554.1210,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996554.4979,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792996554.8774,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996558.6993,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996559.1237,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996562.8470,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996563.3033,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996566.4520,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996566.8239,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996567.1565,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996569.5666,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996569.9398,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996570.2694,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996570.7056,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996574.1990,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996577.4531,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996577.8242,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996580.2667,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996584.1774,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996584.6236,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996586.6639,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996587.0438,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996587.3548,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996590.4514,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792996591.2219,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996593.4333,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792996596.6590,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996600.1017,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996603.2573,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996603.6741,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792996604.0414,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996604.4971,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996606.5985,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996606.9380,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996607.3831,truth:jab,synthetic ground truth; hand=lead; target=body
+1792996607.7149,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792996611.0938,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996611.5484,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996611.9417,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792996612.2986,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996615.8489,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792996616.2826,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996616.7250,truth:jab,synthetic ground truth; hand=lead; target=body
+1792996617.0918,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996619.2252,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996619.6761,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792996620.0914,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996620.9073,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792996622.1026,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792996624.0380,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996624.4421,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996627.3113,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996627.6593,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996628.1062,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996628.4755,truth:jab,synthetic ground truth; hand=lead; target=body
+1792996632.0000,rest,round 2 end
+1792996692.0000,round,round 3 start
+1792996694.0000,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996696.8898,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996697.2534,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996697.5990,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996697.9264,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996700.9544,truth:spinning_backfist,synthetic ground truth; hand=lead; target=head
+1792996703.1173,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792996704.6803,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996705.0279,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996705.4281,truth:jab,synthetic ground truth; hand=lead; target=body
+1792996708.4669,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996708.8499,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996709.2277,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996709.6410,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996712.9973,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996713.3277,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792996713.7314,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996716.5845,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996717.0576,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996717.4589,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996717.8676,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996721.2272,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792996721.6246,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996724.3052,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996724.6831,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996726.8055,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792996727.5110,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996731.5714,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996733.7099,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996736.9590,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996737.3519,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996737.8079,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996738.1518,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996740.6630,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996741.1039,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996741.4266,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996741.8994,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996744.8080,truth:spinning_backfist,synthetic ground truth; hand=lead; target=head
+1792996746.6782,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996747.1379,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996751.0052,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996753.0948,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996753.4885,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996755.3207,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996758.3283,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996758.6561,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996762.0584,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996762.4984,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996762.8532,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996766.4666,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996770.3436,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996770.8113,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996771.1572,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996771.5451,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996775.3147,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996775.6471,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996776.0030,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792996779.4784,clinch_start,synthetic ground truth; hand=lead
+1792996788.0727,clinch_end,synthetic ground truth; hand=lead
+1792996794.8431,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996795.2458,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996795.6744,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996799.4949,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996799.8581,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996800.2842,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996802.8913,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996803.2593,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996803.5905,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996803.9857,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996806.0853,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996806.5582,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996806.9022,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996807.2553,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996811.1122,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996812.9117,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996813.3292,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996813.7162,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996816.9517,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996817.3374,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996817.6652,truth:spinning_backfist,synthetic ground truth; hand=rear; target=head
+1792996820.2771,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996824.3295,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996824.7021,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792996825.1303,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996825.4553,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996827.6010,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996829.7730,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792996830.5729,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996833.1223,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792996833.4801,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996835.4562,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996835.8967,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996836.2995,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996839.6423,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996840.1095,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996840.4611,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996840.7844,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996843.6136,truth:jab,synthetic ground truth; hand=lead; target=body
+1792996847.0294,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996847.3657,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996847.7458,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996848.1657,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996850.6838,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996851.0149,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996851.4403,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996855.0002,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996855.3979,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996855.8629,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996856.2776,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996859.6929,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792996860.5461,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996863.5057,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996863.8283,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996864.2974,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996864.7342,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996867.3328,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996867.6763,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996872.0000,rest,round 3 end
+1792996932.0000,round,round 4 start
+1792996934.0000,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996936.8236,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996937.1892,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996937.6112,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996938.0624,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996941.3334,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996941.6751,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996944.9837,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996945.3252,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996948.0181,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996950.1128,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996950.5642,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996954.3698,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996954.8527,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996958.8390,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996959.2933,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996962.1447,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792996963.1014,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996966.7515,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792996967.2087,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996967.6502,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996971.0500,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996971.4578,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996973.8993,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996974.2304,truth:jab,synthetic ground truth; hand=lead; target=body
+1792996977.3861,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996977.7858,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792996978.1790,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996978.6191,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996982.4889,truth:cross,synthetic ground truth; hand=rear; target=head
+1792996982.8170,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996983.2963,truth:jab,synthetic ground truth; hand=lead; target=head
+1792996986.7139,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996990.1341,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792996990.5823,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792996991.0573,truth:cross,synthetic ground truth; hand=rear; target=body
+1792996994.6681,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792996995.0295,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996995.4363,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792996995.7917,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792996999.7633,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792997000.1656,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997000.5376,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997004.4947,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997006.6456,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792997007.5017,truth:jab,synthetic ground truth; hand=lead; target=body
+1792997011.1973,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997011.6873,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997012.0489,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997012.4305,truth:spinning_backfist,synthetic ground truth; hand=rear; target=head
+1792997015.2219,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997015.7095,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997016.1005,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997020.0537,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997022.5840,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792997026.2589,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997026.7377,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997027.1220,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997027.4548,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997031.3262,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997031.6911,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997035.4315,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792997037.5485,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997037.9749,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997038.4063,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997038.7694,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997041.3427,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997041.7203,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792997042.1519,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997042.5693,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997045.7842,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997046.2638,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997049.3207,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997049.7641,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997053.8395,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792997054.3180,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997056.9520,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997057.3161,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997057.6621,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997061.5373,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997061.9874,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997062.3380,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997062.7914,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997066.4969,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997066.8458,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997067.3219,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997067.6607,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997070.8494,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997071.1798,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997071.5713,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997071.9204,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792997075.8128,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997078.3391,truth:spinning_backfist,synthetic ground truth; hand=lead; target=head
+1792997080.5248,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792997081.3613,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792997081.7907,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997083.6933,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997085.8108,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997087.8461,truth:jab,synthetic ground truth; hand=lead; target=body
+1792997088.2348,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997088.6185,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792997089.6575,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792997090.5944,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997091.0697,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997091.5153,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997091.8850,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997094.0690,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997097.2055,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997097.6485,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792997100.9797,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997101.4442,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997101.8305,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997103.6698,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997104.0241,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792997104.4810,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997104.9665,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997107.5127,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997107.9615,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997109.9016,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997110.2759,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792997110.6202,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997112.0000,rest,round 4 end
+1792997172.0000,round,round 5 start
+1792997174.0000,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792997174.4254,truth:spinning_backfist,synthetic ground truth; hand=rear; target=head
+1792997177.7173,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997178.1952,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997181.4923,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997183.7067,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997184.1319,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997184.5933,truth:jab,synthetic ground truth; hand=lead; target=body
+1792997188.4756,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997188.8150,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792997189.1863,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997189.5824,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997192.4399,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997192.8754,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997193.3258,truth:jab,synthetic ground truth; hand=lead; target=body
+1792997194.6511,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792997195.9642,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997199.5154,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997202.8547,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997206.7931,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997207.1760,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997207.6011,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997208.2617,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792997210.6773,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997211.0982,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997213.5183,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997213.8786,truth:jab,synthetic ground truth; hand=lead; target=body
+1792997215.8288,truth:jab,synthetic ground truth; hand=lead; target=body
+1792997216.3061,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997216.8060,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997217.1923,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997220.6124,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997220.9593,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997221.3624,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997221.8612,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997226.0882,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997226.4458,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997229.8416,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997230.3182,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997230.6596,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997231.5643,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792997233.0737,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997233.5146,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997233.9679,truth:jab,synthetic ground truth; hand=lead; target=body
+1792997234.4507,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997238.0641,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997240.8311,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997241.1922,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997241.5419,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997244.5727,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997244.9700,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997245.3891,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997248.7580,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792997249.2328,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792997249.7191,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997250.1645,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997252.0549,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997252.5274,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997256.7284,truth:spinning_backfist,synthetic ground truth; hand=rear; target=head
+1792997257.1762,truth:spinning_backfist,synthetic ground truth; hand=rear; target=head
+1792997257.6553,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997259.5838,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997260.0218,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792997263.7104,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792997264.1319,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997266.1464,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792997269.9780,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997270.3574,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997273.0130,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997273.5149,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997273.8852,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792997276.4196,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997276.9188,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997277.3891,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997280.5191,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997283.4842,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997285.9827,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997288.5196,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792997288.9721,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997289.3395,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997291.3861,truth:jab,synthetic ground truth; hand=lead; target=body
+1792997291.8429,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997292.2156,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997292.6730,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997296.7832,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997297.2118,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997297.6865,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997298.1233,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997301.3158,truth:jab,synthetic ground truth; hand=lead; target=body
+1792997301.7853,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997305.0296,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997305.3902,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997305.8889,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997310.0404,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997312.2785,clinch_start,synthetic ground truth; hand=lead
+1792997320.3668,clinch_end,synthetic ground truth; hand=lead
+1792997326.5111,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997326.9795,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997329.6873,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997332.2023,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997332.5455,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997332.9645,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997334.5997,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792997337.2280,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997337.7079,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997338.1217,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997338.4624,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997342.2566,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997345.5226,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997345.9487,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997349.5563,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997349.8954,truth:spinning_backfist,synthetic ground truth; hand=lead; target=head
+1792997350.3966,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997352.0000,rest,round 5 end
+1792997412.0000,round,round 6 start
+1792997414.0000,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997414.4149,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997414.8382,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997415.3173,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997418.0327,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997421.9687,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997422.4500,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792997422.8671,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997423.3544,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997424.1013,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792997426.5659,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997426.9318,truth:jab,synthetic ground truth; hand=lead; target=body
+1792997427.2801,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997429.4619,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997429.8790,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997430.3287,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997430.7905,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997434.7438,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997435.1708,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997435.5453,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997435.9817,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997440.0521,truth:spinning_backfist,synthetic ground truth; hand=lead; target=head
+1792997440.4573,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792997440.9314,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997444.1852,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792997444.5608,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997448.2128,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997448.7187,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997449.1469,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997449.6280,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997450.8522,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792997453.4503,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997453.8352,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997454.1980,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997454.6553,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997457.1289,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997457.5832,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997457.9664,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997458.3442,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997461.1930,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997461.6712,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997465.1245,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792997465.6346,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997466.0125,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997468.2733,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792997468.7096,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997469.1505,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997471.1319,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997471.5357,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997471.8987,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997472.2636,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997475.0501,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997477.1784,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997479.4634,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997479.9426,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997481.9576,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997482.3716,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997482.7604,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997483.2744,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997487.5528,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997488.0034,truth:jab,synthetic ground truth; hand=lead; target=body
+1792997488.4720,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997491.8046,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997492.1890,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997492.6894,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997496.9145,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792997499.0801,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997499.4440,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997499.7934,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997502.0908,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997504.0259,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792997505.2764,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792997505.7487,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997509.1509,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997509.5095,truth:jab,synthetic ground truth; hand=lead; target=body
+1792997509.9581,truth:jab,synthetic ground truth; hand=lead; target=body
+1792997512.3935,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997512.8528,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997513.2954,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792997516.5370,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997520.0341,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792997520.3940,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997523.1505,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997523.6163,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997524.1008,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997526.3157,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997526.7926,truth:jab,synthetic ground truth; hand=lead; target=body
+1792997529.2342,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792997529.7162,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997530.1999,truth:jab,synthetic ground truth; hand=lead; target=body
+1792997530.6955,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792997533.7815,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997537.7822,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997538.2088,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997538.6446,truth:jab,synthetic ground truth; hand=lead; target=body
+1792997541.1551,clinch_start,synthetic ground truth; hand=lead
+1792997546.1861,clinch_end,synthetic ground truth; hand=lead
+1792997557.7301,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997560.1022,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997562.3923,truth:jab,synthetic ground truth; hand=lead; target=body
+1792997562.7485,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792997563.1671,truth:jab,synthetic ground truth; hand=lead; target=body
+1792997566.4017,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997566.8625,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997567.3007,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997569.7024,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997572.4484,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997572.8092,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997573.2678,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792997573.7831,truth:jab,synthetic ground truth; hand=lead; target=body
+1792997577.3931,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997577.8950,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997578.7172,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792997581.3886,truth:jab,synthetic ground truth; hand=lead; target=body
+1792997581.8783,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997582.3846,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997582.7848,truth:spinning_backfist,synthetic ground truth; hand=lead; target=head
+1792997586.6923,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997587.0635,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997589.9991,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997590.4801,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997592.0000,rest,round 6 end
+1792997652.0000,round,round 7 start
+1792997654.0000,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997654.4161,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997658.6923,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792997662.4818,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997662.9816,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997663.4346,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792997665.8881,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997666.2929,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997666.7033,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997667.1844,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997670.9521,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997674.3988,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997677.2693,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792997679.8281,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997684.0198,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997684.5065,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997684.9672,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997685.4028,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997688.6431,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997692.0210,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997692.3885,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997692.7772,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997696.4925,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997696.9841,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997700.3672,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997700.7826,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997704.3167,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997705.1444,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792997707.0485,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997707.5570,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997708.0450,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997708.4832,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792997711.8430,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997712.3564,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997715.1340,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792997717.6357,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997718.0070,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997718.3924,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997718.8239,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997719.6658,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792997721.1636,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997721.6397,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997722.0598,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997722.4622,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997726.6721,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997727.1428,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997727.6353,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997730.0961,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997732.2911,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997732.7390,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997736.1894,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997736.6161,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792997740.4692,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997740.8986,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997741.3133,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792997744.3588,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997747.8271,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997748.1925,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997752.2197,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997753.0148,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792997753.7354,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997756.6192,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997757.0977,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997760.6617,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997761.1681,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997761.5753,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997762.0114,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997765.0172,truth:spinning_backfist,synthetic ground truth; hand=rear; target=head
+1792997765.4102,truth:jab,synthetic ground truth; hand=lead; target=body
+1792997765.9254,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997769.5863,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997769.9839,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792997770.3897,truth:spinning_backfist,synthetic ground truth; hand=lead; target=head
+1792997770.8681,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997774.4136,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997774.7874,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997775.2198,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997779.1699,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997779.5664,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997782.5481,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997782.9348,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997783.4580,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997787.5666,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997788.0918,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997788.5355,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997791.1129,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997791.5319,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792997792.0544,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997795.2342,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997795.6864,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997796.0829,truth:spinning_backfist,synthetic ground truth; hand=rear; target=head
+1792997796.5289,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997800.5965,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997802.7664,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997803.1982,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997803.7242,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997806.9949,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997807.4855,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997807.9984,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997810.8249,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997811.3072,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997814.1947,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792997816.3162,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997816.8434,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997817.3223,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997817.7312,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997820.6881,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997823.5935,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997827.4891,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997827.8912,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792997829.9807,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997830.4926,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997832.0000,rest,round 7 end
+1792997892.0000,round,round 8 start
+1792997894.0000,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997894.4477,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997894.8852,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792997897.4662,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997897.9551,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997898.4643,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997900.9842,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997901.4345,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997901.9320,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997904.3624,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997906.8482,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792997907.7306,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997910.3911,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997910.9127,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997911.2827,truth:jab,synthetic ground truth; hand=lead; target=body
+1792997914.1302,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997914.5901,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997914.9562,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792997919.3965,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997919.8290,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997920.2690,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792997922.7571,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997923.2560,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997923.7224,truth:jab,synthetic ground truth; hand=lead; target=body
+1792997927.2008,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792997927.6826,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792997928.0634,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997932.1734,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997932.6106,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792997935.1273,truth:jab,synthetic ground truth; hand=lead; target=body
+1792997935.6664,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997936.0881,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997938.5275,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997940.6680,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792997941.1552,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997944.1111,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997944.5679,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997947.9940,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792997948.3953,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997952.6480,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997953.0269,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997956.0716,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997956.6121,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792997960.0387,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997960.4254,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997962.8030,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997965.4644,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997965.8278,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997966.2295,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997969.3741,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997972.1185,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997972.5387,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997973.0196,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997975.2756,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997975.6936,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997976.1892,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792997980.3650,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997980.7511,truth:cross,synthetic ground truth; hand=rear; target=body
+1792997982.9082,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997983.2879,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997983.7445,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792997985.8371,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997989.9684,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792997993.4439,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792997993.8361,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997995.8724,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997996.3883,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792997996.7777,truth:jab,synthetic ground truth; hand=lead; target=head
+1792997998.7364,truth:cross,synthetic ground truth; hand=rear; target=head
+1792997999.1505,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998002.0357,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998002.4236,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792998004.9753,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998005.4608,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998005.9460,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998009.7045,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792998010.1573,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792998012.5038,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792998016.4304,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998020.8536,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792998021.3626,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792998021.9026,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998026.0126,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998026.5075,truth:cross,synthetic ground truth; hand=rear; target=body
+1792998027.0018,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998030.9484,truth:cross,synthetic ground truth; hand=rear; target=body
+1792998035.3389,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998035.7448,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998036.1973,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998038.9684,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998041.1986,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792998041.6551,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998042.0568,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998044.1829,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998044.6594,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998045.1819,truth:spinning_backfist,synthetic ground truth; hand=lead; target=head
+1792998049.5528,truth:cross,synthetic ground truth; hand=rear; target=body
+1792998050.0703,truth:spinning_backfist,synthetic ground truth; hand=rear; target=head
+1792998054.1232,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998054.6014,truth:spinning_backfist,synthetic ground truth; hand=rear; target=head
+1792998058.6730,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998062.9394,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998063.3508,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998063.8860,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792998068.1293,truth:cross,synthetic ground truth; hand=rear; target=body
+1792998068.5595,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998069.0595,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998072.0000,rest,round 8 end
+1792998132.0000,round,round 9 start
+1792998134.0000,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998134.4819,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998137.1947,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792998137.6541,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998138.0810,truth:jab,synthetic ground truth; hand=lead; target=body
+1792998140.8803,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998141.3756,truth:jab,synthetic ground truth; hand=lead; target=body
+1792998144.6062,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792998146.9222,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998147.3750,truth:cross,synthetic ground truth; hand=rear; target=body
+1792998147.8052,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792998151.1623,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792998151.6204,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792998152.1672,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792998156.1728,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792998156.6651,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792998157.1257,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998160.9895,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792998161.5032,truth:cross,synthetic ground truth; hand=rear; target=body
+1792998162.0220,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998164.5912,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998166.6986,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792998170.6259,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998171.0160,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998171.4312,truth:cross,synthetic ground truth; hand=rear; target=body
+1792998174.1804,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998177.9407,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792998182.5050,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998183.0433,truth:cross,synthetic ground truth; hand=rear; target=body
+1792998183.4251,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998188.0465,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792998188.4829,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998189.0189,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998191.4000,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792998191.7920,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998192.2611,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998195.4115,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998195.9566,truth:cross,synthetic ground truth; hand=rear; target=body
+1792998200.1333,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792998200.5353,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792998200.9788,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792998204.5055,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998204.9926,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792998208.9063,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792998209.3911,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998209.8377,truth:jab,synthetic ground truth; hand=lead; target=body
+1792998213.0350,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998213.5288,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998216.4723,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998216.8869,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998217.3037,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792998219.9525,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998220.3387,truth:spinning_backfist,synthetic ground truth; hand=rear; target=head
+1792998220.8509,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792998224.9473,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998225.4866,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792998225.8865,truth:jab,synthetic ground truth; hand=lead; target=body
+1792998228.8773,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998229.3406,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792998229.7651,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998234.1537,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998234.6046,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998238.1190,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998238.5690,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792998238.9511,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998241.7291,clinch_start,synthetic ground truth; hand=lead
+1792998249.2280,clinch_end,synthetic ground truth; hand=lead
+1792998257.5954,truth:spinning_backfist,synthetic ground truth; hand=lead; target=head
+1792998261.0384,truth:cross,synthetic ground truth; hand=rear; target=body
+1792998261.5857,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792998265.7765,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998270.0614,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792998270.4881,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998274.8992,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998278.0174,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792998278.4713,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792998279.0257,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792998281.8937,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998282.3892,truth:spinning_backfist,synthetic ground truth; hand=lead; target=head
+1792998286.6313,truth:spinning_backfist,synthetic ground truth; hand=lead; target=head
+1792998289.1537,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998289.5740,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792998290.5672,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792998293.8323,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792998294.2314,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792998294.6473,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792998297.0739,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792998297.5508,truth:cross,synthetic ground truth; hand=rear; target=body
+1792998297.9879,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998300.2706,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998300.7467,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792998301.2391,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792998304.8242,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998305.2887,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792998308.4667,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792998308.9902,truth:cross,synthetic ground truth; hand=rear; target=body
+1792998309.5047,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998312.0000,rest,round 9 end
+1792998372.0000,round,round 10 start
+1792998374.0000,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998374.5053,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998378.8180,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998379.2403,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998381.4971,truth:cross,synthetic ground truth; hand=rear; target=body
+1792998381.9002,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998382.4504,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792998386.2387,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792998386.7785,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792998387.2162,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998391.7713,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998392.2518,truth:jab,synthetic ground truth; hand=lead; target=body
+1792998396.1550,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998396.6228,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998400.4684,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998400.8875,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792998401.4278,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792998404.8340,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998409.6422,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998410.0582,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998410.4528,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792998413.9669,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998415.6662,clinch_start,synthetic ground truth; hand=lead
+1792998427.1449,clinch_end,synthetic ground truth; hand=lead
+1792998430.6570,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792998431.2080,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998431.7323,truth:spinning_backfist,synthetic ground truth; hand=rear; target=head
+1792998436.3339,truth:cross,synthetic ground truth; hand=rear; target=body
+1792998436.7162,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998437.2565,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792998439.4732,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998439.8829,truth:cross,synthetic ground truth; hand=rear; target=body
+1792998440.4109,truth:jab,synthetic ground truth; hand=lead; target=body
+1792998442.5644,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792998442.9826,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792998443.4572,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998446.1155,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792998446.5561,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792998447.0713,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998451.7207,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792998455.1344,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792998458.0938,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792998458.5033,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792998460.8539,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998464.5559,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792998465.0198,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998468.9592,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998469.4806,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792998469.8838,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998474.0972,truth:cross,synthetic ground truth; hand=rear; target=body
+1792998474.5368,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998475.0067,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998479.3023,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792998479.8724,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792998483.3082,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792998483.8409,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998484.3927,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998488.7833,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998489.3241,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998491.5166,truth:rear_hook,synthetic ground truth; hand=rear; target=body
+1792998492.0135,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792998492.4796,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998495.8144,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998496.3593,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792998496.8922,truth:cross,synthetic ground truth; hand=rear; target=body
+1792998499.8508,truth:kick_or_body_movement,synthetic ground truth; hand=lead
+1792998500.8671,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792998503.7236,truth:cross,synthetic ground truth; hand=rear; target=body
+1792998504.2546,truth:lead_uppercut,synthetic ground truth; hand=lead
+1792998504.7544,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792998507.4664,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998507.9137,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998511.3500,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998511.7850,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998515.9269,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998516.3995,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792998516.9187,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998521.2983,truth:spinning_backfist,synthetic ground truth; hand=rear; target=head
+1792998521.8088,truth:cross,synthetic ground truth; hand=rear; target=head
+1792998525.1544,truth:lead_hook,synthetic ground truth; hand=lead; target=body
+1792998525.6677,truth:lead_hook,synthetic ground truth; hand=lead; target=head
+1792998529.9741,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998534.2488,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998538.1242,truth:overhand,synthetic ground truth; hand=rear; target=head
+1792998538.6316,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792998539.0462,truth:rear_uppercut,synthetic ground truth; hand=rear
+1792998542.5352,truth:jab,synthetic ground truth; hand=lead; target=head
+1792998545.3579,truth:spinning_backfist,synthetic ground truth; hand=lead; target=head
+1792998545.7495,truth:rear_hook,synthetic ground truth; hand=rear; target=head
+1792998547.9830,truth:cross,synthetic ground truth; hand=rear; target=body
+1792998552.0000,rest,round 10 end

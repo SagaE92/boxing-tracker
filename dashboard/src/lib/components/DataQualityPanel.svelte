@@ -9,7 +9,7 @@
   const cal = $derived(session.json?.session.calibration);
 </script>
 
-<section class="card" aria-label="Data quality">
+<section class="card" id="data-quality" aria-label="Data quality">
   <div class="card-h"><h2>Data quality</h2><span class="sub">how much to trust this session</span></div>
   <div class="dq">
     <div class="item"><span class="k">Saturation <Tip text={TIPS.saturation} /></span><b class="num {dq.saturationLevel}">{pct(dq.satFraction, 3)}</b><span class="small muted">{dq.satSamples.toLocaleString()} samples · <span class={dq.clipLevel === 'ok' ? '' : dq.clipLevel}>{dq.saturatedStrikes} of {dq.strikes} strikes clipped</span></span></div>

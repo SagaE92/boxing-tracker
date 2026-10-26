@@ -4,7 +4,7 @@ import schema from '../../../docs/session.schema.json';
 import type { SessionJson } from './types';
 
 export const SUPPORTED_MAJOR = 1;
-export const SCHEMA_VERSION = '1.0.0';
+export const SCHEMA_VERSION = '1.1.0';
 
 const ajv = new Ajv2020({ allErrors: true, strict: false });
 addFormats(ajv);
@@ -30,7 +30,10 @@ export function validateSession(input: unknown, fileName = 'session.json'): Vali
       warnings,
     };
   }
-  if (v !== SCHEMA_VERSION) warnings.push(`${fileName}: schema_version ${v} differs from ${SCHEMA_VERSION}; loading anyway (same major).`);
+  // Older minors (e.g. 1.0.0, no devices list) are a subset of the current schema: load silently.
+  // A newer minor may carry fields this dashboard ignores: load with a note.
+  const minor = +(v.split('.')[1] ?? 0), ourMinor = +SCHEMA_VERSION.split('.')[1];
+  if (minor > ourMinor) warnings.push(`${fileName}: schema_version ${v} is newer than ${SCHEMA_VERSION}; loading anyway (same major), new fields are ignored.`);
   const ok = validateFn(input);
   if (!ok) {
     const errs = (validateFn.errors ?? []).slice(0, 8).map((e) => {

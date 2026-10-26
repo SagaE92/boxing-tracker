@@ -10,6 +10,9 @@ stays the single source of truth for every event the dashboard shows.
        * fewer hard (clipping) hooks when tired
   2. analysis/detector.py (CLI, unchanged) turns raw + labels into session.json.
 
+  --profile kickboxing-late-fade uses analysis/synth.py make_fatigue_session/FatigueProfile
+  instead (10 x 3 min default demo: late-round drop in output, speed, kicks and combos).
+
 Usage (from the repo root, numpy + jsonschema installed):
   python dashboard/scripts/gen_rounds_demo.py --out /tmp/demo6 [--rounds 6 --round-s 120 --rest-s 60 --seed 11]
 writes /tmp/demo6_raw.csv, _labels.csv, _session.json, _punches.csv. Not a detector:
@@ -30,20 +33,7 @@ import synth as S  # noqa: E402
 import detector as D  # noqa: E402
 
 
-class FatigueSession(S.Session):
-    """Session whose strike() scales the strike's linear pulse by self.f (rotation by sqrt(f))."""
-    f: float = 1.0
-
-    def strike(self, t, base, target=None, hard=False):
-        lo, hi = max(0, int((t - 1.0) * S.FS)), min(self.n, int((t + 1.0) * S.FS))
-        lin0, om0 = self.lin[lo:hi].copy(), self.omega[lo:hi].copy()
-        n_truth = len(self.truths)
-        super().strike(t, base, target=target, hard=hard)
-        self.lin[lo:hi] = lin0 + self.f * (self.lin[lo:hi] - lin0)
-        self.omega[lo:hi] = om0 + np.sqrt(self.f) * (self.omega[lo:hi] - om0)
-        for tr in self.truths[n_truth:]:
-            if tr.amp_g is not None:
-                tr.amp_g *= self.f
+FatigueSession = S.FatigueSession  # moved to analysis/synth.py
 
 
 def make_rounds_demo(seed=11, hand="rear", stance="orthodox", rounds=6, round_s=120.0, rest_s=60.0,
@@ -107,8 +97,19 @@ def main(argv=None):
     ap.add_argument("--stance", default="orthodox", choices=["orthodox", "southpaw"])
     ap.add_argument("--date", default="2026-10-25T18:00:00+00:00")
     ap.add_argument("--id", default=None)
+    ap.add_argument("--two-hands", action="store_true",
+                    help="two sensors (one per wrap): writes <out>_lead_raw.csv, <out>_rear_raw.csv and "
+                         "<out>_sync.csv with per-device clock offset + drift, merged by detector.py --stream")
+    ap.add_argument("--profile", default="fade6", choices=["fade6", "kickboxing-late-fade"],
+                    help="fade6: the original 6-round demo; kickboxing-late-fade: synth.make_fatigue_session "
+                         "(gentle fade + late-round drop in output, speed, kicks and combos)")
     a = ap.parse_args(argv)
-    s, labels = make_rounds_demo(a.seed, a.hand, a.stance, a.rounds, a.round_s, a.rest_s)
+    if a.two_hands:
+        return two_hands(a)
+    if a.profile == "kickboxing-late-fade":
+        s, labels = S.make_fatigue_session(a.seed, a.hand, a.stance, a.rounds, a.round_s, a.rest_s)
+    else:
+        s, labels = make_rounds_demo(a.seed, a.hand, a.stance, a.rounds, a.round_s, a.rest_s)
     acc, gyr, sat, _ = s.render()
     host_t0 = datetime.fromisoformat(a.date).astimezone(timezone.utc).timestamp()
     out = Path(a.out)
@@ -118,6 +119,41 @@ def main(argv=None):
     print(f"synth: {len(acc)} samples, {sat.mean()*100:.3f}% saturated, {sum(1 for x in labels if x[1].startswith('truth:'))} truth strikes")
     D.main([f"{out}_raw.csv", "--labels", f"{out}_labels.csv", "--hand", a.hand, "--stance", a.stance,
             "--session-out", f"{out}_session.json", "--punches-out", f"{out}_punches.csv", "--id", a.id or out.name])
+
+
+# Per-device clocks for the two-sensor demo: different counters, +23 / -17.5 ppm drift,
+# the lead sensor starts logging 0.37 s after the rear one.
+CLOCKS = {"lead": S.DeviceClock(dev_t0_us=3_812_004_117, skew_ppm=23.0, start_s=0.37),
+          "rear": S.DeviceClock(dev_t0_us=1_204_556_001, skew_ppm=-17.5, start_s=0.0)}
+DEVICE_IDS = {"lead": "boxtrk-lead-7c1e", "rear": "boxtrk-rear-a94b"}
+
+
+def two_hands(a):
+    import csv
+    # moderate fade (~20-25 % fewer strikes, ~10 % slower late); the lead hand still fades more
+    sessions, labels = S.make_two_hand_fatigue_session(a.seed, a.stance, a.rounds, a.round_s, a.rest_s,
+                                                       profile=S.FatigueProfile.moderate(),
+                                                       lead_late_fade=0.03, lead_share_late_drop=0.03)
+    host_t0 = datetime.fromisoformat(a.date).astimezone(timezone.utc).timestamp()
+    out = Path(a.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    rng = np.random.default_rng(a.seed + 99)
+    sync = []
+    streams = []
+    for role, s in sessions.items():
+        acc, gyr, sat, _ = s.render()
+        S.write_raw_csv_clock(f"{out}_{role}_raw.csv", acc, gyr, sat, host_t0, CLOCKS[role], rng)
+        sync += S.sync_rows(DEVICE_IDS[role], role, CLOCKS[role], host_t0, len(acc) / S.FS, rng)
+        streams += ["--stream", f"{role}={out}_{role}_raw.csv@{DEVICE_IDS[role]}"]
+        print(f"synth {role}: {len(acc)} samples, {sat.mean()*100:.3f}% saturated")
+    with open(f"{out}_sync.csv", "w", newline="") as fh:
+        w = csv.writer(fh)
+        w.writerow(S.SYNC_HEADER)
+        w.writerows(sorted(sync, key=lambda r: float(r[2])))
+    S.write_labels(f"{out}_labels.csv", host_t0, labels)
+    print(f"{sum(1 for x in labels if x[1].startswith('truth:'))} truth events")
+    return D.main([*streams, "--sync", f"{out}_sync.csv", "--labels", f"{out}_labels.csv", "--stance", a.stance,
+                   "--session-out", f"{out}_session.json", "--punches-out", f"{out}_punches.csv", "--id", a.id or out.name])
 
 
 if __name__ == "__main__":

@@ -50,6 +50,36 @@ python -m pytest analysis/tests tools/tests -s            # tests (prints recall
 move once real, video-labelled recordings exist. Assumptions: sensor on the back of the
 wrist inside the wrap, correct `--hand`/`--stance`, a calibration at session start.
 
+## Two sensors (one inside each wrap)
+
+```bash
+python analysis/detector.py \
+    --stream lead=rec_lead_raw.csv@boxtrk-lead --stream rear=rec_rear_raw.csv@boxtrk-rear \
+    --sync rec_sync.csv --labels rec_labels.csv --stance orthodox --session-out rec_session.json
+```
+
+* **Clock alignment** (`fit_clock`, `clock_from_sync`): per device, fit
+  `host_time = a + b·device_time` from the logger's sync CSV (time-sync round trips: lowest-RTT
+  third per 5 s window; packet-arrival samples: lower envelope). Without `--sync`, the raw CSV's
+  host-time anchor gives an offset only. Every device is mapped onto one session timeline.
+  Target ≤ 2 ms between the sensors (docs/gatt-spec.md explains the number).
+* **Per-device detection**: `analyze()` runs on each stream with that device's `hand` role and
+  its own calibration.
+* **Merge** (`merge_events`): strikes from the two devices within 60 ms → the weaker one is
+  crosstalk if < 50 % of the stronger peak (dropped), otherwise both are kept and flagged
+  near-simultaneous; kick/body movement and clinch seen by both sensors become one event;
+  rounds are the union (`union_rounds`).
+* **Output**: schema 1.1.0 — `session.devices[]` (device_id, hand, wrist, firmware version,
+  clock offset/drift/residual) and `device_id` on every event. `session.hand`/`hand_worn` are
+  null for two-sensor sessions. A single raw CSV still works exactly as before (one device
+  entry, `--device-id`), and 1.0.0 files still validate.
+* Synthetic two-hand data: `synth.make_two_hand_fatigue_session` (strikes rendered into the
+  hand that threw them, sub-threshold crosstalk on the other wrist, ~4 % above threshold),
+  `DeviceClock` (offset, drift, start delay), `write_raw_csv_clock`, `sync_rows`.
+* Tests: `tests/test_two_sensors.py` (alignment ≤ 2 ms over 40 min, crosstalk/simultaneous
+  merge, whole-body dedupe, rounds union, end-to-end vs ground truth per hand, single-sensor
+  and 1.0.0 compatibility), `tests/test_fatigue.py` (late-round fade, rear share rises).
+
 ## Synthetic data and results
 
 `synth.py` builds strikes from class templates in the calibrated frame (linear pulse +

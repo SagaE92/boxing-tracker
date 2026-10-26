@@ -16,6 +16,13 @@ export interface StrikeEvent {
   gyro_int_dps_s: [number, number, number];
   saturated: boolean;
   round_index: number | null;
+  /** schema 1.1: which sensor detected the event (two-sensor sessions) */
+  device_id?: string | null;
+}
+export interface DeviceInfo {
+  device_id: string; hand: 'lead' | 'rear' | null; wrist: Hand; firmware_version?: string | null;
+  sample_rate_hz?: number | null; calibrated?: boolean | null;
+  clock?: { source: string; offset_s: number; skew_ppm: number; residual_ms?: number | null; sync_points?: number | null; start_offset_s?: number | null } | null;
 }
 export interface Round { index: number; t_start_s: number; t_end_s: number; kind: 'round' | 'rest' }
 export interface SessionJson {
@@ -26,6 +33,8 @@ export interface SessionJson {
     accel_range_g: number; gyro_range_dps: number; hand_worn: Hand;
     hand: 'lead' | 'rear' | null; stance: 'orthodox' | 'southpaw' | null;
     sensor_mount?: string | null;
+    /** schema 1.1: one entry per sensor (one inside each wrap) */
+    devices?: DeviceInfo[] | null;
     calibration?: { guard_gravity_g: number[]; forward_axis: number[]; t_start_s: number; t_end_s: number } | null;
   };
   detector_params: { threshold_g: number; refractory_ms: number; window_ms: number };

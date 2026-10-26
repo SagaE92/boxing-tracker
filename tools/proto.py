@@ -23,6 +23,7 @@ SESSION_SUMMARY_UUID = uuid(0x0004)
 RAW_STREAM_UUID = uuid(0x0005)
 CONFIG_UUID = uuid(0x0006)
 STATUS_UUID = uuid(0x0007)
+TIME_SYNC_UUID = uuid(0x0008)  # v1.1 (planned, docs/gatt-spec.md): read -> u32 device_time_us
 BATTERY_LEVEL_UUID = "00002a19-0000-1000-8000-00805f9b34fb"
 SMP_SERVICE_UUID = "8d53dc1d-1db7-4cd3-868b-8a527460aa84"
 
@@ -144,6 +145,24 @@ def pack_config(hand: str = "lead", stance: str = "orthodox", threshold_g: float
 
 def session_start_cmd(session_id: int) -> bytes:
     return struct.pack("<BI", OP_SESSION_START, session_id & 0xFFFFFFFF)
+
+
+TIME_SYNC = struct.Struct("<I")  # device_time_us, same 32-bit counter as the raw stream
+ROLE_UNSET, ROLE_LEAD, ROLE_REAR = 0, 1, 2
+ROLES = {ROLE_LEAD: "lead", ROLE_REAR: "rear"}
+
+
+def parse_time_sync(data: bytes) -> int:
+    if len(data) < TIME_SYNC.size:
+        raise ValueError(f"time sync: {len(data)} bytes")
+    return TIME_SYNC.unpack_from(data)[0]
+
+
+def parse_role_service_data(data: bytes):
+    """Advertised service data (v1.1, planned): u8 role (0 unset, 1 lead, 2 rear) + u16 device id suffix."""
+    if len(data) < 3:
+        return None, None
+    return ROLES.get(data[0]), int.from_bytes(data[1:3], "little")
 
 
 class TimeUnwrapper:

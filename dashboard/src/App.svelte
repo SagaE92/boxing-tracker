@@ -9,6 +9,7 @@
   import Accuracy from './lib/components/Accuracy.svelte';
   import Live from './lib/components/Live.svelte';
   import About from './lib/components/About.svelte';
+  import Athlete from './lib/components/athlete/Athlete.svelte';
 
   let dragging = $state(false);
   let picker: HTMLInputElement;
@@ -17,12 +18,14 @@
   const j = $derived(s?.json);
   const synthetic = $derived(!!s?.demo || !!j?.generator.name.includes('synthetic'));
   const needsSession = $derived(!['trends', 'about', 'live'].includes(app.tab));
+  const lab = $derived(app.mode === 'lab');
 
   function onFiles(list: FileList | null) {
     if (!list || !list.length) return;
     app.addFiles([...list].map((f) => ({ name: f.name, blob: f })));
   }
   onMount(() => {
+    app.pickFiles = () => picker.click();
     const p = new URLSearchParams(location.search);
     const t = p.get('tab');
     if (t && TABS.some((x) => x.id === t)) app.tab = t as typeof app.tab;
@@ -30,7 +33,9 @@
   });
   $effect(() => {
     const url = new URL(location.href);
-    url.searchParams.set('tab', app.tab);
+    url.searchParams.delete('lab');
+    url.searchParams.set('view', app.mode);
+    if (app.mode === 'lab') url.searchParams.set('tab', app.tab); else url.searchParams.delete('tab');
     history.replaceState(null, '', url);
   });
 </script>
@@ -47,26 +52,46 @@
     <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a59" /><stop offset="1" stop-color="#e8461f" /></linearGradient></defs><rect width="32" height="32" rx="8" fill="url(#g)" /><path d="M5 19h5l3-9 4 14 3-8 2 3h5" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round" /></svg>
     <div><div class="name">Strike<span>Lab</span></div><div class="tag">open boxing &amp; kickboxing tracker</div></div>
   </div>
-  <div class="actions">
-    {#if app.sessions.length}
-      <select class="sess" aria-label="Active session" value={s?.key} onchange={(e) => app.select((e.currentTarget as HTMLSelectElement).value)}>
-        {#each app.sessions as x (x.key)}<option value={x.key}>{x.name}{x.json ? ` · ${x.json.rounds.filter((r) => r.kind === 'round').length} rounds${x.raw ? '' : ' (no raw)'}` : ' (raw only)'}</option>{/each}
-      </select>
+  <div class="mode" role="group" aria-label="View">
+    <button aria-pressed={!lab} onclick={() => app.setMode('athlete')}>Athlete</button>
+    <button aria-pressed={lab} onclick={() => app.setMode('lab')} title="Signals, strike table, accuracy, exports and data details">Lab</button>
+  </div>
+  <div class="actions" class:lab-actions={lab}>
+    {#if lab}
+      {#if app.sessions.length}
+        <select class="sess" aria-label="Active session" value={s?.key} onchange={(e) => app.select((e.currentTarget as HTMLSelectElement).value)}>
+          {#each app.sessions as x (x.key)}<option value={x.key}>{x.name}{x.json ? ` · ${x.json.rounds.filter((r) => r.kind === 'round').length} rounds${x.raw ? '' : ' (no raw)'}` : ' (raw only)'}</option>{/each}
+        </select>
+      {/if}
+      <button class="btn" onclick={() => picker.click()}>⤒ Load files</button>
+      <button class="btn primary" onclick={() => app.demo()}>Demo session</button>
+    {:else}
+      {#if app.sessions.length}<button class="btn primary sm open" aria-label="Open session" onclick={() => picker.click()}>Open<span class="wide">&nbsp;session</span></button>{/if}
     {/if}
-    <button class="btn" onclick={() => picker.click()}>⤒ Load files</button>
-    <button class="btn primary" onclick={() => app.demo()}>Demo session</button>
     <input bind:this={picker} type="file" multiple accept=".csv,.json,.gz" class="sr-only" aria-label="Choose session files" onchange={(e) => { onFiles((e.currentTarget as HTMLInputElement).files); (e.currentTarget as HTMLInputElement).value = ''; }} />
   </div>
 </header>
 
+{#if lab}
 <nav class="tabs" aria-label="Views">
   {#each TABS as t (t.id)}
     <button class="tab" aria-current={app.tab === t.id ? 'page' : undefined} onclick={() => (app.tab = t.id)}>{t.label}</button>
   {/each}
 </nav>
+{/if}
 
-<main>
-  {#if app.loading}<div class="alert info" role="status"><span class="ico">…</span><span>{app.loading}</span></div>{/if}
+<main class:athlete={!lab}>
+  {#if app.loading}<div class="alert info" role="status"><span class="ico">…</span><span>{lab ? app.loading : 'Opening session…'}</span></div>{/if}
+  {#if !lab && app.errors.length}
+    <div class="alert warn" role="alert">
+      <span class="ico">!</span>
+      <span>Some files couldn't be opened. <button class="linkbtn" onclick={() => app.setMode('lab')}>See details in Lab</button></span>
+      <button class="btn sm ghost" style="margin-left:auto" onclick={() => (app.errors = [])} aria-label="Dismiss">✕</button>
+    </div>
+  {/if}
+  {#if !lab}
+    <Athlete />
+  {:else}
   {#if app.errors.length}
     <div class="alert bad" role="alert">
       <span class="ico">!</span>
@@ -87,7 +112,12 @@
         {#if j}
           <span>{new Date(j.session.start_time_iso).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })}</span>
           <span>{fmtTime(j.session.duration_s)} total</span>
-          <span><b>Sensor:</b> {j.session.hand ?? '?'} hand ({j.session.hand_worn ?? '?'}){j.session.sensor_mount ? `, ${j.session.sensor_mount.replace('_', ' ')}` : ''}</span>
+          {#if j.session.devices && j.session.devices.length > 1}
+            <span><b>Sensors:</b> {j.session.devices.map((d) => `${d.hand ?? '?'} (${d.wrist ?? '?'}) ${d.device_id}`).join(' + ')}{j.session.sensor_mount ? `, ${j.session.sensor_mount.replace('_', ' ')}` : ''}</span>
+            <span class="dim" title="Device clocks mapped to host time: offset of each sensor's first sample and fitted drift">clock: {j.session.devices.map((d) => d.clock ? `${d.hand} ${d.clock.offset_s >= 0 ? '+' : ''}${d.clock.offset_s.toFixed(3)} s, ${d.clock.skew_ppm.toFixed(1)} ppm${d.clock.residual_ms != null ? `, ±${d.clock.residual_ms} ms` : ''} (${d.clock.source})` : `${d.hand} n/a`).join(' · ')}</span>
+          {:else}
+            <span><b>Sensor:</b> {j.session.hand ?? '?'} hand ({j.session.hand_worn ?? '?'}){j.session.sensor_mount ? `, ${j.session.sensor_mount.replace('_', ' ')}` : ''}</span>
+          {/if}
           <span><b>Stance:</b> {j.session.stance ?? 'unknown'}</span>
           <span>{j.session.sample_rate_hz} Hz · ±{j.session.accel_range_g} g · ±{j.session.gyro_range_dps} °/s</span>
           <span class="dim">detector: {j.detector_params.threshold_g} g / {j.detector_params.refractory_ms} ms / ±{j.detector_params.window_ms} ms · {j.generator.name.split(' ')[0]} {j.generator.version} · schema {j.schema_version}</span>
@@ -126,10 +156,11 @@
   {:else if app.tab === 'about'}
     <About />
   {/if}
+  {/if}
 </main>
 
 <footer class="small dim">
-  Peak g is wrist acceleration, not force. Speeds are estimates. Clipped peaks (≥) are lower bounds. · Open source · <a href="https://github.com/SagaE92/boxing-tracker">github.com/SagaE92/boxing-tracker</a>
+  {#if lab}Peak g is wrist acceleration, not force. Speeds are estimates. Clipped peaks (≥) are lower bounds.{:else}Speeds are estimates. Impact is a score against your own usual (100), from wrist acceleration.{/if} · Open source · <a href="https://github.com/SagaE92/boxing-tracker">github.com/SagaE92/boxing-tracker</a>
 </footer>
 
 {#if dragging}
@@ -143,6 +174,12 @@
   .name span { color: var(--accent); }
   .tag { font-size: 0.72rem; color: var(--dim); }
   .actions { display: flex; gap: 0.45rem; align-items: center; flex-wrap: wrap; }
+  .mode { display: inline-flex; padding: 3px; border-radius: 11px; background: #0f1625; border: 1px solid var(--line2); margin-right: auto; margin-left: 0.4rem; }
+  .mode button { border: 0; background: none; color: var(--muted); font-weight: 650; font-size: 0.84rem; padding: 0.38rem 0.85rem; border-radius: 8px; cursor: pointer; }
+  .mode button[aria-pressed='true'] { background: #24324d; color: var(--text); box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05) inset; }
+  .mode button:focus-visible { outline: 2px solid var(--accent2); outline-offset: 1px; }
+  main.athlete { max-width: 1100px; }
+  .linkbtn { background: none; border: 0; padding: 0; color: #7cc4ff; cursor: pointer; text-decoration: underline; font: inherit; }
   .sess { max-width: 220px; }
   .tabs { display: flex; gap: 0.2rem; padding: 0.5rem clamp(0.8rem, 3vw, 1.6rem) 0; overflow-x: auto; border-bottom: 1px solid var(--line); scrollbar-width: none; }
   .tab { background: none; border: 0; padding: 0.6rem 0.85rem; color: var(--muted); font-weight: 600; font-size: 0.88rem; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; border-radius: 8px 8px 0 0; }
@@ -167,7 +204,10 @@
   .overlay div { border: 3px dashed var(--accent); border-radius: 20px; padding: 3rem 4rem; font-size: 1.4rem; font-weight: 700; background: rgba(255, 90, 54, 0.08); }
   @media (max-width: 560px) {
     .tag { display: none; }
-    .actions { width: 100%; }
+    .mode { margin-left: 0; }
+    .lab-actions { width: 100%; }
+    .wide { display: none; }
+    .mode button { padding: 0.36rem 0.7rem; }
     .actions .btn { flex: 1; justify-content: center; }
     .sess { max-width: none; width: 100%; }
   }

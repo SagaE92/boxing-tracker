@@ -1,16 +1,21 @@
 <script lang="ts">
   // Small multi-series line chart in SVG with optional linear trendlines.
   import { linfit } from '../stats';
+  import { niceScale } from '../nice';
   type S = { name: string; color: string; values: (number | null)[]; trend?: boolean; dashed?: boolean };
-  let { labels, series, height = 180, unit = '', decimals = 1, yMin = null, ariaLabel = 'line chart' }: { labels: string[]; series: S[]; height?: number; unit?: string; decimals?: number; yMin?: number | null; ariaLabel?: string } = $props();
+  // niceTicks: round tick values (steps of 1/2/2.5/5 x 10^k, e.g. 60%, 80%, 100%, 120%) with the unit
+  // as suffix; `include` forces a value into the range (e.g. the 100% reference).
+  let { labels, series, height = 180, unit = '', decimals = 1, yMin = null, ariaLabel = 'line chart', niceTicks = false, include = null }: { labels: string[]; series: S[]; height?: number; unit?: string; decimals?: number; yMin?: number | null; ariaLabel?: string; niceTicks?: boolean; include?: number | null } = $props();
   let w = $state(320);
   const pad = { t: 14, b: 26, l: 40, r: 26 };
   const all = $derived(series.flatMap((s) => s.values.filter((v): v is number => v !== null)));
-  const lo = $derived(yMin ?? (all.length ? Math.min(...all) * 0.9 : 0));
-  const hi = $derived(all.length ? Math.max(...all) * 1.06 : 1);
+  const nice = $derived(niceTicks ? niceScale([...all, ...(include === null ? [] : [include])]) : null);
+  const lo = $derived(nice ? nice.lo : yMin ?? (all.length ? Math.min(...all) * 0.9 : 0));
+  const hi = $derived(nice ? nice.hi : all.length ? Math.max(...all) * 1.06 : 1);
   const X = (i: number) => pad.l + (labels.length <= 1 ? (w - pad.l - pad.r) / 2 : (i * (w - pad.l - pad.r)) / (labels.length - 1));
   const Y = (v: number) => height - pad.b - ((v - lo) / (hi - lo || 1)) * (height - pad.t - pad.b);
-  const ticks = $derived([0, 0.5, 1].map((f) => lo + f * (hi - lo)));
+  const ticks = $derived(nice ? nice.ticks : [0, 0.5, 1].map((f) => lo + f * (hi - lo)));
+  const tickText = (t: number) => (nice ? `${+t.toFixed(6)}${unit}` : t.toFixed(decimals));
   function path(vals: (number | null)[]) {
     let d = '', pen = false;
     vals.forEach((v, i) => { if (v === null) { pen = false; return; } d += `${pen ? 'L' : 'M'}${X(i).toFixed(1)},${Y(v).toFixed(1)}`; pen = true; });
@@ -30,7 +35,7 @@
   <svg width={w} {height} role="img" aria-label={ariaLabel}>
     {#each ticks as t (t)}
       <line x1={pad.l} x2={w - pad.r} y1={Y(t)} y2={Y(t)} stroke="#223049" stroke-dasharray="3 4" />
-      <text x={pad.l - 6} y={Y(t) + 4} text-anchor="end" font-size="10.5" fill="#6f7d96" class="num">{t.toFixed(decimals)}</text>
+      <text x={pad.l - 6} y={Y(t) + 4} text-anchor="end" font-size="10.5" fill="#6f7d96" class="num">{tickText(t)}</text>
     {/each}
     {#each labels as l, i (i)}
       <text x={X(i)} y={height - 7} text-anchor="middle" font-size="10.5" fill="#9aa8bf">{l}</text>

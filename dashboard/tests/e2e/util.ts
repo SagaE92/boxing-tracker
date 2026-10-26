@@ -14,7 +14,7 @@ export function watchConsole(page: Page) {
   return { errors, assertClean: () => expect(errors, errors.join('\n')).toEqual([]) };
 }
 export async function loadDemo(page: Page) {
-  await page.goto('/?demo');
+  await page.goto('/?demo&view=lab');
   await expect(page.getByText('Strikes per round')).toBeVisible();
 }
 export async function tab(page: Page, name: string) {

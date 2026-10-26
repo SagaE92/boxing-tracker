@@ -18,6 +18,10 @@ Pipeline (see analysis/README.md):
  6. non-strike events: kick_or_body_movement (big rotation without a strike
     peak), clinch (sustained low-amplitude activity with frequent rotations)
  7. rounds/rests from activity gaps; summary; session.json (docs/session.schema.json)
+ 8. two sensors (one per wrap, --stream lead=... --stream rear=... [--sync sync.csv]):
+    fit each device clock to host time (offset + drift), resample nothing but map
+    every device timestamp onto one session timeline, detect per device, merge by
+    time (crosstalk suppression + cross-device dedupe of kick/clinch), union rounds.
 
 THE CLASSIFIER IS A STARTING HEURISTIC tuned on synthetic data (analysis/synth.py),
 not validated on real punches. Assumptions: sensor on the back of the wrist
@@ -44,7 +48,7 @@ except ImportError:
     import common as C
 
 GENERATOR_VERSION = "0.1.0"
-SCHEMA_VERSION = "1.0.0"
+SCHEMA_VERSION = "1.1.0"
 
 
 # --------------------------------------------------------------------------- data
@@ -56,6 +60,7 @@ class Recording:
     sat: np.ndarray      # bool per sample (logger flag)
     host_t0: float       # host_time_s of first sample
     fs: float
+    dev_t0_us: int = 0   # unwrapped device_time_us of the first sample (clock alignment)
 
     @property
     def n(self):
@@ -74,7 +79,7 @@ def load_raw(path) -> Recording:
     gyr = np.stack([data["gx_dps"], data["gy_dps"], data["gz_dps"]], 1).astype(float)
     sat = data["sat"].astype(bool)
     fs = (len(t) - 1) / t[-1] if t[-1] > 0 else C.ODR_HZ
-    return Recording(t, acc, gyr, sat, float(data["host_time_s"][0]), float(fs))
+    return Recording(t, acc, gyr, sat, float(data["host_time_s"][0]), float(fs), int(dev[0]))
 
 
 def load_labels(path, host_t0) -> list:
@@ -471,6 +476,210 @@ def analyze(rec: Recording, labels=None, p: Optional[Params] = None, session_id=
     return events, rounds, cal
 
 
+
+# --------------------------------------------------------------------------- two sensors
+@dataclass
+class ClockFit:
+    """host_time_s = a + b * device_time_s  (b = 1 + skew)."""
+    a: float
+    b: float
+    source: str
+    residual_ms: Optional[float]
+    n: int
+
+    @property
+    def skew_ppm(self):
+        return (self.b - 1.0) * 1e6
+
+    def host(self, dev_s):
+        return self.a + self.b * np.asarray(dev_s, float)
+
+
+def fit_clock(dev_us, host_s, rtt_ms=None, window_s=5.0, source="rtt") -> ClockFit:
+    """Fit device clock -> host clock from sync samples.
+
+    source "rtt": NTP-style exchanges (host_s = midpoint of request/response). If rtt_ms
+    is given, only the lowest-RTT third per `window_s` is used (least asymmetric).
+    source "packet": (device time of a notification's last sample, host rx time) pairs;
+    BLE latency only ever ADDS delay, so the lower envelope (min host-dev per window)
+    is fitted. Falls back to offset-only when the span is too short for drift."""
+    dev = np.asarray(dev_us, float) / 1e6
+    host = np.asarray(host_s, float)
+    if dev.size == 0:
+        raise ValueError("no sync samples")
+    keep = np.ones(dev.size, bool)
+    if source == "packet" or rtt_ms is not None:
+        keep[:] = False
+        bins = np.floor((dev - dev[0]) / window_s).astype(int)
+        for b in np.unique(bins):
+            idx = np.flatnonzero(bins == b)
+            if source == "packet":
+                keep[idx[np.argmin(host[idx] - dev[idx])]] = True
+            else:
+                r = np.asarray(rtt_ms, float)[idx]
+                keep[idx[r <= np.quantile(r, 0.34)]] = True
+    d, h = dev[keep], host[keep]
+    if d.size >= 2 and d.max() - d.min() >= 10.0:
+        b, a = np.polyfit(d - d[0], h, 1)
+        a = a - b * d[0]
+    else:
+        b, a = 1.0, float(np.median(h - d))
+    res = h - (a + b * d)
+    return ClockFit(float(a), float(b), source, round(float(np.std(res) * 1e3), 3) if d.size > 2 else None, int(d.size))
+
+
+def load_sync(path) -> dict:
+    """sync CSV (tools/logger.py): device_id,role,host_time_s,device_time_us,rtt_ms,source -> {key: rows}.
+    Rows are keyed by both device_id and role."""
+    out = {}
+    with open(path, newline="") as fh:
+        for row in csv.DictReader(fh):
+            r = (float(row["host_time_s"]), int(row["device_time_us"]),
+                 float(row["rtt_ms"]) if row.get("rtt_ms") not in (None, "") else None, row.get("source") or "rtt")
+            for k in {row.get("device_id"), row.get("role")} - {None, ""}:
+                out.setdefault(k, []).append(r)
+    return out
+
+
+def clock_from_sync(rows) -> ClockFit:
+    rows = sorted(rows, key=lambda r: r[1])
+    src = "packet" if all(r[3] == "packet" for r in rows) else "rtt"
+    if src == "rtt":
+        rows = [r for r in rows if r[3] != "packet"]
+    rtt = [r[2] for r in rows] if all(r[2] is not None for r in rows) and src == "rtt" else None
+    return fit_clock([r[1] for r in rows], [r[0] for r in rows], rtt, source=src)
+
+
+@dataclass
+class Stream:
+    role: str                  # lead / rear (hand wearing this sensor)
+    rec: Recording
+    device_id: str
+    clock: Optional[ClockFit] = None
+    firmware_version: Optional[str] = None
+
+
+def align_streams(streams: List[Stream]):
+    """Map every stream onto one session timeline (seconds from the earliest aligned first
+    sample). Streams without a sync fit use their raw CSV host_time_s anchor (offset only).
+    Returns (aligned Recordings, session host_t0, start offsets)."""
+    hosts0 = []
+    for st in streams:
+        if st.clock is None:
+            st.clock = ClockFit(st.rec.host_t0 - st.rec.dev_t0_us / 1e6, 1.0, "raw_host_time", None, 1)
+        hosts0.append(float(st.clock.host((st.rec.dev_t0_us / 1e6) + st.rec.t[0])))
+    T0 = min(hosts0)
+    out = []
+    for st in streams:
+        th = st.clock.host(st.rec.dev_t0_us / 1e6 + st.rec.t) - T0
+        fs = (len(th) - 1) / (th[-1] - th[0]) if th[-1] > th[0] else st.rec.fs
+        out.append(Recording(th, st.rec.acc, st.rec.gyr, st.rec.sat, T0, float(fs), st.rec.dev_t0_us))
+    return out, T0, [h - T0 for h in hosts0]
+
+
+def merge_events(per_device, pair_window_ms=60.0, crosstalk_ratio=0.5, dedupe_s=0.5):
+    """Merge per-device event lists (each event has "device_id") into one time-ordered list.
+
+    * Strikes from different devices within `pair_window_ms`: a hard strike shakes the
+      other wrist too. If the weaker peak is < crosstalk_ratio x the stronger one it is
+      crosstalk and dropped; otherwise both are kept (a genuine near-simultaneous strike,
+      e.g. a parry + counter or a double strike).
+    * kick_or_body_movement / clinch are whole-body events both sensors see: overlapping
+      ones (or peaks within `dedupe_s`) from different devices are merged into one
+      (largest peak kept; clinch spans are unioned)."""
+    ev = sorted([dict(e) for evs in per_device for e in evs], key=lambda e: e["t_peak_s"])
+    strikes = [e for e in ev if e["type"] not in C.NON_STRIKE_TYPES]
+    other = [e for e in ev if e["type"] in C.NON_STRIKE_TYPES]
+    drop = set()
+    w = pair_window_ms / 1000.0
+    for i, a in enumerate(strikes):
+        for b in strikes[i + 1:]:
+            if b["t_peak_s"] - a["t_peak_s"] > w:
+                break
+            if a["device_id"] == b["device_id"] or id(a) in drop or id(b) in drop:
+                continue
+            lo, hi = (a, b) if a["peak_g"] < b["peak_g"] else (b, a)
+            if lo["peak_g"] < crosstalk_ratio * hi["peak_g"]:
+                drop.add(id(lo))
+            else:
+                a["near_simultaneous"] = b["near_simultaneous"] = True
+    strikes = [e for e in strikes if id(e) not in drop]
+    merged = []
+    for e in other:
+        m = next((x for x in merged if x["type"] == e["type"] and x["device_id"] != e["device_id"]
+                  and (min(x["t_end_s"], e["t_end_s"]) >= max(x["t_start_s"], e["t_start_s"])
+                       or abs(x["t_peak_s"] - e["t_peak_s"]) < dedupe_s)), None)
+        if m is None:
+            merged.append(e)
+            continue
+        if e["type"] == "clinch":
+            m["t_start_s"], m["t_end_s"] = min(m["t_start_s"], e["t_start_s"]), max(m["t_end_s"], e["t_end_s"])
+            m["duration_ms"] = round((m["t_end_s"] - m["t_start_s"]) * 1000, 1)
+        if e["peak_g"] > m["peak_g"]:
+            for k in ("peak_g", "t_peak_s", "gyro_int_dps_s", "device_id"):
+                m[k] = e[k]
+        m["saturated"] = m["saturated"] or e["saturated"]
+    out = sorted(strikes + merged, key=lambda e: e["t_peak_s"])
+    return out, len(drop)
+
+
+def union_rounds(per_device_rounds):
+    spans = sorted((r["t_start_s"], r["t_end_s"]) for rs in per_device_rounds for r in rs if r["kind"] == "round")
+    u = []
+    for a, b in spans:
+        if u and a <= u[-1][1] + 1.0:
+            u[-1][1] = max(u[-1][1], b)
+        else:
+            u.append([a, b])
+    rounds = []
+    for n, (a, b) in enumerate(u):
+        if n:
+            rounds.append({"t_start_s": u[n - 1][1], "t_end_s": a, "kind": "rest"})
+        rounds.append({"t_start_s": a, "t_end_s": b, "kind": "round"})
+    return [{"index": i, **r} for i, r in enumerate(rounds)]
+
+
+def analyze_multi(streams: List[Stream], labels_host=None, p: Optional[Params] = None, **merge_kw):
+    """Two (or more) sensors -> one merged event list. `labels_host` are (host_time_s, label, note)."""
+    p = p or Params()
+    recs, T0, starts = align_streams(streams)
+    labels = sorted((t - T0, l, n) for t, l, n in (labels_host or []))
+    per_dev, per_rounds, cals = [], [], []
+    for st, rec in zip(streams, recs):
+        pp = Params(**{**asdict(p), "hand": st.role})
+        events, rounds, cal = analyze(rec, labels, pp)
+        for e in events:
+            e["device_id"] = st.device_id
+        per_dev.append(events)
+        per_rounds.append(rounds)
+        cals.append(cal)
+    events, n_crosstalk = merge_events(per_dev, **merge_kw)
+    rounds = union_rounds(per_rounds)
+    for k, e in enumerate(events):
+        e["id"] = k
+        e["round_index"] = next((r["index"] for r in rounds if r["kind"] == "round"
+                                 and r["t_start_s"] <= e["t_peak_s"] <= r["t_end_s"]), None)
+    devices = []
+    for st, rec, cal, start in zip(streams, recs, cals, starts):
+        devices.append({
+            "device_id": st.device_id, "hand": st.role, "wrist": C.hand_worn(st.role, p.stance),
+            "firmware_version": st.firmware_version, "sample_rate_hz": round(rec.fs, 2), "calibrated": bool(cal.ok),
+            "clock": {"source": st.clock.source, "offset_s": round(start, 4), "skew_ppm": round(st.clock.skew_ppm, 2),
+                      "residual_ms": st.clock.residual_ms, "sync_points": st.clock.n}})
+    return events, rounds, cals, recs, devices, n_crosstalk
+
+
+def session_doc_multi(recs, events, rounds, cals, devices, p: Params, session_id: str):
+    from types import SimpleNamespace
+    combo = SimpleNamespace(t=np.array([max(float(r.t[-1]) for r in recs)]), sat=np.concatenate([r.sat for r in recs]),
+                            host_t0=recs[0].host_t0, fs=float(np.mean([r.fs for r in recs])))
+    cal = next((c for c in cals if c.ok), cals[0])
+    doc = session_doc(combo, events, rounds, cal, Params(**{**asdict(p), "hand": devices[0]["hand"]}), session_id, devices)
+    doc["session"]["hand"] = None
+    doc["session"]["hand_worn"] = None
+    return doc
+
+
 def summarize(rec, events, rounds):
     strikes = [e for e in events if e["type"] not in C.NON_STRIKE_TYPES]
     round_list = [r for r in rounds if r["kind"] == "round"]
@@ -504,10 +713,16 @@ def summarize(rec, events, rounds):
     }
 
 
-def session_doc(rec, events, rounds, cal, p: Params, session_id: str):
+def session_doc(rec, events, rounds, cal, p: Params, session_id: str, devices=None, device_id="sensor"):
     clean = [{k: v for k, v in e.items() if not k.startswith("_")} for e in events]
     order = ["id", "t_peak_s", "t_start_s", "t_end_s", "type", "confidence", "target", "hand",
-             "peak_g", "speed_mps_est", "duration_ms", "gyro_int_dps_s", "saturated", "round_index"]
+             "peak_g", "speed_mps_est", "duration_ms", "gyro_int_dps_s", "saturated", "round_index", "device_id"]
+    if devices is None:  # single sensor: one device entry, its clock is the session clock
+        devices = [{"device_id": device_id, "hand": p.hand, "wrist": C.hand_worn(p.hand, p.stance),
+                    "firmware_version": None, "sample_rate_hz": round(rec.fs, 2), "calibrated": bool(cal.ok),
+                    "clock": {"source": "device", "offset_s": 0.0, "skew_ppm": 0.0, "residual_ms": None, "sync_points": 0}}]
+    for e in clean:
+        e.setdefault("device_id", devices[0]["device_id"] if len(devices) == 1 else None)
     clean = [{k: e[k] for k in order} for e in clean]
     for e in clean:
         for k in ("t_peak_s", "t_start_s", "t_end_s"):
@@ -526,6 +741,7 @@ def session_doc(rec, events, rounds, cal, p: Params, session_id: str):
             "hand": p.hand,
             "stance": p.stance,
             "sensor_mount": "hand_wrap",
+            "devices": devices,
             "calibration": ({"guard_gravity_g": cal.gravity_g, "forward_axis": cal.forward,
                              "t_start_s": round(cal.t_start_s, 3), "t_end_s": round(cal.t_end_s, 3)}
                             if cal.ok else None),
@@ -553,7 +769,11 @@ def write_punches_csv(path, events):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("raw_csv")
+    ap.add_argument("raw_csv", nargs="?", help="raw CSV of a single sensor (or use --stream)")
+    ap.add_argument("--stream", action="append", default=[], metavar="ROLE=RAW_CSV[@DEVICE_ID]",
+                    help="one sensor per hand, e.g. --stream lead=s_lead_raw.csv --stream rear=s_rear_raw.csv")
+    ap.add_argument("--sync", help="sync CSV from tools/logger.py (device clock -> host clock samples)")
+    ap.add_argument("--device-id", default="sensor", help="device id for single-sensor input")
     ap.add_argument("--labels", help="labels CSV (host_time_s,label,note)")
     ap.add_argument("--hand", choices=["lead", "rear"], default="rear", help="hand wearing the sensor")
     ap.add_argument("--stance", choices=["orthodox", "southpaw"], default="orthodox")
@@ -565,11 +785,31 @@ def main(argv=None):
     ap.add_argument("--id", help="session id (default: file stem)")
     a = ap.parse_args(argv)
     p = Params(a.threshold, a.refractory_ms, a.window_ms, a.hand, a.stance)
-    rec = load_raw(a.raw_csv)
-    labels = load_labels(a.labels, rec.host_t0)
-    sid = a.id or Path(a.raw_csv).stem.replace("_raw", "")
-    events, rounds, cal = analyze(rec, labels, p, sid)
-    doc = session_doc(rec, events, rounds, cal, p, sid)
+    if a.stream:
+        sync = load_sync(a.sync) if a.sync else {}
+        streams = []
+        for spec in a.stream:
+            role, rest = spec.split("=", 1)
+            path, _, dev_id = rest.partition("@")
+            dev_id = dev_id or f"{role}"
+            rows = sync.get(dev_id) or sync.get(role)
+            streams.append(Stream(role, load_raw(path), dev_id, clock_from_sync(rows) if rows else None))
+        labels_host = [(t + 0.0, l, n) for t, l, n in load_labels(a.labels, 0.0)]
+        events, rounds, cals, recs, devices, n_x = analyze_multi(streams, labels_host, p)
+        sid = a.id or Path(a.stream[0].split("=", 1)[1].partition("@")[0]).stem.replace("_raw", "").replace("_lead", "").replace("_rear", "")
+        doc = session_doc_multi(recs, events, rounds, cals, devices, p, sid)
+        cal = next((c for c in cals if c.ok), cals[0])
+        print(f"{len(streams)} sensors aligned: " + ", ".join(
+            f"{d['hand']} offset {d['clock']['offset_s']:+.3f} s skew {d['clock']['skew_ppm']:+.1f} ppm "
+            f"({d['clock']['source']}, residual {d['clock']['residual_ms']} ms)" for d in devices) + f"; {n_x} crosstalk peak(s) dropped")
+    else:
+        if not a.raw_csv:
+            ap.error("give a raw CSV or --stream ROLE=RAW_CSV")
+        rec = load_raw(a.raw_csv)
+        labels = load_labels(a.labels, rec.host_t0)
+        sid = a.id or Path(a.raw_csv).stem.replace("_raw", "")
+        events, rounds, cal = analyze(rec, labels, p, sid)
+        doc = session_doc(rec, events, rounds, cal, p, sid, device_id=a.device_id)
     if a.punches_out:
         write_punches_csv(a.punches_out, events)
     if a.session_out:

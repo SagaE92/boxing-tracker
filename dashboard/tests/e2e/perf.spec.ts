@@ -7,7 +7,7 @@ import { SHOTS, fix, tab, watchConsole } from './util';
 test('1 h session: load, render and zoom stay interactive', async ({ page }) => {
   test.setTimeout(300_000);
   const c = watchConsole(page);
-  await page.goto('/');
+  await page.goto('/?view=lab');
   const t0 = Date.now();
   await page.getByLabel('Choose session files').setInputFiles([fix('long-1h_session.json'), fix('long-1h_raw.csv.gz')]);
   await expect(page.locator('.meta h1')).toHaveText('long-1h', { timeout: 120_000 });

@@ -170,7 +170,9 @@ def test_session_json_conforms_to_schema(tmp_path):
                    "--punches-out", str(out_csv)])
     doc = json.loads(out_json.read_text())
     _validate(doc)
-    assert doc["schema_version"] == "1.0.0"
+    assert doc["schema_version"] == "1.1.0"
+    assert len(doc["session"]["devices"]) == 1 and doc["session"]["devices"][0]["hand"] == "rear"
+    assert all(e["device_id"] == "sensor" for e in doc["punches"])
     with open(out_csv) as fh:
         assert next(csv.reader(fh)) == C.PUNCH_CSV_HEADER
     with open(raw) as fh:

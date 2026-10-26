@@ -29,6 +29,23 @@ MCUmgr SMP over BLE (image + OS groups) is enabled in `prj.conf`; MCUboot does
 test-then-confirm swaps (swap-using-move), signed with MCUboot's **development key**
 (`root-ec-p256.pem`) — replace it before giving a device to anyone.
 
+## Two sensors (one per wrap) — planned firmware changes
+
+The host tools already handle two trackers (`tools/logger.py --device lead=… --device rear=…`,
+`analysis/detector.py --stream … --sync …`); see `docs/gatt-spec.md` "Two sensors". Firmware
+still to do (not in this build, deliberately kept out of this change so the Zephyr build stays
+as verified):
+
+* Persist the Config `hand` byte as the device's **role** with Zephyr settings
+  (`CONFIG_SETTINGS=y`, `CONFIG_SETTINGS_NVS=y`, `CONFIG_NVS=y`, key `btrk/role`), written when
+  the central sets it at pairing.
+* Advertise the role in service data on the 0x0001 UUID (`u8 role`, `u16 device id suffix`).
+* Add the **0x0008 Time sync** read characteristic returning the raw stream's 32-bit µs
+  counter (`k_ticks_to_us_floor64(k_uptime_ticks())`, truncated), so the central can estimate
+  offset and drift. Target: ≤ 2 ms between the two sensors after alignment.
+* `CONFIG_BT_MAX_CONN` stays 1 per device (each tracker has one central); the phone holds two
+  connections. Per-device size and battery targets are unchanged (`docs/power.md`).
+
 ## Security (prototype only)
 
 **Do not ship this configuration.** Two things must change before any public firmware
