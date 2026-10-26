@@ -10,6 +10,9 @@ stays the single source of truth for every event the dashboard shows.
        * fewer hard (clipping) hooks when tired
   2. analysis/detector.py (CLI, unchanged) turns raw + labels into session.json.
 
+  --profile kickboxing-late-fade uses analysis/synth.py make_fatigue_session/FatigueProfile
+  instead (10 x 3 min default demo: late-round drop in output, speed, kicks and combos).
+
 Usage (from the repo root, numpy + jsonschema installed):
   python dashboard/scripts/gen_rounds_demo.py --out /tmp/demo6 [--rounds 6 --round-s 120 --rest-s 60 --seed 11]
 writes /tmp/demo6_raw.csv, _labels.csv, _session.json, _punches.csv. Not a detector:
@@ -30,20 +33,7 @@ import synth as S  # noqa: E402
 import detector as D  # noqa: E402
 
 
-class FatigueSession(S.Session):
-    """Session whose strike() scales the strike's linear pulse by self.f (rotation by sqrt(f))."""
-    f: float = 1.0
-
-    def strike(self, t, base, target=None, hard=False):
-        lo, hi = max(0, int((t - 1.0) * S.FS)), min(self.n, int((t + 1.0) * S.FS))
-        lin0, om0 = self.lin[lo:hi].copy(), self.omega[lo:hi].copy()
-        n_truth = len(self.truths)
-        super().strike(t, base, target=target, hard=hard)
-        self.lin[lo:hi] = lin0 + self.f * (self.lin[lo:hi] - lin0)
-        self.omega[lo:hi] = om0 + np.sqrt(self.f) * (self.omega[lo:hi] - om0)
-        for tr in self.truths[n_truth:]:
-            if tr.amp_g is not None:
-                tr.amp_g *= self.f
+FatigueSession = S.FatigueSession  # moved to analysis/synth.py
 
 
 def make_rounds_demo(seed=11, hand="rear", stance="orthodox", rounds=6, round_s=120.0, rest_s=60.0,
@@ -107,8 +97,14 @@ def main(argv=None):
     ap.add_argument("--stance", default="orthodox", choices=["orthodox", "southpaw"])
     ap.add_argument("--date", default="2026-10-25T18:00:00+00:00")
     ap.add_argument("--id", default=None)
+    ap.add_argument("--profile", default="fade6", choices=["fade6", "kickboxing-late-fade"],
+                    help="fade6: the original 6-round demo; kickboxing-late-fade: synth.make_fatigue_session "
+                         "(gentle fade + late-round drop in output, speed, kicks and combos)")
     a = ap.parse_args(argv)
-    s, labels = make_rounds_demo(a.seed, a.hand, a.stance, a.rounds, a.round_s, a.rest_s)
+    if a.profile == "kickboxing-late-fade":
+        s, labels = S.make_fatigue_session(a.seed, a.hand, a.stance, a.rounds, a.round_s, a.rest_s)
+    else:
+        s, labels = make_rounds_demo(a.seed, a.hand, a.stance, a.rounds, a.round_s, a.rest_s)
     acc, gyr, sat, _ = s.render()
     host_t0 = datetime.fromisoformat(a.date).astimezone(timezone.utc).timestamp()
     out = Path(a.out)

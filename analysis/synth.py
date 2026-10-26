@@ -316,6 +316,124 @@ def make_demo(seed=7, hand="rear", stance="orthodox", rounds=3, round_s=180.0, r
     return s, cal, labels, rounds_t
 
 
+# ---------------------------------------------------------------- fatigue (multi-round demos)
+class FatigueSession(Session):
+    """Session whose strike() scales the strike's linear pulse by self.f (rotation by sqrt(f)),
+    so a tired strike is both lower-g and slower (speed is integrated from acceleration)."""
+    f: float = 1.0
+
+    def strike(self, t, base, target=None, hard=False):
+        lo, hi = max(0, int((t - 1.0) * FS)), min(self.n, int((t + 1.0) * FS))
+        lin0, om0 = self.lin[lo:hi].copy(), self.omega[lo:hi].copy()
+        n_truth = len(self.truths)
+        super().strike(t, base, target=target, hard=hard)
+        self.lin[lo:hi] = lin0 + self.f * (self.lin[lo:hi] - lin0)
+        self.omega[lo:hi] = om0 + np.sqrt(self.f) * (self.omega[lo:hi] - om0)
+        for tr in self.truths[n_truth:]:
+            if tr.amp_g is not None:
+                tr.amp_g *= self.f
+
+
+@dataclass
+class FatigueProfile:
+    """Per-round fatigue for a kickboxing session (round k = 0 .. rounds-1).
+
+    Gentle fade every round, plus a late-session fade from `late_from` (1-based round):
+      * amplitude  f_k = 1 - fade_round*k - late_amp*(late rounds so far)   (lower g + speed)
+      * pauses     between combos x (1 + pause_round*k + late_pause*late)  (lower output)
+      * combos     at most `max_combo_early` strikes, `max_combo_late` in late rounds
+      * kicks      `kicks_early` per round, `kicks_late` in late rounds
+      * hooks      share of hooks in the mix is cut by `late_hook_cut` in late rounds
+    Within a round, amplitude also fades by `fade_within` from bell to bell."""
+    fade_round: float = 0.01
+    fade_within: float = 0.05
+    pause_round: float = 0.02
+    late_from: int = 8
+    late_amp: float = 0.03
+    late_pause: float = 0.08
+    max_combo_early: int = 4
+    max_combo_late: int = 3
+    kicks_early: int = 4
+    kicks_late: int = 1
+    late_hook_cut: float = 0.4
+
+    def late(self, k: int) -> int:
+        """Number of late rounds up to and including round k (0 before late_from)."""
+        return max(0, k + 2 - self.late_from)
+
+    def amp(self, k: int) -> float:
+        return 1.0 - self.fade_round * k - self.late_amp * self.late(k)
+
+    def pause(self, k: int) -> float:
+        return 1.0 + self.pause_round * k + self.late_pause * self.late(k)
+
+    def max_combo(self, k: int) -> int:
+        return self.max_combo_late if self.late(k) else self.max_combo_early
+
+    def kicks(self, k: int) -> int:
+        return self.kicks_late if self.late(k) else self.kicks_early
+
+
+def make_fatigue_session(seed=21, hand="rear", stance="orthodox", rounds=10, round_s=180.0, rest_s=60.0,
+                         profile: Optional[FatigueProfile] = None):
+    """N x M-minute kickboxing session with a realistic late-round fade (see FatigueProfile).
+    Returns (session, labels) with labels as (t_s, label, note) incl. round/rest markers,
+    calibration and truth:<type> ground truth."""
+    pf = profile or FatigueProfile()
+    lead_in = 12.0
+    dur = lead_in + rounds * round_s + (rounds - 1) * rest_s + 8.0
+    s = FatigueSession(int(dur * FS), hand, stance, seed)
+    cal = calibration_preamble(s)
+    r = s.rng
+    labels = [(2.5, "sync", "clap"), (cal[0], "cal_start", "hold guard, then one straight"), (cal[1], "cal_end", "")]
+    t = lead_in
+    for k in range(rounds):
+        late = pf.late(k) > 0
+        hooks = int(round(28 * (1 - pf.late_hook_cut))) if late else 28
+        mix = ["straight"] * 42 + ["hook"] * hooks + ["uppercut"] * 12 + ["overhand"] * 7 + ["spinning_backfist"] * 3
+        t0, t1 = t, t + round_s
+        labels += [(t0, "round", f"round {k+1} start"), (t1, "rest", f"round {k+1} end")]
+        s.footwork(t0, t1)
+        busy = []
+        # tired fighters clinch more
+        if r.random() < (0.9 if late else 0.5):
+            c_lo = min(30.0, 0.3 * round_s)
+            ca = t0 + r.uniform(c_lo, max(c_lo + 1.0, round_s - 25))
+            s.clinch(ca, r.uniform(5, 9) * (1.4 if late else 1.0))
+            busy.append((ca - 1, ca + 14))
+        n_k = 0
+        for _ in range(40):
+            if n_k >= pf.kicks(k):
+                break
+            kt = t0 + r.uniform(8, round_s - 8)
+            if not any(a - 1.5 <= kt <= b + 1.5 for a, b in busy):
+                s.kick_or_body(kt)
+                busy.append((kt - 0.6, kt + 0.6))
+                n_k += 1
+        start_f = pf.amp(k)
+        tt = t0 + 2.0
+        while tt < t1 - 2:
+            prog = (tt - t0) / round_s
+            s.f = start_f * (1.0 - pf.fade_within * prog) * r.uniform(0.95, 1.04)
+            for _ in range(int(r.integers(1, pf.max_combo(k) + 1))):
+                if not any(a <= tt <= b for a, b in busy):
+                    base = mix[int(r.integers(len(mix)))]
+                    tg = "body" if base in ("straight", "hook") and r.random() < 0.25 else None
+                    s.strike(tt, base, target=tg, hard=(base == "hook" and r.random() < 0.3 * s.f))
+                tt += r.uniform(0.3, 0.45) * (1 + 0.03 * k)
+            tt += r.uniform(1.4, 3.6) * pf.pause(k)
+        t = t1 + rest_s
+    for tr in s.truths:
+        if tr.base == "clap":
+            continue
+        note = "synthetic ground truth" + (f"; target={tr.target}" if tr.target else "")
+        if tr.base == "clinch":
+            labels += [(tr.t_s, "clinch_start", note), (tr.t_end_s, "clinch_end", note)]
+        else:
+            labels.append((tr.t_s, f"truth:{tr.type}", note))
+    return s, labels
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--demo", required=True, help="output prefix, e.g. analysis/samples/demo")
