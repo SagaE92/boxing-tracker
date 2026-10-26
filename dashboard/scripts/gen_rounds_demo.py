@@ -97,10 +97,15 @@ def main(argv=None):
     ap.add_argument("--stance", default="orthodox", choices=["orthodox", "southpaw"])
     ap.add_argument("--date", default="2026-10-25T18:00:00+00:00")
     ap.add_argument("--id", default=None)
+    ap.add_argument("--two-hands", action="store_true",
+                    help="two sensors (one per wrap): writes <out>_lead_raw.csv, <out>_rear_raw.csv and "
+                         "<out>_sync.csv with per-device clock offset + drift, merged by detector.py --stream")
     ap.add_argument("--profile", default="fade6", choices=["fade6", "kickboxing-late-fade"],
                     help="fade6: the original 6-round demo; kickboxing-late-fade: synth.make_fatigue_session "
                          "(gentle fade + late-round drop in output, speed, kicks and combos)")
     a = ap.parse_args(argv)
+    if a.two_hands:
+        return two_hands(a)
     if a.profile == "kickboxing-late-fade":
         s, labels = S.make_fatigue_session(a.seed, a.hand, a.stance, a.rounds, a.round_s, a.rest_s)
     else:
@@ -114,6 +119,38 @@ def main(argv=None):
     print(f"synth: {len(acc)} samples, {sat.mean()*100:.3f}% saturated, {sum(1 for x in labels if x[1].startswith('truth:'))} truth strikes")
     D.main([f"{out}_raw.csv", "--labels", f"{out}_labels.csv", "--hand", a.hand, "--stance", a.stance,
             "--session-out", f"{out}_session.json", "--punches-out", f"{out}_punches.csv", "--id", a.id or out.name])
+
+
+# Per-device clocks for the two-sensor demo: different counters, +23 / -17.5 ppm drift,
+# the lead sensor starts logging 0.37 s after the rear one.
+CLOCKS = {"lead": S.DeviceClock(dev_t0_us=3_812_004_117, skew_ppm=23.0, start_s=0.37),
+          "rear": S.DeviceClock(dev_t0_us=1_204_556_001, skew_ppm=-17.5, start_s=0.0)}
+DEVICE_IDS = {"lead": "boxtrk-lead-7c1e", "rear": "boxtrk-rear-a94b"}
+
+
+def two_hands(a):
+    import csv
+    sessions, labels = S.make_two_hand_fatigue_session(a.seed, a.stance, a.rounds, a.round_s, a.rest_s)
+    host_t0 = datetime.fromisoformat(a.date).astimezone(timezone.utc).timestamp()
+    out = Path(a.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    rng = np.random.default_rng(a.seed + 99)
+    sync = []
+    streams = []
+    for role, s in sessions.items():
+        acc, gyr, sat, _ = s.render()
+        S.write_raw_csv_clock(f"{out}_{role}_raw.csv", acc, gyr, sat, host_t0, CLOCKS[role], rng)
+        sync += S.sync_rows(DEVICE_IDS[role], role, CLOCKS[role], host_t0, len(acc) / S.FS, rng)
+        streams += ["--stream", f"{role}={out}_{role}_raw.csv@{DEVICE_IDS[role]}"]
+        print(f"synth {role}: {len(acc)} samples, {sat.mean()*100:.3f}% saturated")
+    with open(f"{out}_sync.csv", "w", newline="") as fh:
+        w = csv.writer(fh)
+        w.writerow(S.SYNC_HEADER)
+        w.writerows(sorted(sync, key=lambda r: float(r[2])))
+    S.write_labels(f"{out}_labels.csv", host_t0, labels)
+    print(f"{sum(1 for x in labels if x[1].startswith('truth:'))} truth events")
+    return D.main([*streams, "--sync", f"{out}_sync.csv", "--labels", f"{out}_labels.csv", "--stance", a.stance,
+                   "--session-out", f"{out}_session.json", "--punches-out", f"{out}_punches.csv", "--id", a.id or out.name])
 
 
 if __name__ == "__main__":

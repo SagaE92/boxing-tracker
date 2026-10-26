@@ -75,6 +75,22 @@ def test_detector_sees_the_fade(short_session):
 
 
 @pytest.mark.skipif(not DEMO.exists(), reason="demo not generated (npm run demo:data)")
+def test_shipped_demo_is_two_sensor_and_rear_share_rises_late():
+    doc = json.loads(DEMO.read_text())
+    devs = {d["hand"]: d["device_id"] for d in doc["session"]["devices"]}
+    assert set(devs) == {"lead", "rear"}
+    rounds = [r for r in doc["rounds"] if r["kind"] == "round"]
+
+    def counts(rs):
+        ev = [e for e in doc["punches"] if e["type"] in STRIKES and any(r["t_start_s"] <= e["t_peak_s"] < r["t_end_s"] for r in rs)]
+        return sum(e["device_id"] == devs["lead"] for e in ev), sum(e["device_id"] == devs["rear"] for e in ev)
+    (lf, rf), (ll, rl) = counts(rounds[:3]), counts(rounds[-3:])
+    assert ll < lf and rl < rf                        # both hands fade
+    assert ll / lf < rl / rf                          # the lead hand drops more
+    assert rl / (ll + rl) > rf / (lf + rf) + 0.03      # so the rear share rises
+
+
+@pytest.mark.skipif(not DEMO.exists(), reason="demo not generated (npm run demo:data)")
 def test_shipped_demo_has_late_round_fade():
     doc = json.loads(DEMO.read_text())
     pr = _per_round(doc["punches"], doc["rounds"])

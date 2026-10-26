@@ -91,7 +91,7 @@ export async function loadFiles(files: InFile[], existing: LoadedSession[] = [])
 }
 
 export async function loadDemo(base = import.meta.env.BASE_URL): Promise<{ sessions: LoadedSession[]; errors: string[] }> {
-  const man = await (await fetch(`${base}demo/manifest.json`)).json() as { sessions: { id: string; files: string[] }[] };
+  const man = await (await fetch(`${base}demo/manifest.json`)).json() as { sessions: { id: string; files: string[]; notes?: string[] }[] };
   const files: InFile[] = [];
   for (const s of man.sessions) {
     for (const f of s.files) {
@@ -101,6 +101,10 @@ export async function loadDemo(base = import.meta.env.BASE_URL): Promise<{ sessi
     }
   }
   const res = await loadFiles(files);
-  res.sessions.forEach((s) => (s.demo = true));
+  res.sessions.forEach((s) => {
+    s.demo = true;
+    const m = man.sessions.find((x) => x.id === s.key);
+    if (m?.notes) s.warnings.push(...m.notes);
+  });
   return res;
 }

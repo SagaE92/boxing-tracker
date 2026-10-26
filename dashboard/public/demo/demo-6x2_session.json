@@ -1,5 +1,5 @@
 {
- "schema_version": "1.0.0",
+ "schema_version": "1.1.0",
  "generator": {
   "name": "analysis/detector.py",
   "version": "0.1.0"
@@ -15,6 +15,23 @@
   "hand": "rear",
   "stance": "orthodox",
   "sensor_mount": "hand_wrap",
+  "devices": [
+   {
+    "device_id": "sensor",
+    "hand": "rear",
+    "wrist": "R",
+    "firmware_version": null,
+    "sample_rate_hz": 416.0,
+    "calibrated": true,
+    "clock": {
+     "source": "device",
+     "offset_s": 0.0,
+     "skew_ppm": 0.0,
+     "residual_ms": null,
+     "sync_points": 0
+    }
+   }
+  ],
   "calibration": {
    "guard_gravity_g": [
     -0.4856,
@@ -122,7 +139,8 @@
     -18.83
    ],
    "saturated": false,
-   "round_index": null
+   "round_index": null,
+   "device_id": "sensor"
   },
   {
    "id": 1,
@@ -142,7 +160,8 @@
     -244.06
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 2,
@@ -162,7 +181,8 @@
     -8.53
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 3,
@@ -182,7 +202,8 @@
     139.69
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 4,
@@ -202,7 +223,8 @@
     31.47
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 5,
@@ -222,7 +244,8 @@
     -27.41
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 6,
@@ -242,7 +265,8 @@
     11.07
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 7,
@@ -262,7 +286,8 @@
     60.68
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 8,
@@ -282,7 +307,8 @@
     -26.81
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 9,
@@ -302,7 +328,8 @@
     9.68
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 10,
@@ -322,7 +349,8 @@
     110.03
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 11,
@@ -342,7 +370,8 @@
     -52.7
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 12,
@@ -362,7 +391,8 @@
     -230.02
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 13,
@@ -382,7 +412,8 @@
     16.93
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 14,
@@ -402,7 +433,8 @@
     -13.0
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 15,
@@ -422,7 +454,8 @@
     0.31
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 16,
@@ -442,7 +475,8 @@
     104.75
    ],
    "saturated": true,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 17,
@@ -462,7 +496,8 @@
     30.87
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 18,
@@ -482,7 +517,8 @@
     -26.44
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 19,
@@ -502,7 +538,8 @@
     126.76
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 20,
@@ -522,7 +559,8 @@
     -54.69
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 21,
@@ -542,7 +580,8 @@
     -1.37
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 22,
@@ -562,7 +601,8 @@
     -15.46
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 23,
@@ -582,7 +622,8 @@
     2.23
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 24,
@@ -602,7 +643,8 @@
     -24.92
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 25,
@@ -622,7 +664,8 @@
     -207.05
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 26,
@@ -642,7 +685,8 @@
     -24.85
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 27,
@@ -662,7 +706,8 @@
     107.27
    ],
    "saturated": true,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 28,
@@ -682,7 +727,8 @@
     -66.36
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 29,
@@ -702,7 +748,8 @@
     124.75
    ],
    "saturated": true,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 30,
@@ -722,7 +769,8 @@
     -16.01
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 31,
@@ -742,7 +790,8 @@
     -6.31
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 32,
@@ -762,7 +811,8 @@
     -18.46
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 33,
@@ -782,7 +832,8 @@
     14.64
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 34,
@@ -802,7 +853,8 @@
     -7.39
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 35,
@@ -822,7 +874,8 @@
     -7.18
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 36,
@@ -842,7 +895,8 @@
     10.42
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 37,
@@ -862,7 +916,8 @@
     14.42
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 38,
@@ -882,7 +937,8 @@
     -15.19
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 39,
@@ -902,7 +958,8 @@
     -6.25
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 40,
@@ -922,7 +979,8 @@
     85.43
    ],
    "saturated": true,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 41,
@@ -942,7 +1000,8 @@
     98.36
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 42,
@@ -962,7 +1021,8 @@
     0.48
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 43,
@@ -982,7 +1042,8 @@
     -4.55
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 44,
@@ -1002,7 +1063,8 @@
     -23.96
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 45,
@@ -1022,7 +1084,8 @@
     -1.96
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 46,
@@ -1042,7 +1105,8 @@
     2.28
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 47,
@@ -1062,7 +1126,8 @@
     -10.17
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 48,
@@ -1082,7 +1147,8 @@
     5.21
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 49,
@@ -1102,7 +1168,8 @@
     9.19
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 50,
@@ -1122,7 +1189,8 @@
     114.44
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 51,
@@ -1142,7 +1210,8 @@
     -12.87
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 52,
@@ -1162,7 +1231,8 @@
     45.82
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 53,
@@ -1182,7 +1252,8 @@
     -34.78
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 54,
@@ -1202,7 +1273,8 @@
     158.02
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 55,
@@ -1222,7 +1294,8 @@
     -6.59
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 56,
@@ -1242,7 +1315,8 @@
     -64.86
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 57,
@@ -1262,7 +1336,8 @@
     10.67
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 58,
@@ -1282,7 +1357,8 @@
     116.94
    ],
    "saturated": true,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 59,
@@ -1302,7 +1378,8 @@
     -62.43
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 60,
@@ -1322,7 +1399,8 @@
     24.69
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 61,
@@ -1342,7 +1420,8 @@
     17.28
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 62,
@@ -1362,7 +1441,8 @@
     7.83
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 63,
@@ -1382,7 +1462,8 @@
     -0.67
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 64,
@@ -1402,7 +1483,8 @@
     -2.84
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 65,
@@ -1422,7 +1504,8 @@
     15.49
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 66,
@@ -1442,7 +1525,8 @@
     7.01
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 67,
@@ -1462,7 +1546,8 @@
     -19.5
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 68,
@@ -1482,7 +1567,8 @@
     -0.63
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 69,
@@ -1502,7 +1588,8 @@
     -0.11
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 70,
@@ -1522,7 +1609,8 @@
     -197.13
    ],
    "saturated": false,
-   "round_index": 0
+   "round_index": 0,
+   "device_id": "sensor"
   },
   {
    "id": 71,
@@ -1542,7 +1630,8 @@
     48.08
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 72,
@@ -1562,7 +1651,8 @@
     84.01
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 73,
@@ -1582,7 +1672,8 @@
     69.17
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 74,
@@ -1602,7 +1693,8 @@
     -28.22
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 75,
@@ -1622,7 +1714,8 @@
     107.75
    ],
    "saturated": true,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 76,
@@ -1642,7 +1735,8 @@
     80.98
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 77,
@@ -1662,7 +1756,8 @@
     -41.54
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 78,
@@ -1682,7 +1777,8 @@
     15.56
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 79,
@@ -1702,7 +1798,8 @@
     -7.13
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 80,
@@ -1722,7 +1819,8 @@
     -6.71
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 81,
@@ -1742,7 +1840,8 @@
     -5.16
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 82,
@@ -1762,7 +1861,8 @@
     2.2
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 83,
@@ -1782,7 +1882,8 @@
     87.54
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 84,
@@ -1802,7 +1903,8 @@
     116.32
    ],
    "saturated": true,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 85,
@@ -1822,7 +1924,8 @@
     12.4
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 86,
@@ -1842,7 +1945,8 @@
     59.55
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 87,
@@ -1862,7 +1966,8 @@
     -37.55
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 88,
@@ -1882,7 +1987,8 @@
     85.58
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 89,
@@ -1902,7 +2008,8 @@
     32.16
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 90,
@@ -1922,7 +2029,8 @@
     -14.42
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 91,
@@ -1942,7 +2050,8 @@
     8.15
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 92,
@@ -1962,7 +2071,8 @@
     7.66
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 93,
@@ -1982,7 +2092,8 @@
     -12.5
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 94,
@@ -2002,7 +2113,8 @@
     2.85
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 95,
@@ -2022,7 +2134,8 @@
     134.04
    ],
    "saturated": true,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 96,
@@ -2042,7 +2155,8 @@
     -14.11
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 97,
@@ -2062,7 +2176,8 @@
     -4.95
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 98,
@@ -2082,7 +2197,8 @@
     121.59
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 99,
@@ -2102,7 +2218,8 @@
     -1.96
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 100,
@@ -2122,7 +2239,8 @@
     126.06
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 101,
@@ -2142,7 +2260,8 @@
     82.38
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 102,
@@ -2162,7 +2281,8 @@
     92.05
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 103,
@@ -2182,7 +2302,8 @@
     -13.64
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 104,
@@ -2202,7 +2323,8 @@
     129.27
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 105,
@@ -2222,7 +2344,8 @@
     -9.03
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 106,
@@ -2242,7 +2365,8 @@
     -8.2
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 107,
@@ -2262,7 +2386,8 @@
     -8.13
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 108,
@@ -2282,7 +2407,8 @@
     25.36
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 109,
@@ -2302,7 +2428,8 @@
     3.71
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 110,
@@ -2322,7 +2449,8 @@
     -19.18
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 111,
@@ -2342,7 +2470,8 @@
     23.9
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 112,
@@ -2362,7 +2491,8 @@
     98.63
    ],
    "saturated": true,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 113,
@@ -2382,7 +2512,8 @@
     110.09
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 114,
@@ -2402,7 +2533,8 @@
     -17.51
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 115,
@@ -2422,7 +2554,8 @@
     76.95
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 116,
@@ -2442,7 +2575,8 @@
     5.28
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 117,
@@ -2462,7 +2596,8 @@
     12.58
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 118,
@@ -2482,7 +2617,8 @@
     65.17
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 119,
@@ -2502,7 +2638,8 @@
     49.68
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 120,
@@ -2522,7 +2659,8 @@
     -98.92
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 121,
@@ -2542,7 +2680,8 @@
     -2.31
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 122,
@@ -2562,7 +2701,8 @@
     1.4
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 123,
@@ -2582,7 +2722,8 @@
     24.99
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 124,
@@ -2602,7 +2743,8 @@
     81.92
    ],
    "saturated": true,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 125,
@@ -2622,7 +2764,8 @@
     -244.17
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 126,
@@ -2642,7 +2785,8 @@
     11.56
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 127,
@@ -2662,7 +2806,8 @@
     -1.56
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 128,
@@ -2682,7 +2827,8 @@
     16.46
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 129,
@@ -2702,7 +2848,8 @@
     -13.54
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 130,
@@ -2722,7 +2869,8 @@
     -233.97
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 131,
@@ -2742,7 +2890,8 @@
     82.01
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 132,
@@ -2762,7 +2911,8 @@
     75.99
    ],
    "saturated": true,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 133,
@@ -2782,7 +2932,8 @@
     -8.96
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 134,
@@ -2802,7 +2953,8 @@
     5.06
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 135,
@@ -2822,7 +2974,8 @@
     13.77
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 136,
@@ -2842,7 +2995,8 @@
     -9.54
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 137,
@@ -2862,7 +3016,8 @@
     96.28
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 138,
@@ -2882,7 +3037,8 @@
     49.4
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 139,
@@ -2902,7 +3058,8 @@
     -23.54
    ],
    "saturated": false,
-   "round_index": 2
+   "round_index": 2,
+   "device_id": "sensor"
   },
   {
    "id": 140,
@@ -2922,7 +3079,8 @@
     117.87
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 141,
@@ -2942,7 +3100,8 @@
     -64.97
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 142,
@@ -2962,7 +3121,8 @@
     -6.09
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 143,
@@ -2982,7 +3142,8 @@
     -0.31
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 144,
@@ -3002,7 +3163,8 @@
     8.14
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 145,
@@ -3022,7 +3184,8 @@
     85.53
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 146,
@@ -3042,7 +3205,8 @@
     0.93
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 147,
@@ -3062,7 +3226,8 @@
     108.2
    ],
    "saturated": true,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 148,
@@ -3082,7 +3247,8 @@
     109.13
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 149,
@@ -3102,7 +3268,8 @@
     -107.2
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 150,
@@ -3122,7 +3289,8 @@
     9.04
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 151,
@@ -3142,7 +3310,8 @@
     115.8
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 152,
@@ -3162,7 +3331,8 @@
     -94.99
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 153,
@@ -3182,7 +3352,8 @@
     -2.9
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 154,
@@ -3202,7 +3373,8 @@
     -17.84
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 155,
@@ -3222,7 +3394,8 @@
     9.89
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 156,
@@ -3242,7 +3415,8 @@
     119.76
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 157,
@@ -3262,7 +3436,8 @@
     -116.68
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 158,
@@ -3282,7 +3457,8 @@
     -17.64
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 159,
@@ -3302,7 +3478,8 @@
     -9.07
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 160,
@@ -3322,7 +3499,8 @@
     126.76
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 161,
@@ -3342,7 +3520,8 @@
     28.28
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 162,
@@ -3362,7 +3541,8 @@
     98.99
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 163,
@@ -3382,7 +3562,8 @@
     113.81
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 164,
@@ -3402,7 +3583,8 @@
     -33.32
    ],
    "saturated": true,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 165,
@@ -3422,7 +3604,8 @@
     -64.77
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 166,
@@ -3442,7 +3625,8 @@
     16.22
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 167,
@@ -3462,7 +3646,8 @@
     5.62
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 168,
@@ -3482,7 +3667,8 @@
     6.99
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 169,
@@ -3502,7 +3688,8 @@
     -5.3
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 170,
@@ -3522,7 +3709,8 @@
     4.94
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 171,
@@ -3542,7 +3730,8 @@
     96.09
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 172,
@@ -3562,7 +3751,8 @@
     106.47
    ],
    "saturated": true,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 173,
@@ -3582,7 +3772,8 @@
     -85.86
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 174,
@@ -3602,7 +3793,8 @@
     -16.6
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 175,
@@ -3622,7 +3814,8 @@
     16.8
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 176,
@@ -3642,7 +3835,8 @@
     2.07
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 177,
@@ -3662,7 +3856,8 @@
     -13.56
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 178,
@@ -3682,7 +3877,8 @@
     6.43
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 179,
@@ -3702,7 +3898,8 @@
     -258.05
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 180,
@@ -3722,7 +3919,8 @@
     100.49
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 181,
@@ -3742,7 +3940,8 @@
     -27.04
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 182,
@@ -3762,7 +3961,8 @@
     88.77
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 183,
@@ -3782,7 +3982,8 @@
     9.67
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 184,
@@ -3802,7 +4003,8 @@
     -0.14
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 185,
@@ -3822,7 +4024,8 @@
     -2.77
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 186,
@@ -3842,7 +4045,8 @@
     18.04
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 187,
@@ -3862,7 +4066,8 @@
     -10.02
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 188,
@@ -3882,7 +4087,8 @@
     21.02
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 189,
@@ -3902,7 +4108,8 @@
     -264.75
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 190,
@@ -3922,7 +4129,8 @@
     12.44
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 191,
@@ -3942,7 +4150,8 @@
     81.83
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 192,
@@ -3962,7 +4171,8 @@
     90.07
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 193,
@@ -3982,7 +4192,8 @@
     -83.49
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 194,
@@ -4002,7 +4213,8 @@
     -58.33
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 195,
@@ -4022,7 +4234,8 @@
     4.46
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 196,
@@ -4042,7 +4255,8 @@
     94.66
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 197,
@@ -4062,7 +4276,8 @@
     -1.42
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 198,
@@ -4082,7 +4297,8 @@
     43.08
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 199,
@@ -4102,7 +4318,8 @@
     -8.75
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 200,
@@ -4122,7 +4339,8 @@
     4.59
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 201,
@@ -4142,7 +4360,8 @@
     0.51
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 202,
@@ -4162,7 +4381,8 @@
     81.1
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 203,
@@ -4182,7 +4402,8 @@
     6.11
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 204,
@@ -4202,7 +4423,8 @@
     97.85
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 205,
@@ -4222,7 +4444,8 @@
     -8.54
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 206,
@@ -4242,7 +4465,8 @@
     -0.49
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 207,
@@ -4262,7 +4486,8 @@
     82.4
    ],
    "saturated": true,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 208,
@@ -4282,7 +4507,8 @@
     -66.35
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 209,
@@ -4302,7 +4528,8 @@
     -6.03
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 210,
@@ -4322,7 +4549,8 @@
     1.81
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 211,
@@ -4342,7 +4570,8 @@
     34.33
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 212,
@@ -4362,7 +4591,8 @@
     4.94
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 213,
@@ -4382,7 +4612,8 @@
     -5.38
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 214,
@@ -4402,7 +4633,8 @@
     -11.78
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 215,
@@ -4422,7 +4654,8 @@
     5.92
    ],
    "saturated": false,
-   "round_index": 4
+   "round_index": 4,
+   "device_id": "sensor"
   },
   {
    "id": 216,
@@ -4442,7 +4675,8 @@
     124.45
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 217,
@@ -4462,7 +4696,8 @@
     69.65
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 218,
@@ -4482,7 +4717,8 @@
     -7.86
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 219,
@@ -4502,7 +4738,8 @@
     12.01
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 220,
@@ -4522,7 +4759,8 @@
     97.11
    ],
    "saturated": true,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 221,
@@ -4542,7 +4780,8 @@
     119.3
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 222,
@@ -4562,7 +4801,8 @@
     -13.12
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 223,
@@ -4582,7 +4822,8 @@
     91.6
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 224,
@@ -4602,7 +4843,8 @@
     -45.57
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 225,
@@ -4622,7 +4864,8 @@
     1.48
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 226,
@@ -4642,7 +4885,8 @@
     -3.35
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 227,
@@ -4662,7 +4906,8 @@
     2.94
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 228,
@@ -4682,7 +4927,8 @@
     3.14
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 229,
@@ -4702,7 +4948,8 @@
     10.97
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 230,
@@ -4722,7 +4969,8 @@
     28.29
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 231,
@@ -4742,7 +4990,8 @@
     -15.5
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 232,
@@ -4762,7 +5011,8 @@
     30.48
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 233,
@@ -4782,7 +5032,8 @@
     2.32
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 234,
@@ -4802,7 +5053,8 @@
     113.28
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 235,
@@ -4822,7 +5074,8 @@
     122.9
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 236,
@@ -4842,7 +5095,8 @@
     9.89
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 237,
@@ -4862,7 +5116,8 @@
     32.55
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 238,
@@ -4882,7 +5137,8 @@
     20.12
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 239,
@@ -4902,7 +5158,8 @@
     -7.89
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 240,
@@ -4922,7 +5179,8 @@
     150.18
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 241,
@@ -4942,7 +5200,8 @@
     3.61
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 242,
@@ -4962,7 +5221,8 @@
     -1.64
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 243,
@@ -4982,7 +5242,8 @@
     -7.04
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 244,
@@ -5002,7 +5263,8 @@
     9.09
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 245,
@@ -5022,7 +5284,8 @@
     101.13
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 246,
@@ -5042,7 +5305,8 @@
     -49.6
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 247,
@@ -5062,7 +5326,8 @@
     53.06
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 248,
@@ -5082,7 +5347,8 @@
     -4.7
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 249,
@@ -5102,7 +5368,8 @@
     -10.68
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 250,
@@ -5122,7 +5389,8 @@
     62.23
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 251,
@@ -5142,7 +5410,8 @@
     -15.7
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 252,
@@ -5162,7 +5431,8 @@
     -4.7
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 253,
@@ -5182,7 +5452,8 @@
     75.47
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 254,
@@ -5202,7 +5473,8 @@
     89.96
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 255,
@@ -5222,7 +5494,8 @@
     56.59
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 256,
@@ -5242,7 +5515,8 @@
     -73.89
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 257,
@@ -5262,7 +5536,8 @@
     102.18
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 258,
@@ -5282,7 +5557,8 @@
     6.24
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 259,
@@ -5302,7 +5578,8 @@
     81.05
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 260,
@@ -5322,7 +5599,8 @@
     -1.67
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 261,
@@ -5342,7 +5620,8 @@
     0.83
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 262,
@@ -5362,7 +5641,8 @@
     84.35
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 263,
@@ -5382,7 +5662,8 @@
     67.62
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 264,
@@ -5402,7 +5683,8 @@
     -18.09
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 265,
@@ -5422,7 +5704,8 @@
     98.06
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 266,
@@ -5442,7 +5725,8 @@
     -10.14
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 267,
@@ -5462,7 +5746,8 @@
     -5.51
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 268,
@@ -5482,7 +5767,8 @@
     -9.0
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 269,
@@ -5502,7 +5788,8 @@
     100.13
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 270,
@@ -5522,7 +5809,8 @@
     -197.59
    ],
    "saturated": false,
-   "round_index": 6
+   "round_index": 6,
+   "device_id": "sensor"
   },
   {
    "id": 271,
@@ -5542,7 +5830,8 @@
     95.96
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 272,
@@ -5562,7 +5851,8 @@
     4.11
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 273,
@@ -5582,7 +5872,8 @@
     108.68
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 274,
@@ -5602,7 +5893,8 @@
     86.86
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 275,
@@ -5622,7 +5914,8 @@
     8.91
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 276,
@@ -5642,7 +5935,8 @@
     2.34
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 277,
@@ -5662,7 +5956,8 @@
     -28.57
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 278,
@@ -5682,7 +5977,8 @@
     110.21
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 279,
@@ -5702,7 +5998,8 @@
     16.29
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 280,
@@ -5722,7 +6019,8 @@
     25.47
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 281,
@@ -5742,7 +6040,8 @@
     5.19
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 282,
@@ -5762,7 +6061,8 @@
     -1.52
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 283,
@@ -5782,7 +6082,8 @@
     3.11
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 284,
@@ -5802,7 +6103,8 @@
     116.04
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 285,
@@ -5822,7 +6124,8 @@
     -39.94
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 286,
@@ -5842,7 +6145,8 @@
     11.28
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 287,
@@ -5862,7 +6166,8 @@
     95.37
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 288,
@@ -5882,7 +6187,8 @@
     -189.9
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 289,
@@ -5902,7 +6208,8 @@
     1.02
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 290,
@@ -5922,7 +6229,8 @@
     13.54
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 291,
@@ -5942,7 +6250,8 @@
     -3.98
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 292,
@@ -5962,7 +6271,8 @@
     12.43
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 293,
@@ -5982,7 +6292,8 @@
     -8.87
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 294,
@@ -6002,7 +6313,8 @@
     -9.54
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 295,
@@ -6022,7 +6334,8 @@
     -0.5
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 296,
@@ -6042,7 +6355,8 @@
     85.89
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 297,
@@ -6062,7 +6376,8 @@
     -20.43
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 298,
@@ -6082,7 +6397,8 @@
     -72.97
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 299,
@@ -6102,7 +6418,8 @@
     14.8
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 300,
@@ -6122,7 +6439,8 @@
     104.68
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 301,
@@ -6142,7 +6460,8 @@
     103.61
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 302,
@@ -6162,7 +6481,8 @@
     -7.03
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 303,
@@ -6182,7 +6502,8 @@
     105.64
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 304,
@@ -6202,7 +6523,8 @@
     -22.85
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 305,
@@ -6222,7 +6544,8 @@
     4.6
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 306,
@@ -6242,7 +6565,8 @@
     -51.3
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 307,
@@ -6262,7 +6586,8 @@
     10.02
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 308,
@@ -6282,7 +6607,8 @@
     8.64
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 309,
@@ -6302,7 +6628,8 @@
     -32.69
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 310,
@@ -6322,7 +6649,8 @@
     -21.09
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 311,
@@ -6342,7 +6670,8 @@
     99.94
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 312,
@@ -6362,7 +6691,8 @@
     38.8
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 313,
@@ -6382,7 +6712,8 @@
     95.01
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 314,
@@ -6402,7 +6733,8 @@
     1.68
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 315,
@@ -6422,7 +6754,8 @@
     25.78
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 316,
@@ -6442,7 +6775,8 @@
     -8.4
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 317,
@@ -6462,7 +6796,8 @@
     0.61
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 318,
@@ -6482,7 +6817,8 @@
     0.54
    ],
    "saturated": false,
-   "round_index": 8
+   "round_index": 8,
+   "device_id": "sensor"
   },
   {
    "id": 319,
@@ -6502,7 +6838,8 @@
     92.65
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 320,
@@ -6522,7 +6859,8 @@
     -58.14
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 321,
@@ -6542,7 +6880,8 @@
     -3.8
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 322,
@@ -6562,7 +6901,8 @@
     112.03
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 323,
@@ -6582,7 +6922,8 @@
     -82.98
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 324,
@@ -6602,7 +6943,8 @@
     95.4
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 325,
@@ -6622,7 +6964,8 @@
     -22.18
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 326,
@@ -6642,7 +6985,8 @@
     7.43
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 327,
@@ -6662,7 +7006,8 @@
     17.65
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 328,
@@ -6682,7 +7027,8 @@
     -4.8
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 329,
@@ -6702,7 +7048,8 @@
     95.17
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 330,
@@ -6722,7 +7069,8 @@
     -28.78
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 331,
@@ -6742,7 +7090,8 @@
     9.24
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 332,
@@ -6762,7 +7111,8 @@
     110.8
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 333,
@@ -6782,7 +7132,8 @@
     11.58
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 334,
@@ -6802,7 +7153,8 @@
     68.07
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 335,
@@ -6822,7 +7174,8 @@
     95.7
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 336,
@@ -6842,7 +7195,8 @@
     -2.28
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 337,
@@ -6862,7 +7216,8 @@
     123.39
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 338,
@@ -6882,7 +7237,8 @@
     90.42
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 339,
@@ -6902,7 +7258,8 @@
     -16.5
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 340,
@@ -6922,7 +7279,8 @@
     -167.85
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 341,
@@ -6942,7 +7300,8 @@
     -7.37
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 342,
@@ -6962,7 +7321,8 @@
     -174.49
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 343,
@@ -6982,7 +7342,8 @@
     5.14
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 344,
@@ -7002,7 +7363,8 @@
     33.27
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 345,
@@ -7022,7 +7384,8 @@
     -11.81
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 346,
@@ -7042,7 +7405,8 @@
     86.53
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 347,
@@ -7062,7 +7426,8 @@
     85.85
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 348,
@@ -7082,7 +7447,8 @@
     21.83
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 349,
@@ -7102,7 +7468,8 @@
     -19.17
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 350,
@@ -7122,7 +7489,8 @@
     1.91
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 351,
@@ -7142,7 +7510,8 @@
     -7.22
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 352,
@@ -7162,7 +7531,8 @@
     -2.65
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 353,
@@ -7182,7 +7552,8 @@
     12.73
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 354,
@@ -7202,7 +7573,8 @@
     -223.37
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 355,
@@ -7222,7 +7594,8 @@
     -10.72
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 356,
@@ -7242,7 +7615,8 @@
     0.42
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 357,
@@ -7262,7 +7636,8 @@
     105.67
    ],
    "saturated": true,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 358,
@@ -7282,7 +7657,8 @@
     111.8
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 359,
@@ -7302,7 +7678,8 @@
     -7.52
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 360,
@@ -7322,7 +7699,8 @@
     32.28
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 361,
@@ -7342,7 +7720,8 @@
     72.8
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 362,
@@ -7362,7 +7741,8 @@
     51.5
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   },
   {
    "id": 363,
@@ -7382,7 +7762,8 @@
     -16.51
    ],
    "saturated": false,
-   "round_index": 10
+   "round_index": 10,
+   "device_id": "sensor"
   }
  ],
  "summary": {
