@@ -4,7 +4,7 @@ export const ATIPS = {
   strikes: 'Punches plus kicks your wrist sensors picked up. Clinch time is not counted.',
   pace: 'Strikes per minute of round time. Rest periods are not counted.',
   speed: 'Estimated hand speed, averaged over your punches. Best for comparing your own rounds and sessions.',
-  impact: 'Impact = how sharply your wrist accelerates into a punch (average peak wrist acceleration, in g). Higher means snappier. Compare it between your own rounds and sessions.',
+  impact: 'Impact score: how hard your strikes land compared with your usual. 100 = your usual, 110 = about 10% harder, 90 = about 10% softer. It comes from how sharply your wrist accelerates into each punch, so use it to compare yourself across rounds and sessions; it is not a measurement in physical units.',
   combos: 'A combo is 2 or more punches, each thrown within 0.6 s of the one before. A kick or clinch ends the combo.',
   kicks: 'Kicks are picked up from the body motion your wrist sensors feel, so the kick count is an estimate.',
   hands: 'Lead and rear hand, from which wrist sensor saw the punch and your stance (orthodox: left hand leads).',

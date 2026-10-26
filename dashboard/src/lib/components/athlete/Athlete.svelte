@@ -1,6 +1,6 @@
 <script lang="ts">
   import { app } from '../../state.svelte';
-  import { athleteRounds, finishCompare, finishNotes, handLine, hasBothHands, mixOf, sessionOverview, takeaway, topCombos, FRIENDLY_COLOR, type AthleteRound } from '../../athlete';
+  import { athleteSession, finishNotes, handLine, hasBothHands, mixOf, sessionOverview, takeaway, topCombos, FRIENDLY_COLOR, type AthleteRound } from '../../athlete';
   import { ATIPS } from '../../athlete-tips';
   import { dataQuality, fmtTime } from '../../stats';
   import Tip from '../Tip.svelte';
@@ -10,8 +10,13 @@
 
   const s = $derived(app.active);
   const j = $derived(s?.json);
-  const rs = $derived(j ? athleteRounds(j) : []);
-  const fin = $derived(finishCompare(rs));
+  const others = $derived(app.sessions.map((x) => x.json).filter((x): x is NonNullable<typeof x> => !!x));
+  const ath = $derived(j ? athleteSession(j, others) : null);
+  const rs = $derived(ath?.rounds ?? []);
+  const fin = $derived(ath?.finish ?? null);
+  const impBase = $derived(ath?.base ?? null);
+  const impTip = $derived(`${ATIPS.impact} ${impBase?.text ?? ''}`.trim());
+  const sc = (v: number | null | undefined) => (v === null || v === undefined || !Number.isFinite(v) ? '—' : String(Math.round(v)));
   const both = $derived(j ? hasBothHands(j) : false);
   const total = $derived(rs.reduce((a, r) => a + r.strikes, 0));
   const kicks = $derived(rs.reduce((a, r) => a + r.kicks, 0));
@@ -38,7 +43,8 @@
   const trend = $derived(fin ? [
     { name: 'Output', color: '#ff7a59', values: rs.map((r) => rel(r.strikes, fin.first.strikesPerRound)) },
     { name: 'Speed', color: '#38bdf8', values: rs.map((r) => rel(r.speed, fin.first.speed)) },
-    { name: 'Impact', color: '#c084fc', values: rs.map((r) => rel(r.impact, fin.first.impact)) },
+    // impact is already a score (100 = the baseline), so it is plotted as is: one meaning everywhere
+    { name: 'Impact score', color: '#c084fc', values: rs.map((r) => r.impact) },
   ] : []);
   function toggle(r: AthleteRound) {
     app.openRound = app.openRound === r.number ? null : r.number;
@@ -109,7 +115,7 @@
               <span class="metrics">
                 <span><b class="num">{r.perMin.toFixed(0)}</b><i>/min</i></span>
                 <span><b class="num">{f1(r.speed)}</b><i>m/s</i></span>
-                <span><b class="num">{f1(r.impact)}</b><i>impact</i></span>
+                <span><b class="num">{sc(r.impact)}</b><i>impact</i></span>
                 <span><b class="num">{r.combos}</b><i>combos</i></span>
               </span>
               <span class="rfoot">
@@ -120,14 +126,14 @@
           </button>
           {#if app.openRound === r.number}
             <div class="rdetail" id={`round-${r.number}`}>
-              <RoundTimeline round={r} stance={j.session.stance} bothHands={both} />
+              <RoundTimeline round={r} stance={j.session.stance} bothHands={both} impactBase={impBase?.g ?? null} />
               {#if both}<p class="small muted">Lead {r.lead} · Rear {r.rear} punches{r.kicks ? ` · ${r.kicks} ${r.kicks === 1 ? 'kick' : 'kicks'}` : ''}</p>{/if}
             </div>
           {/if}
         </li>
       {/each}
     </ol>
-    <p class="small dim legend-note">Speed in m/s (estimate). Impact <Tip text={ATIPS.impact} /> · Combos <Tip text={ATIPS.combos} /></p>
+    <p class="small dim legend-note">Speed in m/s (estimate) · Impact score, 100 = {impBase?.source === 'history' ? 'your usual' : 'your opening rounds'} <Tip text={impTip} /> · Combos <Tip text={ATIPS.combos} /></p>
   </section>
 
   <div class="two">
@@ -139,9 +145,9 @@
           <tbody>
             <tr><td>Strikes / round</td><td class="r num">{fin.first.strikesPerRound.toFixed(0)}</td><td class="r num">{fin.last.strikesPerRound.toFixed(0)}</td><td class="r num {chg(fin.change.volume).cls}">{chg(fin.change.volume).t}</td></tr>
             <tr><td>Speed (m/s)</td><td class="r num">{f1(fin.first.speed)}</td><td class="r num">{f1(fin.last.speed)}</td><td class="r num {chg(fin.change.speed).cls}">{chg(fin.change.speed).t}</td></tr>
-            <tr><td>Impact</td><td class="r num">{f1(fin.first.impact)}</td><td class="r num">{f1(fin.last.impact)}</td><td class="r num {chg(fin.change.impact).cls}">{chg(fin.change.impact).t}</td></tr>
+            <tr><td>Impact <Tip text={impTip} /></td><td class="r num">{sc(fin.first.impact)}</td><td class="r num">{sc(fin.last.impact)}</td><td class="r num {chg(fin.change.impact).cls}">{chg(fin.change.impact).t}</td></tr>
             <tr><td>Combos / round</td><td class="r num">{fin.first.combosPerRound.toFixed(0)}</td><td class="r num">{fin.last.combosPerRound.toFixed(0)}</td><td class="r num {chg(fin.change.combos).cls}">{chg(fin.change.combos).t}</td></tr>
-            <tr><td>Kick share</td><td class="r num">{pctTxt(fin.first.kickShare)}</td><td class="r num">{pctTxt(fin.last.kickShare)}</td><td class="r num {fin.change.kickSharePts <= -1 ? 'down' : fin.change.kickSharePts >= 1 ? 'up' : ''}">{chg(fin.change.kickSharePts, 0, ' pts').t}</td></tr>
+            <tr><td>Kicks / round</td><td class="r num">{fin.first.kicksPerRound.toFixed(1)}</td><td class="r num">{fin.last.kicksPerRound.toFixed(1)}</td><td class="r num {chg(fin.change.kicks).cls}">{chg(fin.change.kicks).t}</td></tr>
             {#if both && fin.first.leadShare !== null && fin.last.leadShare !== null}
               <tr><td>Rear hand share</td><td class="r num">{pctTxt(1 - fin.first.leadShare)}</td><td class="r num">{pctTxt(1 - fin.last.leadShare)}</td><td class="r num">{chg(-(fin.change.leadSharePts ?? 0), 0, ' pts').t}</td></tr>
             {/if}
@@ -155,8 +161,8 @@
         {/if}
         {#if notes.length}<ul class="notes">{#each notes.slice(0, 4) as n (n)}<li>{n}</li>{/each}</ul>{/if}
         <h3 class="th">Every round vs your opening rounds</h3>
-        <LineChart labels={rs.map((r) => `R${r.number}`)} series={trend} unit="%" decimals={0} height={170} ariaLabel="Output, speed and impact per round, as % of the opening rounds" />
-        <p class="small dim">100% = your average over {fin.n === 1 ? 'the first round' : `the first ${fin.n} rounds`}.</p>
+        <LineChart labels={rs.map((r) => `R${r.number}`)} series={trend} unit="%" decimals={0} niceTicks include={100} height={170} ariaLabel="Output and speed per round as % of the opening rounds, and impact score" />
+        <p class="small dim">Output and speed: 100% = your average over {fin.n === 1 ? 'the first round' : `the first ${fin.n} rounds`}. Impact score: 100 = {impBase?.source === 'history' ? 'your usual' : 'the same opening rounds'}.</p>
       {:else}
         <p class="muted">Finish comparison needs at least 2 rounds.</p>
       {/if}
@@ -190,8 +196,8 @@
     </ul>
     {#if histAsc.length >= 2}
       <div class="htrend">
-        <div><h3 class="th">Volume</h3><LineChart labels={histAsc.map((h) => dateFmt(h.date))} series={[{ name: 'Strikes per minute', color: '#ff7a59', values: histAsc.map((h) => h.perMin), trend: histAsc.length >= 3 }]} decimals={0} height={150} ariaLabel="Strikes per minute per session" /></div>
-        <div><h3 class="th">Late-round drop-off</h3><LineChart labels={histAsc.map((h) => dateFmt(h.date))} series={[{ name: 'Output change, last vs first rounds (%)', color: '#fbbf24', values: histAsc.map((h) => h.lateDropPct) }]} decimals={0} unit="%" height={150} ariaLabel="Late-round output change per session" /></div>
+        <div><h3 class="th">Volume</h3><LineChart labels={histAsc.map((h) => dateFmt(h.date))} series={[{ name: 'Strikes per minute', color: '#ff7a59', values: histAsc.map((h) => h.perMin), trend: histAsc.length >= 3 }]} decimals={0} niceTicks height={150} ariaLabel="Strikes per minute per session" /></div>
+        <div><h3 class="th">Late-round drop-off</h3><LineChart labels={histAsc.map((h) => dateFmt(h.date))} series={[{ name: 'Output change, last vs first rounds (%)', color: '#fbbf24', values: histAsc.map((h) => h.lateDropPct) }]} decimals={0} unit="%" niceTicks include={0} height={150} ariaLabel="Late-round output change per session" /></div>
       </div>
       <p class="small dim">"Late" = output in your last rounds compared with your first rounds. Closer to 0 means you held your pace.</p>
     {/if}
@@ -247,7 +253,7 @@
   .bar span { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #ff5a36, #ffb020); }
   .weak .bar span { background: linear-gradient(90deg, #a16207, #fbbf24); }
   .best .bar span { background: linear-gradient(90deg, #059669, #34d399); }
-  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.3rem; }
+  .metrics { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.3rem 0.7rem; }
   .metrics span { display: flex; align-items: baseline; gap: 0.22rem; min-width: 0; }
   .metrics b { font-size: 0.95rem; font-weight: 700; }
   .metrics i { font-style: normal; font-size: 0.72rem; color: var(--dim); white-space: nowrap; }

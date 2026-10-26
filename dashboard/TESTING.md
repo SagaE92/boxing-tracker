@@ -5,7 +5,7 @@ Last full run: 2026-10-26 (branch `feat/athlete-view`), headless Chromium (Playw
 | Suite | Command | Result |
 |---|---|---|
 | Type / Svelte check | `npm run check` | 0 errors, 0 warnings |
-| Unit (Vitest) | `npm test` | **71 / 71 passed** |
+| Unit (Vitest) | `npm test` | **78 / 78 passed** |
 | Production build | `npm run build` | OK → `dist/` (relative base `./`) |
 | E2E + screenshots (Playwright) | `npm run test:e2e` | **28 / 28 passed** (~40 s; 12 athlete + 16 Lab) |
 | Python (analysis + tools + firmware host tests) | `python -m pytest -q analysis/tests tools/tests` | **45 / 45 passed** |
@@ -16,7 +16,7 @@ Last full run: 2026-10-26 (branch `feat/athlete-view`), headless Chromium (Playw
 ## Unit tests (`tests/unit/`)
 
 - **csv.test.ts** – raw CSV parsing (header sniffing, CRLF, gzip by magic bytes, malformed rows skipped with a warning, empty file / wrong header → friendly error, uint32 µs device-clock wrap), labels parsing (`truth:` prefix, `_L/_R` suffix, legacy `hook`/`uppercut` mapped via stance, marker rows ignored), label time alignment, CSV export quoting.
-- **athlete.test.ts** – athlete analytics (`src/lib/athlete.ts`): per-round strikes (punches + kicks, clinch excluded), pace, speed, impact, combos (2+ punches < 0.6 s apart); best / lowest round; friendly labels (hooks and uppercuts merged, kick, other); mix shares; top combo sequences; **first 3 vs last 3** (volume, speed, impact, combos, kick share, lead share) with the < 6-round fallback (halves; "First round vs last round"; null for 1 round); plain-language finish notes; hand line ("Rear hand did N% in rounds 8–10…"); **takeaway** for every rule (strong start + drop, speed-only drop, finished strong, steady, one round, empty) with the exact percentages; no banned words; session overview for history.
+- **athlete.test.ts** – athlete analytics (`src/lib/athlete.ts`): per-round strikes (punches + kicks, clinch excluded), pace, speed, impact, combos (2+ punches < 0.6 s apart); best / lowest round; friendly labels (hooks and uppercuts merged, kick, other); mix shares; top combo sequences; **first 3 vs last 3** (volume, speed, impact, combos, kicks per round, lead share) with the < 6-round fallback (halves; "First round vs last round"; null for 1 round); plain-language finish notes; hand line ("Rear hand did N% in rounds 8–10…"); **impact score** (100 × mean peak / baseline; baseline = median opening rounds of the 2–5 most recent earlier sessions, else this session's opening rounds; later sessions ignored); kicks-per-round notes (dropped off, came in late); **nice axis ticks** (`niceScale`: 60/80/100/120 %); **takeaway** for every rule (strong start + drop, speed-only drop, finished strong, steady, one round, empty) with the exact percentages; no banned words; session overview for history.
 - **schema.test.ts** – all bundled demos validate (incl. the 1.1.0 two-sensor `demo-10x3`); 1.0.0 sessions (no `devices`) load without a warning; a newer minor (1.2.0) warns; bad `devices[].hand` / `device_id` give path messages; `schema_version` 2.x rejected; missing required field and unknown `type` give readable path messages; invalid JSON.
 - **stats.test.ts** – strike totals exclude `kick_or_body_movement` and `clinch`; filters (confidence, type, hand, target, round, saturated); per-round stats and within-round fatigue slope; combos (<600 ms) and sequence counts; data quality (saturation %, gaps / dropped-sample estimate, measured rate, jitter); label matching (one-to-one, tolerance, clinch span matching, precision/recall/F1, per-class recall, hook recall); trends and personal bests.
 - **gatt-load.test.ts** – Web Bluetooth packet decoding (raw 18 B header + 12 B samples, scaling 0.488 mg / 70 mdps, punch-event type codes 0–10), file grouping by stem (`_raw/_session/_labels`), labels without a session → error, legacy punches CSV → explanatory error.
@@ -28,10 +28,11 @@ Last full run: 2026-10-26 (branch `feat/athlete-view`), headless Chromium (Playw
 | Case | Covered by |
 |---|---|
 | Landing: one **Open session** button, Bluetooth sync disabled ("soon"), Athlete selected by default | `landing…` |
+| Round cards show impact as a 2–3 digit score (never raw g); the impact tooltip explains the baseline ("compared with your usual … last 4 sessions") |
 | Header: "10 rounds × 3 min", takeaway matches the rule template, strikes / per min / best round, data-quality badge, **hand balance** split bar and "Rear hand did N% in rounds 8–10" | `header + rounds…` |
 | 10 round cards, exactly one Best and one Lowest, per-round hand split, impact + combos | `header + rounds…` |
 | Tap a round → its timeline (≥ 30 strike marks, per-minute counts); tap again closes | `tapping a round…` |
-| How you finished: first 3 vs last 3 table incl. rear-hand share, negative output change, notes (kicks dropped off, lead hand faded more), trend chart | `How you finished…` |
+| How you finished: first 3 vs last 3 table incl. **kicks / round** (x.x → x.x, −N%), impact as a whole-number score and rear-hand share; notes (kicks dropped off, lead hand faded more); trend chart ticks are rounded `N%` values with one nice step and include 100% | `How you finished…` |
 | Strike mix uses friendly labels only; top combos | `strike mix…` |
 | History: 5 sessions, volume + late drop-off charts; switching to a 3-round session falls back to "First round vs last round" | `session history…` |
 | Lab toggle remembered across reloads (`localStorage`), back to Athlete; data-quality badge opens Lab's panel | `Lab toggle…` |
@@ -71,7 +72,7 @@ Asserted in `exports summary PNG…`.
 ## Python: two sensors and the fade demo
 
 - `analysis/tests/test_two_sensors.py` – clock alignment from time-sync round trips ≤ 2 ms over 40 min at +23 / −17.5 / +40 ppm (uncorrected drift would be > 20 ms); packet-arrival lower envelope recovers drift; merge drops crosstalk and keeps near-simultaneous strikes; kick/clinch seen by both sensors merged; rounds union; end-to-end two-sensor run vs ground truth per hand (≥ 90 % matched within 60 ms, kicks counted once, device ids and wrists right); single raw CSV input still works; 1.0.0 documents still validate.
-- `analysis/tests/test_fatigue.py` – `FatigueProfile` monotonic; late-round fade on ground truth and after the detector; the shipped `demo-10x3` has the fade, both hands fade, the lead more, and the rear share rises.
+- `analysis/tests/test_fatigue.py` – `FatigueProfile` monotonic; late-round fade on ground truth and after the detector; the shipped `demo-10x3` has a moderate fade (last 3 vs first 3 rounds: 18–27 % fewer strikes, 6–13 % slower; currently −24 % / −10 %), both hands fade, the lead more, and the rear share rises.
 - `tools/tests/test_logger.py` – two `DeviceRecorder`s write per-device raw CSVs and one sync CSV; time-sync bursts against fake BLE clients (32-bit wrap, ±ppm drift, asymmetric round trips) align the two sensors within 2 ms; `--device` parsing.
 
 ## Saturation severity scheme

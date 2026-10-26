@@ -7,6 +7,8 @@ import { SHOTS, fix, noHorizontalOverflow, watchConsole } from './util';
 const ADIR = path.join(SHOTS, 'athlete');
 fs.mkdirSync(ADIR, { recursive: true });
 const shot = (name: string) => path.join(ADIR, name);
+/** Element screenshots: un-stick the app bar so it can't overlap a tall section. */
+const EL = { style: '.top { position: static !important; }' };
 /** Words that must never appear on athlete screens (Lab-only or banned). */
 const BANNED = /saturat|clipp|confidence|sample rate|\d+\s?hz|±\s?\d+\s?g|g-range|\bcsv\b|power|force|lower bound/i;
 
@@ -57,11 +59,16 @@ test.describe('athlete view · phone 390', () => {
     await expect(rows.locator('.tag.weak')).toHaveCount(1);
     await expect(rows.first().locator('.mini [role=img]')).toBeVisible(); // per-round hand split
     await expect(rows.first()).toContainText('impact');
+    // impact is a whole-number score (100 = your usual), never raw g like "8.6"
+    for (const t of await rows.locator('.metrics span:nth-child(3) b').allInnerTexts()) expect(t).toMatch(/^\d{2,3}$/);
+    const note = page.getByRole('region', { name: 'Round by round' }).locator('.legend-note');
+    await expect(note).toContainText('Impact score, 100 = your usual');
+    await expect(note.locator('.tip .body').first()).toContainText(/how hard your strikes land compared with your usual.*last 4 sessions/);
     await expect(rows.first()).toContainText('combos');
     await assertNoLabWords(page);
     await noHorizontalOverflow(page);
     await page.screenshot({ path: shot('phone-390-header-rounds.png') });
-    await head.screenshot({ path: shot('phone-390-hand-balance.png') });
+    await head.screenshot({ path: shot('phone-390-hand-balance.png'), ...EL });
     c.assertClean();
   });
 
@@ -75,7 +82,7 @@ test.describe('athlete view · phone 390', () => {
     expect(await tl.locator('line[stroke-linecap=round]').count()).toBeGreaterThan(30);
     await expect(page.getByLabel('Strikes per minute', { exact: true })).toContainText('Min 3');
     await page.locator('li.open').scrollIntoViewIfNeeded();
-    await page.locator('li.open').screenshot({ path: shot('phone-390-round-timeline.png') });
+    await page.locator('li.open').screenshot({ path: shot('phone-390-round-timeline.png'), ...EL });
     await r9.click();
     await expect(tl).toHaveCount(0);
     await assertNoLabWords(page);
@@ -85,14 +92,30 @@ test.describe('athlete view · phone 390', () => {
     await openDemo(page);
     const fin = page.getByRole('region', { name: 'How you finished' });
     await expect(fin).toContainText('First 3 vs last 3 rounds');
-    for (const row of ['Strikes / round', 'Speed (m/s)', 'Impact', 'Combos / round', 'Kick share', 'Rear hand share']) await expect(fin.locator('td', { hasText: row })).toBeVisible();
+    for (const row of ['Strikes / round', 'Speed (m/s)', 'Impact', 'Combos / round', 'Kicks / round', 'Rear hand share']) await expect(fin.locator('td', { hasText: row })).toBeVisible();
     await expect(fin.locator('tr', { hasText: 'Strikes / round' }).locator('td').last()).toHaveText(/^−\d+%$/);
+    const kicks = fin.locator('tr', { hasText: 'Kicks / round' }).locator('td');
+    await expect(kicks.nth(1)).toHaveText(/^\d+\.\d$/);
+    await expect(kicks.nth(2)).toHaveText(/^\d+\.\d$/);
+    await expect(kicks.last()).toHaveText(/^−\d+%$/);
+    const imp = fin.locator('tr', { hasText: 'Impact' }).locator('td');
+    await expect(imp.nth(1)).toHaveText(/^\d{2,3}$/);
+    await expect(imp.nth(2)).toHaveText(/^\d{2,3}$/);
     await expect(fin.locator('.notes li').first()).toBeVisible();
     await expect(fin).toContainText(/Kicks dropped off/);
     await expect(fin).toContainText(/Lead hand faded more/);
-    await expect(fin.getByRole('img', { name: /as % of the opening rounds/ })).toBeVisible();
+    const chart = fin.getByRole('img', { name: /as % of the opening rounds, and impact score/ });
+    await expect(chart).toBeVisible();
+    // rounded % ticks with nice steps, incl. the 100% reference
+    const ticks = (await chart.locator('text.num').allTextContents()).map((t) => t.trim());
+    expect(ticks).toContain('100%');
+    for (const t of ticks) expect(t).toMatch(/^-?\d+%$/);
+    const vals = ticks.map((t) => parseInt(t, 10));
+    const steps = new Set(vals.slice(1).map((v, i) => v - vals[i]));
+    expect(steps.size).toBe(1);
+    expect([5, 10, 20, 25, 50]).toContain(Math.abs([...steps][0]));
     await fin.scrollIntoViewIfNeeded();
-    await fin.screenshot({ path: shot('phone-390-finish.png') });
+    await fin.screenshot({ path: shot('phone-390-finish.png'), ...EL });
   });
 
   test('strike mix with friendly labels and top combos', async ({ page }) => {
@@ -103,7 +126,7 @@ test.describe('athlete view · phone 390', () => {
     expect(labels.join(' ')).not.toMatch(/lead_|rear_|kick_or_body/);
     await expect(mix.locator('.combos li').first()).toContainText('→');
     await mix.scrollIntoViewIfNeeded();
-    await mix.screenshot({ path: shot('phone-390-strike-mix.png') });
+    await mix.screenshot({ path: shot('phone-390-strike-mix.png'), ...EL });
   });
 
   test('session history: list, trends, switching to a 3-round session', async ({ page }) => {
@@ -114,7 +137,7 @@ test.describe('athlete view · phone 390', () => {
     await expect(hist.getByRole('img', { name: 'Strikes per minute per session' })).toBeVisible();
     await expect(hist.getByRole('img', { name: 'Late-round output change per session' })).toBeVisible();
     await hist.scrollIntoViewIfNeeded();
-    await hist.screenshot({ path: shot('phone-390-history.png') });
+    await hist.screenshot({ path: shot('phone-390-history.png'), ...EL });
     // fewer than 6 rounds: comparison falls back gracefully
     await hist.locator('li button', { hasText: 'Oct 24' }).click();
     await expect(page.getByRole('region', { name: 'Session summary' }).locator('h1')).toHaveText(/^3 rounds/);

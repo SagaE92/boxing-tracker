@@ -57,14 +57,15 @@ For the kickboxer after ~10 rounds: no files, sensor limits or detector numbers.
    With two sensors: **hand balance** (lead/rear split bar) and a line such as
    "Rear hand did 72% in rounds 8–10, up from 55% early."
 2. **Round by round** (the centrepiece): one card per round with strikes, a bar to scan down
-   the rounds, strikes/min, average speed, average **impact** (mean peak wrist
-   acceleration; tooltip explains it), combos, the top 3 strike types and a lead/rear split
+   the rounds, strikes/min, average speed, **impact score** (100 = your usual, see below),
+   combos, the top 3 strike types and a lead/rear split
    bar. Best and lowest rounds are highlighted. Tapping a round opens its strike timeline
    (impact sticks coloured by type, kicks as diamonds, combo marks, strikes per minute).
-3. **How you finished**: first 3 vs last 3 rounds (strikes/round, speed, impact,
-   combos/round, kick share, rear-hand share), a trend chart of every round as % of the
-   opening rounds, and plain-language notes (e.g. "Kicks dropped off: 4.0 per round early,
-   1.3 in rounds 8–10", "Lead hand faded more…"). With 2–5 rounds it compares the first and
+3. **How you finished**: first 3 vs last 3 rounds (strikes/round, speed, impact score,
+   combos/round, **kicks/round**, rear-hand share), a trend chart (output and speed per round
+   as % of the opening rounds, plus the impact score; rounded % ticks such as 60% / 80% / 100% /
+   120%), and plain-language notes (e.g. "Kicks dropped off: 4.0 → 1.0 per round (75% fewer in
+   rounds 8–10)", "Lead hand faded more…"). With 2–5 rounds it compares the first and
    last half (rounded down); with one round it says so.
 4. **Strike mix** with friendly labels — Jab, Cross, Hook (lead + rear), Uppercut, Overhand,
    Spinning backfist, Kick (`kick_or_body_movement`), Other (`unknown`) — and the top combos.
@@ -83,6 +84,16 @@ The athlete view never mentions saturation/clipping, confidence, g-range or samp
   "Strikes" card counts punches only and lists kicks separately.)
 * *Combo* = 2+ punches, each within **0.6 s** of the previous one (`COMBO_GAP_MS`, the same
   `stats.combos` rule as Lab's combo panel); a kick or clinch ends it.
+* *Impact score* (`impactBaseline`, `athleteSession`) = 100 × mean peak wrist acceleration of
+  the punches ÷ a **baseline**, shown as a whole number everywhere in the athlete view (round
+  cards, finish table, trend chart, timeline tooltips). Baseline, in order:
+  1. **your usual**: the median, over the 5 most recent *earlier* loaded sessions (at least 2,
+     each with ≥ 20 punches), of each session's opening-rounds mean peak (the same first-N rounds
+     as "How you finished");
+  2. otherwise **this session's opening rounds** (they score 100).
+  Only earlier sessions count, so a session's score doesn't change when newer ones are added.
+  The tooltip says which baseline is in use. It is a comparison with yourself, not a
+  measurement in physical units; Lab keeps raw peak g.
 * *Best / lowest round* = most / fewest strikes (ties broken by speed).
 * *Lead / rear* = the strike's wrist (L/R) mapped through the stance (orthodox: L leads).
   Shown only when the session has two sensors (or both wrists are clearly present).
@@ -94,7 +105,9 @@ The athlete view never mentions saturation/clipping, confidence, g-range or samp
      first half;
   3. output up ≥ 8 % → "You finished strong: output up X% in the last N rounds.";
   4. otherwise → "Steady pace: your output and speed held within X% …".
-  All numbers come from the loaded session; nothing is hard-coded.
+  All numbers come from the loaded session; nothing is hard-coded. Notes use kicks per round
+  (not their share of strikes): a ≥ 25 % drop or rise is called out, as are kicks that only
+  appeared late.
 
 ### Lab view
 
@@ -139,8 +152,9 @@ estimated speed; nothing is called "power" or "force".
 `public/demo/` (rebuild with `npm run demo:data`; needs Python with numpy + jsonschema, the
 repo `.venv` is used if present):
 * `demo-10x3_*` (**default**): 10 × 3 min kickboxing with **two sensors** (one per wrap) and a
-  realistic late-round fade: both hands fade, the lead hand more (rear share rises), with
-  fewer kicks, combos and hooks and lower speed/impact in rounds 8–10.
+  realistic, moderate late-round fade (`FatigueProfile.moderate()`): in rounds 8–10 vs 1–3,
+  about 24 % fewer strikes, 10 % lower speed and 9 % lower impact, kicks 4.0 → 1.0 per round;
+  both hands fade, the lead hand more (lead −35 %, rear −11 %, so the rear share goes 53 % → 61 %).
   `scripts/gen_rounds_demo.py --two-hands` renders a lead and a rear device stream with
   `analysis/synth.py make_two_hand_fatigue_session` (each with its own clock offset, drift and
   start delay, plus time-sync samples), and `analysis/detector.py --stream … --sync …` aligns,

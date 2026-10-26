@@ -5,7 +5,8 @@
 // * "Strikes" = punches (every strike type, incl. unknown) + kicks (kick_or_body_movement).
 //   Clinch is time, not a strike. (Lab's "Strikes" counts punches only.)
 // * Speed / impact averages use punches only (kicks have no speed estimate).
-// * "Impact" = mean peak_g (peak wrist acceleration in g). Clipped peaks count as their
+// * "Impact" is a 0-100+ score relative to the athlete's own baseline (IMPACT below):
+//   100 x mean peak_g / baseline peak_g. Raw g stays in Lab. Clipped peaks count as their
 //   recorded value; the lower-bound marker is a Lab-only detail.
 // * Combo = 2+ punches whose peaks are less than COMBO_GAP_MS apart (stats.combos, the same
 //   rule as Lab's combo panel). A kick or clinch ends a combo.
@@ -60,13 +61,19 @@ export function mixOf(events: StrikeEvent[]): MixItem[] {
 export interface AthleteRound {
   number: number; tStart: number; tEnd: number; durS: number;
   strikes: number; punches: number; kicks: number; perMin: number;
-  speed: number | null; impact: number | null; combos: number;
+  /** impactG = mean peak_g of the punches (raw g, never shown in the athlete view);
+   *  impact = impact score (100 x impactG / impactBase), null without a baseline. */
+  speed: number | null; impactG: number | null; impact: number | null; impactBase: number | null; combos: number;
   lead: number; rear: number; leadShare: number | null;
   top: MixItem[]; mix: MixItem[]; events: StrikeEvent[];
   best: boolean; weakest: boolean;
 }
 
-export function athleteRounds(j: SessionJson, gapMs = COMBO_GAP_MS): AthleteRound[] {
+export const impactScore = (g: number | null | undefined, base: number | null | undefined) =>
+  g === null || g === undefined || !base ? null : (100 * g) / base;
+
+export function athleteRounds(j: SessionJson, opts: { impactBase?: number | null; gapMs?: number } = {}): AthleteRound[] {
+  const gapMs = opts.gapMs ?? COMBO_GAP_MS, base = opts.impactBase ?? null;
   const rounds = j.rounds.filter((r) => r.kind === 'round');
   const out = rounds.map((r, i) => {
     const ev = j.punches.filter((e) => e.t_peak_s >= r.t_start_s && e.t_peak_s < r.t_end_s);
@@ -80,7 +87,7 @@ export function athleteRounds(j: SessionJson, gapMs = COMBO_GAP_MS): AthleteRoun
       number: i + 1, tStart: r.t_start_s, tEnd: r.t_end_s, durS, strikes, punches: p.length, kicks: k.length,
       perMin: durS > 0 ? strikes / (durS / 60) : 0,
       speed: avg(p.map((e) => e.speed_mps_est).filter((v): v is number => v != null)),
-      impact: avg(p.map((e) => e.peak_g)),
+      impactG: avg(p.map((e) => e.peak_g)), impact: impactScore(avg(p.map((e) => e.peak_g)), base), impactBase: base,
       combos: combos(ev, gapMs).filter((c) => c.events.length >= 2).length,
       lead, rear, leadShare: lead + rear ? lead / (lead + rear) : null,
       top: [...mix].sort((a, b) => b.count - a.count).slice(0, 3), mix, events: ev, best: false, weakest: false,
@@ -97,8 +104,8 @@ export function athleteRounds(j: SessionJson, gapMs = COMBO_GAP_MS): AthleteRoun
 }
 
 export interface Agg {
-  rounds: number[]; strikesPerRound: number; perMin: number; speed: number | null; impact: number | null;
-  combosPerRound: number; kicksPerRound: number; kickShare: number; hookShare: number; leadShare: number | null; mix: MixItem[];
+  rounds: number[]; strikesPerRound: number; perMin: number; speed: number | null; impactG: number | null; impact: number | null;
+  combosPerRound: number; kicksPerRound: number; hookShare: number; leadShare: number | null; mix: MixItem[];
 }
 function agg(rs: AthleteRound[]): Agg {
   const n = rs.length;
@@ -111,9 +118,8 @@ function agg(rs: AthleteRound[]): Agg {
     rounds: rs.map((r) => r.number), strikesPerRound: strikes / n,
     perMin: rs.reduce((a, r) => a + r.perMin, 0) / n,
     speed: avg(punches.map((e) => e.speed_mps_est).filter((v): v is number => v != null)),
-    impact: avg(punches.map((e) => e.peak_g)),
+    impactG: avg(punches.map((e) => e.peak_g)), impact: impactScore(avg(punches.map((e) => e.peak_g)), rs[0]?.impactBase),
     combosPerRound: rs.reduce((a, r) => a + r.combos, 0) / n, kicksPerRound: kicks / n,
-    kickShare: strikes ? kicks / strikes : 0,
     hookShare: strikes ? ev.filter((e) => friendly(e.type) === 'Hook').length / strikes : 0,
     leadShare: lead + rear ? lead / (lead + rear) : null, mix: mixOf(ev),
   };
@@ -122,7 +128,8 @@ export const pctChange = (a: number | null, b: number | null) => (a === null || 
 
 export interface Finish {
   n: number; label: string; first: Agg; last: Agg;
-  change: { volume: number | null; speed: number | null; impact: number | null; combos: number | null; kickSharePts: number; leadSharePts: number | null };
+  /** percent changes, last vs first; leadSharePts in percentage points */
+  change: { volume: number | null; speed: number | null; impact: number | null; combos: number | null; kicks: number | null; leadSharePts: number | null };
 }
 /** First N vs last N rounds: N = 3 with 6+ rounds, else half the rounds (rounded down); null with < 2 rounds. */
 export function finishCompare(rs: AthleteRound[]): Finish | null {
@@ -133,8 +140,8 @@ export function finishCompare(rs: AthleteRound[]): Finish | null {
     n, label: n === 1 ? 'First round vs last round' : `First ${n} vs last ${n} rounds`, first, last,
     change: {
       volume: pctChange(first.strikesPerRound, last.strikesPerRound), speed: pctChange(first.speed, last.speed),
-      impact: pctChange(first.impact, last.impact), combos: pctChange(first.combosPerRound, last.combosPerRound),
-      kickSharePts: (last.kickShare - first.kickShare) * 100,
+      impact: pctChange(first.impactG, last.impactG), combos: pctChange(first.combosPerRound, last.combosPerRound),
+      kicks: pctChange(first.kicksPerRound, last.kicksPerRound),
       leadSharePts: first.leadShare !== null && last.leadShare !== null ? (last.leadShare - first.leadShare) * 100 : null,
     },
   };
@@ -184,14 +191,16 @@ export function finishNotes(f: Finish | null, bothHands: boolean): string[] {
   const s = f.change.speed;
   if (s !== null && Math.abs(s) >= 3) notes.push({ w: Math.abs(s) * 1.5, t: `Hands ${s < 0 ? 'slowed' : 'got faster'}: average speed ${s < 0 ? 'down' : 'up'} ${r0(s)}% (${f.first.speed!.toFixed(1)} → ${f.last.speed!.toFixed(1)} m/s).` });
   const im = f.change.impact;
-  if (im !== null && Math.abs(im) >= 5) notes.push({ w: Math.abs(im), t: `Impact ${im < 0 ? 'faded' : 'rose'}: ${r0(im)}% ${im < 0 ? 'lower' : 'higher'} in ${last}.` });
+  if (im !== null && Math.abs(im) >= 5) notes.push({ w: Math.abs(im), t: f.first.impact !== null && f.last.impact !== null
+    ? `Impact ${im < 0 ? 'faded' : 'rose'}: ${Math.round(f.first.impact)} → ${Math.round(f.last.impact)} (${r0(im)}% ${im < 0 ? 'lower' : 'higher'} in ${last}).`
+    : `Impact ${im < 0 ? 'faded' : 'rose'}: ${r0(im)}% ${im < 0 ? 'lower' : 'higher'} in ${last}.` });
   const hk = (f.last.hookShare - f.first.hookShare) * 100;
   if (Math.abs(hk) >= 3) notes.push({ w: Math.abs(hk) * 2, t: `${hk < 0 ? 'Fewer' : 'More'} hooks late: ${Math.round(f.first.hookShare * 100)}% of your strikes early, ${Math.round(f.last.hookShare * 100)}% in ${last}.` });
-  if (f.first.kicksPerRound > 0 || f.last.kicksPerRound > 0) {
-    const kd = pctChange(f.first.kicksPerRound, f.last.kicksPerRound);
-    if (kd !== null && kd <= -25) notes.push({ w: Math.abs(kd) / 2, t: `Kicks dropped off: ${f.first.kicksPerRound.toFixed(1)} per round early, ${f.last.kicksPerRound.toFixed(1)} in ${last}.` });
-    else if (kd !== null && kd >= 25) notes.push({ w: kd / 2, t: `More kicks late: ${f.first.kicksPerRound.toFixed(1)} → ${f.last.kicksPerRound.toFixed(1)} per round.` });
-  }
+  // kicks per round (not share of strikes): "4.0 → 1.3 per round"
+  const kd = f.change.kicks;
+  if (f.first.kicksPerRound === 0 && f.last.kicksPerRound >= 1) notes.push({ w: 20, t: `Kicks came in late: ${f.last.kicksPerRound.toFixed(1)} per round in ${last}, none early.` });
+  else if (kd !== null && kd <= -25) notes.push({ w: Math.abs(kd) / 4, t: `Kicks dropped off: ${f.first.kicksPerRound.toFixed(1)} → ${f.last.kicksPerRound.toFixed(1)} per round (${r0(kd)}% fewer in ${last}).` });
+  else if (kd !== null && kd >= 25) notes.push({ w: kd / 4, t: `More kicks late: ${f.first.kicksPerRound.toFixed(1)} → ${f.last.kicksPerRound.toFixed(1)} per round in ${last}.` });
   const c = f.change.combos;
   if (c !== null && Math.abs(c) >= 10) notes.push({ w: Math.abs(c) / 1.5, t: `${c < 0 ? 'Fewer' : 'More'} combinations: ${f.first.combosPerRound.toFixed(0)} per round early, ${f.last.combosPerRound.toFixed(0)} in ${last}.` });
   if (bothHands && f.change.leadSharePts !== null && Math.abs(f.change.leadSharePts) >= 3) {
@@ -230,6 +239,8 @@ export function topCombos(events: StrikeEvent[], n = 5, gapMs = COMBO_GAP_MS): C
 export interface SessionOverview {
   key: string; name: string; date: Date; durationS: number; rounds: number; roundLenS: number | null;
   strikes: number; perMin: number; best: AthleteRound | null; lateDropPct: number | null; takeaway: string;
+  /** mean peak_g of the opening rounds (raw g, for the impact baseline) */
+  openingImpactG: number | null;
 }
 export function sessionOverview(s: LoadedSession): SessionOverview | null {
   const j = s.json;
@@ -243,6 +254,51 @@ export function sessionOverview(s: LoadedSession): SessionOverview | null {
     key: s.key, name: s.name, date: new Date(j.session.start_time_iso), durationS: j.session.duration_s, rounds: rs.length,
     roundLenS: lens.length ? lens.reduce((a, b) => a + b, 0) / lens.length : null,
     strikes, perMin: act > 0 ? strikes / (act / 60) : 0, best: rs.find((r) => r.best) ?? null,
-    lateDropPct: f?.change.volume ?? null, takeaway: takeaway(rs, f),
+    lateDropPct: f?.change.volume ?? null, takeaway: takeaway(rs, f), openingImpactG: openingImpactG(rs),
   };
+}
+
+// ---- Impact score -------------------------------------------------------------------------
+/**
+ * Impact score: 100 x (mean peak wrist acceleration of the punches) / baseline.
+ * Baseline ("your usual"), in this order:
+ *  1. history: the median, over your IMPACT.maxSessions most recent EARLIER sessions that are loaded
+ *     (at least IMPACT.minSessions of them, each with >= IMPACT.minPunches punches), of each
+ *     session's opening-rounds mean peak (the same first-N rounds as "How you finished");
+ *  2. otherwise this session's own opening rounds (so they score 100).
+ * Only earlier sessions count, so a session's score does not change when you add newer ones.
+ */
+export const IMPACT = { minSessions: 2, maxSessions: 5, minPunches: 20 } as const;
+export interface ImpactBaseline { g: number; source: 'history' | 'session'; sessions: number; text: string }
+
+/** Mean peak_g of the punches in the opening rounds (first N as in finishCompare; 1 round: that round). */
+export function openingImpactG(rs: AthleteRound[]): number | null {
+  if (!rs.length) return null;
+  const n = rs.length >= 2 * FINISH_ROUNDS ? FINISH_ROUNDS : Math.max(1, Math.floor(rs.length / 2));
+  return avg(rs.slice(0, n).flatMap((r) => r.events.filter(isPunch).map((e) => e.peak_g)));
+}
+const median = (a: number[]) => { const s = [...a].sort((x, y) => x - y), m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
+
+export function impactBaseline(j: SessionJson, history: SessionJson[] = []): ImpactBaseline | null {
+  const t = Date.parse(j.session.start_time_iso);
+  const earlier = history
+    .filter((h) => h !== j && Date.parse(h.session.start_time_iso) < t && h.punches.filter(isPunch).length >= IMPACT.minPunches)
+    .sort((a, b) => Date.parse(b.session.start_time_iso) - Date.parse(a.session.start_time_iso))
+    .slice(0, IMPACT.maxSessions)
+    .map((h) => openingImpactG(athleteRounds(h)))
+    .filter((v): v is number => v !== null && v > 0);
+  if (earlier.length >= IMPACT.minSessions)
+    return { g: median(earlier), source: 'history', sessions: earlier.length, text: `100 = your usual: the median of your opening rounds over your last ${earlier.length} sessions.` };
+  const rs = athleteRounds(j);
+  const own = openingImpactG(rs);
+  if (own === null || own <= 0) return null;
+  const n = rs.length >= 2 * FINISH_ROUNDS ? FINISH_ROUNDS : Math.max(1, Math.floor(rs.length / 2));
+  return { g: own, source: 'session', sessions: 0, text: `100 = your ${n === 1 ? 'first round' : `first ${n} rounds`} today (open earlier sessions to compare with your usual).` };
+}
+
+/** Rounds with impact scores against the baseline (history of loaded sessions, else this session). */
+export function athleteSession(j: SessionJson, history: SessionJson[] = []) {
+  const base = impactBaseline(j, history);
+  const rounds = athleteRounds(j, { impactBase: base?.g ?? null });
+  return { rounds, finish: finishCompare(rounds), base };
 }

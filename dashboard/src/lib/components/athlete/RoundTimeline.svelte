@@ -1,9 +1,9 @@
 <script lang="ts">
   // One round's strikes over time: stick height = impact, colour = strike type, diamonds = kicks,
   // shaded bands = combos. Plus strikes per minute.
-  import { COMBO_GAP_MS, FRIENDLY_COLOR, friendly, isKick, isPunch, sideOf, type AthleteRound } from '../../athlete';
+  import { COMBO_GAP_MS, FRIENDLY_COLOR, friendly, impactScore, isKick, isPunch, sideOf, type AthleteRound } from '../../athlete';
   import { combos, fmtTime } from '../../stats';
-  let { round, stance, bothHands }: { round: AthleteRound; stance: string | null; bothHands: boolean } = $props();
+  let { round, stance, bothHands, impactBase = null }: { round: AthleteRound; stance: string | null; bothHands: boolean; impactBase?: number | null } = $props();
   let w = $state(340);
   const H = 136, pad = { l: 8, r: 8, t: 10, b: 30 };
   const ev = $derived(round.events.filter((e) => isPunch(e) || isKick(e)));
@@ -34,7 +34,7 @@
       {#if isKick(e)}
         <rect x={X(e.t_peak_s) - 4.5} y={pad.t + 2} width="9" height="9" transform={`rotate(45 ${X(e.t_peak_s)} ${pad.t + 6.5})`} fill={c}><title>Kick · {fmtTime(e.t_peak_s - round.tStart)}</title></rect>
       {:else}
-        <line x1={X(e.t_peak_s)} x2={X(e.t_peak_s)} y1={H - pad.b} y2={Y(e.peak_g)} stroke={c} stroke-width="2.2" stroke-linecap="round" opacity={bothHands && sideOf(e, stance) === 'lead' ? 0.75 : 1}><title>{friendly(e.type)}{bothHands ? ` · ${sideOf(e, stance)} hand` : ''} · {fmtTime(e.t_peak_s - round.tStart)} · impact {e.peak_g.toFixed(1)}</title></line>
+        <line x1={X(e.t_peak_s)} x2={X(e.t_peak_s)} y1={H - pad.b} y2={Y(e.peak_g)} stroke={c} stroke-width="2.2" stroke-linecap="round" opacity={bothHands && sideOf(e, stance) === 'lead' ? 0.75 : 1}><title>{friendly(e.type)}{bothHands ? ` · ${sideOf(e, stance)} hand` : ''} · {fmtTime(e.t_peak_s - round.tStart)} {impactBase ? ` · impact ${Math.round(impactScore(e.peak_g, impactBase)!)}` : ''}</title></line>
       {/if}
     {/each}
   </svg>

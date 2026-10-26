@@ -160,7 +160,7 @@
 </main>
 
 <footer class="small dim">
-  {#if lab}Peak g is wrist acceleration, not force. Speeds are estimates. Clipped peaks (≥) are lower bounds.{:else}Speeds are estimates. Impact is wrist acceleration.{/if} · Open source · <a href="https://github.com/SagaE92/boxing-tracker">github.com/SagaE92/boxing-tracker</a>
+  {#if lab}Peak g is wrist acceleration, not force. Speeds are estimates. Clipped peaks (≥) are lower bounds.{:else}Speeds are estimates. Impact is a score against your own usual (100), from wrist acceleration.{/if} · Open source · <a href="https://github.com/SagaE92/boxing-tracker">github.com/SagaE92/boxing-tracker</a>
 </footer>
 
 {#if dragging}
