@@ -1,17 +1,17 @@
 {
   "samples_hint": "long-1h\ndemo · synthetic recording\nOct 24, 2026, 9:00 PM\n59:46 total\nSensor: lea",
-  "loadMs": 1603,
-  "signalsMs": 322,
+  "loadMs": 1363,
+  "signalsMs": 315,
   "rangeCallsOnOpen": 2,
-  "firstRangeMs": 65,
+  "firstRangeMs": 75,
   "zoomMs": [
-    52.1000000089407,
-    34.099999994039536,
-    14.299999997019768,
-    9.099999994039536,
-    6.4000000059604645,
-    4.300000011920929
+    46,
+    18.599999994039536,
+    12.800000011920929,
+    9.399999991059303,
+    5.700000002980232,
+    3.3999999910593033
   ],
-  "wheel10Ms": 574,
+  "wheel10Ms": 537,
   "jsHeapMB": 68.9
 }
