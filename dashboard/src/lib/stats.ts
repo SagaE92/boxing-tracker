@@ -56,7 +56,10 @@ export function applyFilters(events: StrikeEvent[], f: Filters): StrikeEvent[] {
 export interface SummaryStats {
   strikes: number; nonStrike: number; kicks: number; clinches: number; clinchTimeS: number;
   activeTimeS: number; perMin: number;
+  /** Mean over all strikes; clipped strikes contribute their lower bound, so if any are clipped this is itself a lower bound. */
   meanPeak: number | null; maxPeak: number | null; maxPeakSaturated: boolean;
+  /** Mean over strikes that did not clip (exact values only). */
+  meanPeakUnclipped: number | null; maxPeakUnclipped: number | null; unclippedStrikes: number;
   meanSpeed: number | null; maxSpeed: number | null;
   byType: Record<string, number>; byHand: { L: number; R: number; unknown: number };
   byTarget: { head: number; body: number; unknown: number };
@@ -88,6 +91,9 @@ export function summarize(events: StrikeEvent[], activeTimeS: number, includeNon
     clinches: clin.length, clinchTimeS: sum(clin.map((e) => e.t_end_s - e.t_start_s)),
     activeTimeS, perMin: activeTimeS > 0 ? strikes.length / (activeTimeS / 60) : 0,
     meanPeak: mean(peaks), maxPeak, maxPeakSaturated: strikes.some((e) => e.saturated && e.peak_g === maxPeak),
+    meanPeakUnclipped: mean(strikes.filter((e) => !e.saturated).map((e) => e.peak_g)),
+    maxPeakUnclipped: maxOf(strikes.filter((e) => !e.saturated).map((e) => e.peak_g)),
+    unclippedStrikes: strikes.filter((e) => !e.saturated).length,
     meanSpeed: mean(speeds), maxSpeed: maxOf(speeds), byType, byHand, byTarget,
     saturatedStrikes: strikes.filter((e) => e.saturated).length,
     meanConfidence: mean(strikes.map((e) => e.confidence)),
@@ -98,6 +104,8 @@ export function summarize(events: StrikeEvent[], activeTimeS: number, includeNon
 export interface RoundStats {
   round: Round; number: number; strikes: number; perMin: number; restAfterS: number | null;
   meanPeak: number | null; maxPeak: number | null; meanSpeed: number | null;
+  /** clipped strikes in the round; maxPeakSat = the round's max is a clipped lower bound */
+  clipped: number; maxPeakSat: boolean;
   withinPeakChangePct: number | null; withinSpeedChangePct: number | null; nonStrike: number;
 }
 /** Round-by-round breakdown with within-round decline (linear fit start→end). */
@@ -120,6 +128,8 @@ export function roundStats(json: SessionJson, events: StrikeEvent[]): RoundStats
       round: r, number: i + 1, strikes: st.length, perMin: dur > 0 ? st.length / (dur / 60) : 0,
       restAfterS: rest ? rest.t_end_s - rest.t_start_s : null,
       meanPeak: mean(st.map((e) => e.peak_g)), maxPeak: maxOf(st.map((e) => e.peak_g)), meanSpeed: mean(speeds),
+      clipped: st.filter((e) => e.saturated).length,
+      maxPeakSat: st.some((e) => e.saturated && e.peak_g === maxOf(st.map((x) => x.peak_g))),
       withinPeakChangePct: within(st.map((e) => e.peak_g)), withinSpeedChangePct: within(st.map((e) => e.speed_mps_est)),
       nonStrike: ev.length - st.length,
     };
@@ -174,11 +184,27 @@ export function comboStats(cs: Combo[]) {
   return { lengths, top, comboCount: multi.length, meanLength: mean(multi.map((c) => c.events.length)), strikesInCombos: sum(multi.map((c) => c.events.length)) };
 }
 
+// ---------------- saturation severity (one scheme for clipped strikes and saturated samples) ----------------
+export type Level = 'ok' | 'warn' | 'bad';
+/** Any clipping = amber "warn". Red "bad" once peak-g stats are substantially biased:
+ *  >= 10 % of strikes clipped, or >= 1 % of raw samples saturated. Documented in TIPS.saturation and TESTING.md. */
+export const SAT_THRESHOLDS = { clippedStrikeShareBad: 0.1, satSampleFractionBad: 0.01 } as const;
+export function clippedStrikeLevel(clipped: number, strikes: number): Level {
+  if (!clipped) return 'ok';
+  return strikes > 0 && clipped / strikes >= SAT_THRESHOLDS.clippedStrikeShareBad ? 'bad' : 'warn';
+}
+export function satSampleLevel(fraction: number): Level {
+  if (!(fraction > 0)) return 'ok';
+  return fraction >= SAT_THRESHOLDS.satSampleFractionBad ? 'bad' : 'warn';
+}
+export const worst = (...l: Level[]): Level => (l.includes('bad') ? 'bad' : l.includes('warn') ? 'warn' : 'ok');
+
 export interface DataQuality {
   samples: number; expected: number; droppedEst: number; droppedPct: number;
   gaps: { t: number; dur: number }[]; maxGapS: number;
   measuredHz: number | null; jitterUs: number | null;
-  satSamples: number; satFraction: number; saturatedStrikes: number;
+  satSamples: number; satFraction: number; saturatedStrikes: number; strikes: number;
+  satLevel: Level; clipLevel: Level; saturationLevel: Level;
   calibrated: boolean | null; confHist: number[]; lowConfShare: number | null;
   issues: { level: 'warn' | 'bad' | 'info'; text: string }[];
 }
@@ -210,8 +236,15 @@ export function dataQuality(json: SessionJson | undefined, raw: RawData | undefi
   const calibrated = json ? !!json.session.calibration : null;
   const issues: DataQuality['issues'] = [];
   const range = json?.session.accel_range_g ?? 16;
-  if (saturatedStrikes) issues.push({ level: 'warn', text: `${saturatedStrikes} strike(s) clipped at ±${range} g. Their peak g is a lower bound; the real peak was higher.` });
-  if (satFraction > 0.001) issues.push({ level: 'bad', text: `${(satFraction * 100).toFixed(2)}% of samples are saturated. Consider the high-g IMU path.` });
+  const satLevel = satSampleLevel(satFraction), clipLevel = clippedStrikeLevel(saturatedStrikes, strikes.length);
+  const saturationLevel = worst(satLevel, clipLevel);
+  if (saturationLevel !== 'ok') {
+    const samp = `${(satFraction * 100).toFixed(3)}% of samples are saturated`;
+    const text = saturatedStrikes
+      ? `${saturatedStrikes} of ${strikes.length} strike(s) (${((saturatedStrikes / Math.max(1, strikes.length)) * 100).toFixed(1)}%) clipped at ±${range} g; ${samp}. Their peak g is a lower bound (≥).`
+      : `${samp} (outside detected strikes).`;
+    issues.push({ level: saturationLevel, text: saturationLevel === 'bad' ? `${text} Peak-g stats are substantially biased; consider the high-g IMU path.` : text });
+  }
   if (gaps.length) issues.push({ level: gaps.some((g) => g.dur > 1) ? 'bad' : 'warn', text: `${gaps.length} BLE gap(s) in the raw stream, ~${droppedEst} sample(s) lost (longest ${(Math.max(...gaps.map((g) => g.dur)) * 1000).toFixed(0)} ms). Strikes inside gaps may be missed.` });
   if (measuredHz && Math.abs(measuredHz - fs) / fs > 0.02) issues.push({ level: 'warn', text: `Measured sample rate ${measuredHz.toFixed(1)} Hz differs from nominal ${fs} Hz.` });
   if (calibrated === false) issues.push({ level: 'warn', text: 'No guard-pose calibration: axis-dependent features (type, target) are less reliable.' });
@@ -220,7 +253,7 @@ export function dataQuality(json: SessionJson | undefined, raw: RawData | undefi
   return {
     samples: raw?.n ?? 0, expected, droppedEst, droppedPct: expected ? (droppedEst / expected) * 100 : 0,
     gaps, maxGapS: gaps.length ? Math.max(...gaps.map((g) => g.dur)) : 0, measuredHz, jitterUs,
-    satSamples, satFraction, saturatedStrikes, calibrated, confHist, lowConfShare, issues,
+    satSamples, satFraction, saturatedStrikes, strikes: strikes.length, satLevel, clipLevel, saturationLevel, calibrated, confHist, lowConfShare, issues,
   };
 }
 
@@ -303,7 +336,7 @@ export function matchLabels(events: StrikeEvent[], labels: LabelRow[], tolMs = 2
 // ---------------- Trends ----------------
 export interface SessionTrend {
   key: string; name: string; date: Date; strikes: number; perMin: number;
-  meanPeak: number | null; maxPeak: number | null; maxPeakSat: boolean; meanSpeed: number | null; maxSpeed: number | null;
+  meanPeak: number | null; maxPeak: number | null; maxPeakSat: boolean; clipped: number; meanSpeed: number | null; maxSpeed: number | null;
   byType: Record<string, number>; fat: Fatigue; rounds: RoundStats[]; nonStrike: number; satFraction: number;
 }
 export function sessionTrend(s: LoadedSession): SessionTrend | null {
@@ -314,7 +347,7 @@ export function sessionTrend(s: LoadedSession): SessionTrend | null {
   const rs = roundStats(j, j.punches);
   return {
     key: s.key, name: s.name, date: new Date(j.session.start_time_iso), strikes: sm.strikes, perMin: sm.perMin,
-    meanPeak: sm.meanPeak, maxPeak: sm.maxPeak, maxPeakSat: sm.maxPeakSaturated, meanSpeed: sm.meanSpeed, maxSpeed: sm.maxSpeed,
+    meanPeak: sm.meanPeak, maxPeak: sm.maxPeak, maxPeakSat: sm.maxPeakSaturated, clipped: sm.saturatedStrikes, meanSpeed: sm.meanSpeed, maxSpeed: sm.maxSpeed,
     byType: sm.byType, fat: fatigue(rs), rounds: rs, nonStrike: sm.nonStrike,
     satFraction: s.raw ? s.raw.satCount / s.raw.n : j.summary.saturated_sample_fraction,
   };
@@ -329,6 +362,8 @@ export function personalBests(ts: SessionTrend[]) {
 }
 
 // ---------------- formatting ----------------
+/** Peak g text. `lowerBound` = the value is (or includes) a clipped peak, so the true value is at least this: "≥18.5". */
+export const peakText = (v: number | null | undefined, lowerBound: boolean, d = 1) => (v === null || v === undefined || !Number.isFinite(v) ? '—' : `${lowerBound ? '≥' : ''}${v.toFixed(d)}`);
 export const fmt = (v: number | null | undefined, d = 1, unit = '') => (v === null || v === undefined || !Number.isFinite(v) ? '—' : `${v.toFixed(d)}${unit}`);
 export const pct = (v: number | null | undefined, d = 0) => (v === null || v === undefined ? '—' : `${(v * 100).toFixed(d)}%`);
 export function fmtTime(s: number, withMs = false): string {

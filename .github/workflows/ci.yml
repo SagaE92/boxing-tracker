@@ -18,7 +18,9 @@ jobs:
       - run: python -m pytest -q analysis/tests tools/tests
 
   dashboard:
-    name: dashboard build + type-check
+    name: dashboard build, check, unit + e2e tests
+    # PRs only: on main, pages.yml builds and deploys the dashboard (avoids a duplicate build).
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -33,6 +35,21 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm run check
+      - run: npm test
+      - name: Install Chromium for e2e
+        run: npx playwright install --with-deps chromium
+      - name: e2e + screenshots
+        run: npm run test:e2e
+        env:
+          CI: '1'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dashboard-e2e
+          path: |
+            dashboard/screenshots/
+            dashboard/playwright-report/
+          retention-days: 14
 
   firmware:
     name: firmware (Zephyr v4.1.0, sysbuild + MCUboot)

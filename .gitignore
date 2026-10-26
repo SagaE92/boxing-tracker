@@ -6,3 +6,6 @@ __pycache__/
 firmware/tests/host/out/
 node_modules/
 dist/
+
+# local issue drafts (not committed)
+.issues/

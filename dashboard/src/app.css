@@ -82,7 +82,7 @@ button, input, select { font: inherit; color: inherit; }
   display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.08rem 0.45rem; border-radius: 6px;
   font-size: 0.72rem; font-weight: 600; border: 1px solid transparent; white-space: nowrap; line-height: 1.4;
 }
-.badge.sat { color: #fecaca; background: rgba(248, 113, 113, 0.14); border-color: rgba(248, 113, 113, 0.4); }
+.badge.sat { color: #fde68a; background: rgba(251, 191, 36, 0.12); border-color: rgba(251, 191, 36, 0.4); }
 .badge.low { color: #cbd5e1; background: rgba(148, 163, 184, 0.12); border-color: rgba(148, 163, 184, 0.35); }
 .badge.hi { color: #bbf7d0; background: rgba(52, 211, 153, 0.12); border-color: rgba(52, 211, 153, 0.35); }
 .badge.mid { color: #fde68a; background: rgba(251, 191, 36, 0.12); border-color: rgba(251, 191, 36, 0.35); }

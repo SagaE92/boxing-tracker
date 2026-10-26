@@ -1,13 +1,14 @@
 # Dashboard testing
 
-Last full run: 2026-10-25, headless Chromium (Playwright 1.64 bundled build), Node 22.
+Last full run: 2026-10-25 (branch `fix/review-1`), headless Chromium (Playwright 1.64 bundled build), Node 22.
 
 | Suite | Command | Result |
 |---|---|---|
 | Type / Svelte check | `npm run check` | 0 errors, 0 warnings |
-| Unit (Vitest) | `npm test` | **49 / 49 passed** |
+| Unit (Vitest) | `npm test` | **52 / 52 passed** |
 | Production build | `npm run build` | OK → `dist/` (relative base `./`) |
-| E2E + screenshots (Playwright) | `npm run test:e2e` | **15 / 15 passed** (~30 s) |
+| E2E + screenshots (Playwright) | `npm run test:e2e` | **16 / 16 passed** (~33 s) |
+| Python (analysis + tools + firmware host tests) | `python -m pytest -q analysis/tests tools/tests` | **27 / 27 passed** |
 
 `npm run test:e2e` builds nothing itself; run `npm run build` first (it serves `dist/` with `vite preview` on :4173).
 `tests/e2e/global-setup.ts` generates the fixtures (1 h session, heavy saturation, idle, single hand, broken/empty/future-version files) into `tests/e2e/.fixtures/` (git-ignored).
@@ -38,12 +39,24 @@ Last full run: 2026-10-25, headless Chromium (Playwright 1.64 bundled build), No
 | Viewports 375 / 390 / 414 / 820 px + 1440 desktop: no horizontal overflow on any tab | `responsive …px` ×4 |
 | 1 h, 416 Hz session (~1.49 M samples): load, render, zoom, wheel, heap | `perf.spec.ts` |
 
+## Saturation severity scheme
+
+Clipped strikes and saturated samples share one scale (`clippedStrikeLevel` / `satSampleLevel` in `src/lib/stats.ts`, `SAT_THRESHOLDS`), used by the Overview card, the data-quality panel, the warning banner and the strike detail:
+
+| Level | Clipped strikes (share of strikes) | Saturated raw samples | Meaning |
+|---|---|---|---|
+| green / ok | 0 | 0 | no clipping |
+| **amber / warn** | > 0 and < 10 % | > 0 and < 1 % | some peaks are lower bounds (shown as `≥`) |
+| **red / bad** | ≥ 10 % | ≥ 1 % | peak-g means, maxima and trends substantially understated; high-g IMU path needed |
+
+The banner shows one combined line at the worse of the two levels. Clipping marks in charts (timeline ring, signal shading, ±16 g lines, strike-table badge) are amber. Unit-tested in `stats.test.ts`; the heavy-saturation e2e test checks that card, panel and banner agree.
+
 ## Performance (1 h @ 416 Hz, `screenshots/perf.json`)
 
 | Metric | Result | Budget asserted |
 |---|---|---|
 | Load + parse (gzip CSV + JSON) | ~1.6 s | – |
-| Open Signals tab (3 charts drawn) | **~0.31 s** | < 5 s |
+| Open Signals tab (3 charts drawn) | **~0.33 s** | < 5 s |
 | Decimation passes on opening Signals | 2 | ≤ 3 |
 | First range draw | ~70 ms | < 500 ms |
 | 6 successive zooms | 41 → 5 ms | < 250 ms each |
@@ -56,6 +69,20 @@ Charts use min/max per-pixel decimation (gaps preserved), so drawn points stay ~
 Opening Signals on the 1 h session originally took 4.7–12.9 s. Profiling showed `decimate()` running ~228 times: the range `$effect` also tracked derived values read inside uPlot draw hooks, so each redraw re-triggered it. The effect now tracks only `range`/`raw` and runs the draw `untrack`ed (same guard applied to Timeline and StrikeDetail redraws). Result: 2 passes, ~0.3 s. The test now asserts the pass count so the loop can't come back.
 
 Other issues found and fixed during testing: tooltips caused horizontal overflow on phones (now `display:none` until hover/focus); charts in grids overflowed at 375 px (`minmax(min(Npx,100%),1fr)`); uPlot legend inherited table header styling; Timeline/Signals rebuilt on every zoom; the round filter used the wrong index; demo data initially had no saturation to exercise the warning.
+
+## Review 1 (before / after)
+
+`node scripts/review-shots.mjs before|after` (with `vite preview` on :4173) writes `screenshots/review-1/`:
+
+| Item | Before | After |
+|---|---|---|
+| 1. clipped peaks as lower bounds | `1-peak-cards-before.png`, `1-round-table-before.png`, `1-strike-table-clipped-before.png` | `1-peak-cards-after.png` (new default demo), `1-peak-cards-same-session-after.png`, `1-round-table-after.png`, `1-round-table-same-session-after.png`, `1-strike-table-clipped-after.png` |
+| 2. one severity scheme | `2-data-quality-before.png` (red saturation vs amber clipped card) | `2-data-quality-after.png`, `2-data-quality-same-session-after.png`, `2-warning-banner-same-session-after.png` |
+| 3. 6 × 2 min default demo | `3-header-demo-select-before.png`, `3-overview-default-demo-before.png`, `3-trends-before.png` | `3-header-demo-select-after.png`, `3-overview-default-demo-after.png`, `3-trends-after.png` |
+
+Finding for item 1: the old "20.2 g" max on the 3-round demo was **not** clipped. The ±16 g limit is per axis and that strike's axes peaked at about −12.9 / −6.5 / −15.5 g (|a| = 21.2 g, so peak g = 20.2), so the magnitude is real. Clipped strikes are now marked `≥` everywhere (cards, round table, strike table, timeline tooltip, Trends, personal bests, CSV `clipped` + `peak_g_text` columns), and the mean is shown unclipped plus "incl. clipped ≥…".
+
+New e2e checks: default demo is `demo-6x2` (6 round rows) and the 3-round demo can be selected; card, panel and banner severity agree on the heavy-saturation fixture; CSV has `clipped` / `peak_g_text` / `mean_peak_g_unclipped` / `max_peak_g_clipped`.
 
 ## Screenshots (`screenshots/`, regenerated by every e2e run)
 `desktop-{overview,signals,strikes,strike-detail,trends,accuracy,live,about}.png`, `phone-375-overview.png`, `phone-390-{overview,signals,strikes,trends,accuracy,live,why}.png`, `phone-414-overview.png`, `tablet-820-*.png`, `errors.png`, `heavy-saturation.png`, `single-hand-overview.png`, `export-summary.png`, `perf-1h-signals.png`, `perf.json`.

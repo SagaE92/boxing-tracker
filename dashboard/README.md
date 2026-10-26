@@ -74,8 +74,13 @@ estimated speed; nothing is called "power" or "force".
 ## Demo data
 
 `public/demo/` (rebuild with `npm run demo:data`):
-* `demo_*`: the Python pipeline's sample (`analysis/samples`: a synthetic recording
-  from `analysis/synth.py` processed by `analysis/detector.py`), raw CSV gzipped.
+* `demo-6x2_*` (**default**): 6 × 2 min rounds with fatigue (strike amplitude and work
+  rate fade across and within rounds). Built by `scripts/gen_rounds_demo.py` from the
+  `analysis/synth.py` primitives and processed by the unchanged `analysis/detector.py`
+  CLI, so every event is real detector output. Raw CSV gzipped (~7 MB), labels included.
+  Needs Python with numpy + jsonschema (the repo `.venv` is used if present).
+* `demo_*`: the Python pipeline's sample (`analysis/samples`, 3 × 3 min), session.json
+  and labels only (raw dropped to keep the bundle small).
 * `demo-2026-10-10`, `demo-2026-10-17`: session.json only, from
   `scripts/gen-demo.mjs` (synthetic simulator, deterministic seeds) so Trends has
   history. **All demo data is synthetic**; accuracy numbers on it only show the pipeline

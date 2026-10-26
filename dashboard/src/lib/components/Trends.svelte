@@ -1,6 +1,6 @@
 <script lang="ts">
   import { app } from '../state.svelte';
-  import { fmt, personalBests, sessionTrend, type SessionTrend } from '../stats';
+  import { fmt, peakText, personalBests, sessionTrend, type SessionTrend } from '../stats';
   import { TYPES, isStrike, typeColor, typeLabel } from '../taxonomy';
   import { TIPS } from '../tips';
   import LineChart from './LineChart.svelte';
@@ -23,12 +23,13 @@
   });
   const A = $derived(ts.find((t) => t.key === aKey));
   const B = $derived(ts.find((t) => t.key === bKey));
-  type Row = { label: string; get: (t: SessionTrend) => number | null; d: number; unit: string; better: 1 | -1 | 0 };
+  type Row = { label: string; get: (t: SessionTrend) => number | null; d: number; unit: string; better: 1 | -1 | 0; lb?: (t: SessionTrend) => boolean };
   const rows: Row[] = [
     { label: 'Strikes', get: (t) => t.strikes, d: 0, unit: '', better: 1 },
     { label: 'Work rate', get: (t) => t.perMin, d: 1, unit: '/min', better: 1 },
-    { label: 'Mean peak g', get: (t) => t.meanPeak, d: 2, unit: ' g', better: 1 },
-    { label: 'Max peak g', get: (t) => t.maxPeak, d: 1, unit: ' g', better: 1 },
+    { label: 'Mean peak g', get: (t) => t.meanPeak, d: 2, unit: ' g', better: 1, lb: (t) => t.clipped > 0 },
+    { label: 'Max peak g', get: (t) => t.maxPeak, d: 1, unit: ' g', better: 1, lb: (t) => t.maxPeakSat },
+    { label: 'Clipped strikes', get: (t) => t.clipped, d: 0, unit: '', better: 0 },
     { label: 'Speed est. (mean)', get: (t) => t.meanSpeed, d: 2, unit: ' m/s', better: 1 },
     { label: 'Peak g drop, R1→last', get: (t) => t.fat.peakDropPct, d: 1, unit: '%', better: -1 },
     { label: 'Speed drop, R1→last', get: (t) => t.fat.speedDropPct, d: 1, unit: '%', better: -1 },
@@ -41,12 +42,12 @@
 {#if ts.length < 2}
   <div class="card empty">
     <h2>Trends need 2+ sessions</h2>
-    <p class="muted">Drop several <span class="mono">session.json</span> files at once (or one by one) to compare volume, peak g, type mix and fatigue across sessions. The demo loads three.</p>
+    <p class="muted">Drop several <span class="mono">session.json</span> files at once (or one by one) to compare volume, peak g, type mix and fatigue across sessions. The demo loads four.</p>
     <button class="btn primary" onclick={() => app.demo()}>Load demo sessions</button>
   </div>
 {:else}
   <section class="pbs" aria-label="Personal bests">
-    <Stat label="Best max peak" value={`${pb.maxPeak?.maxPeakSat ? '≥' : ''}${fmt(pb.maxPeak?.maxPeak, 1)}`} unit="g" sub={day(pb.maxPeak)} tip={TIPS.maxPeak} tone="accent" />
+    <Stat label="Best max peak" value={peakText(pb.maxPeak?.maxPeak, !!pb.maxPeak?.maxPeakSat)} unit="g" sub={`${day(pb.maxPeak)}${pb.maxPeak?.maxPeakSat ? ' · clipped, lower bound' : ''}`} tip={TIPS.maxPeak} tone="accent" />
     <Stat label="Best speed (est.)" value={fmt(pb.maxSpeed?.maxSpeed, 1)} unit="m/s" sub={day(pb.maxSpeed)} tip={TIPS.speed} />
     <Stat label="Most strikes" value={String(pb.strikes?.strikes ?? '—')} sub={day(pb.strikes)} tip={TIPS.strikes} />
     <Stat label="Best work rate" value={fmt(pb.perMin?.perMin, 1)} unit="/min" sub={day(pb.perMin)} tip={TIPS.perMin} />
@@ -95,7 +96,7 @@
           {#each rows as r (r.label)}
             {@const a = r.get(A)}{@const b = r.get(B)}
             {@const d = a !== null && b !== null ? b - a : null}
-            <tr><td>{r.label}</td><td class="r num">{fmt(a, r.d)}{r.unit}</td><td class="r num">{fmt(b, r.d)}{r.unit}</td>
+            <tr><td>{r.label}</td><td class="r num">{peakText(a, !!A && !!r.lb?.(A), r.d)}{r.unit}</td><td class="r num">{peakText(b, !!B && !!r.lb?.(B), r.d)}{r.unit}</td>
               <td class="r num {d === null || r.better === 0 || Math.abs(d) < 1e-9 ? '' : d * r.better > 0 ? 'up' : 'down'}">{d === null ? '—' : `${d > 0 ? '+' : ''}${d.toFixed(r.d)}${r.unit}`}</td></tr>
           {/each}
         </tbody>

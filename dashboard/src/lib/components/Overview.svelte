@@ -1,6 +1,6 @@
 <script lang="ts">
   import { app } from '../state.svelte';
-  import { activeTime, applyFilters, comboStats, combos, dataQuality, fatigue, filtersActive, fmt, fmtTime, pct, roundStats, summarize } from '../stats';
+  import { activeTime, applyFilters, comboStats, combos, dataQuality, fatigue, filtersActive, fmt, fmtTime, maxOf, pct, peakText, roundStats, summarize } from '../stats';
   import { NON_STRIKE, TYPES, isStrike, typeColor, typeLabel } from '../taxonomy';
   import { TIPS } from '../tips';
   import { download, eventsCsv, exportPng, summaryCsv } from '../exporters';
@@ -24,6 +24,8 @@
   const fat = $derived(fatigue(rs));
   const cmb = $derived(comboStats(combos(filtered, app.comboGapMs)));
   const dq = $derived(dataQuality(j, s.raw, all));
+  const range = $derived(j?.session.accel_range_g ?? 16);
+  const maxClipped = $derived(maxOf(filtered.filter((e) => e.saturated && isStrike(e.type)).map((e) => e.peak_g)));
   const active = $derived(filtersActive(app.filters));
   const selected = $derived(all.find((e) => e.id === app.selectedId) ?? null);
   const leadHand = $derived(j?.session.stance === 'southpaw' ? 'R' : 'L');
@@ -75,10 +77,15 @@
     <div class="stats">
       <Stat label="Strikes" value={String(sm.strikes)} tip={TIPS.strikes} tone="accent" sub={`${allSm.nonStrike} non-strike event(s) excluded`} />
       <Stat label="Work rate" value={fmt(sm.perMin, 1)} unit="/min" tip={TIPS.perMin} sub={`over ${fmtTime(act)} of rounds`} />
-      <Stat label="Mean peak" value={fmt(sm.meanPeak, 1)} unit="g" tip={TIPS.meanPeak} sub="acceleration, not force" />
-      <Stat label="Max peak" value={`${sm.maxPeakSaturated ? '≥' : ''}${fmt(sm.maxPeak, 1)}`} unit="g" tip={TIPS.maxPeak} tone={sm.maxPeakSaturated ? 'warn' : ''} sub={sm.maxPeakSaturated ? 'clipped: lower bound' : 'single strike'} />
+      {#if sm.saturatedStrikes}
+        <Stat label="Mean peak · unclipped" value={fmt(sm.meanPeakUnclipped, 1)} unit="g" tip={TIPS.meanPeak} sub={`${sm.unclippedStrikes} exact · incl. ${sm.saturatedStrikes} clipped: ${peakText(sm.meanPeak, true)} g`} />
+      {:else}
+        <Stat label="Mean peak" value={fmt(sm.meanPeak, 1)} unit="g" tip={TIPS.meanPeak} sub="acceleration, not force" />
+      {/if}
+      <Stat label="Max peak" value={peakText(sm.maxPeak, sm.maxPeakSaturated)} unit="g" tip={TIPS.maxPeak} tone={sm.maxPeakSaturated ? (dq.saturationLevel === 'ok' ? 'warn' : dq.saturationLevel) : ''}
+        sub={sm.maxPeakSaturated ? `clipped at ±${range} g/axis · lower bound` : `not clipped · 3-axis magnitude${sm.saturatedStrikes ? ` · max clipped ${peakText(maxClipped, true)}` : ''}`} />
       <Stat label="Speed (est.)" value={fmt(sm.meanSpeed, 1)} unit="m/s" tip={TIPS.speed} sub={`max ~${fmt(sm.maxSpeed, 1)} m/s · estimate`} />
-      <Stat label="Clipped strikes" value={String(sm.saturatedStrikes)} tip={TIPS.saturation} tone={sm.saturatedStrikes ? 'warn' : ''} sub={`${pct(dq.satFraction, 3)} of samples saturated`} />
+      <Stat label="Clipped strikes" value={String(sm.saturatedStrikes)} tip={TIPS.saturation} tone={dq.saturationLevel === 'ok' ? '' : dq.saturationLevel} sub={`${pct(dq.satFraction, 3)} of samples saturated`} />
       <Stat label="Confidence" value={sm.meanConfidence === null ? '—' : `${Math.round(sm.meanConfidence * 100)}%`} tip={TIPS.confidence} sub={`${sm.lowConfidence} strike(s) below 50%`} />
       <Stat label="Kick / clinch" value={`${allSm.kicks} · ${allSm.clinches}`} tip={TIPS.nonStrike} sub={`kick/body events · clinch ${fmt(allSm.clinchTimeS, 0)} s`}>
         <span class="badge low" style="align-self:flex-start;margin-top:.2rem">low confidence · not in totals</span>
@@ -124,7 +131,7 @@
   <section class="card">
     <div class="card-h">
       <h2>Session timeline</h2>
-      <span class="sub">peak g per strike · rounds shaded, rests hatched · lines link combos (&lt;{app.comboGapMs} ms) · red ring = clipped · ■ = kick/body · grey band = clinch · bottom strip = density · drag to zoom the signal view</span>
+      <span class="sub">peak g per strike · rounds shaded, rests hatched · lines link combos (&lt;{app.comboGapMs} ms) · amber ring = clipped (≥) · ■ = kick/body · grey band = clinch · bottom strip = density · drag to zoom the signal view</span>
     </div>
     <Timeline session={s} events={filtered} labels={s.labels ?? []} comboGapMs={app.comboGapMs} selectedId={app.selectedId} range={app.range}
       onselect={(id) => app.selectStrike(id)} onrange={(r) => (app.range = r)} />
@@ -141,7 +148,7 @@
 
   <div class="row2">
     <section class="card">
-      <div class="card-h"><h2>Fatigue <Tip text={TIPS.fatigue} /></h2><span class="sub">mean per round, dashed = linear trend</span></div>
+      <div class="card-h"><h2>Fatigue <Tip text={TIPS.fatigue} /></h2><span class="sub">mean per round, dashed = linear trend{sm.saturatedStrikes ? ' · peak means include clipped lower bounds' : ''}</span></div>
       <div class="fat">
         <div><span class="k">Peak g, first → last round</span><b class="num {fat.peakDropPct !== null && fat.peakDropPct > 5 ? 'down' : ''}">{fmt(fat.firstPeak, 1)} → {fmt(fat.lastPeak, 1)} g</b><span class="num">{fat.peakDropPct === null ? '' : `${fat.peakDropPct > 0 ? '−' : '+'}${Math.abs(fat.peakDropPct).toFixed(1)}%`}</span></div>
         <div><span class="k">Speed (est.), first → last</span><b class="num {fat.speedDropPct !== null && fat.speedDropPct > 5 ? 'down' : ''}">{fmt(fat.firstSpeed, 1)} → {fmt(fat.lastSpeed, 1)} m/s</b><span class="num">{fat.speedDropPct === null ? '' : `${fat.speedDropPct > 0 ? '−' : '+'}${Math.abs(fat.speedDropPct).toFixed(1)}%`}</span></div>
@@ -175,18 +182,18 @@
     <div class="card-h"><h2>Round by round</h2><span class="sub">within-round change = fitted start→end change in that round</span></div>
     <div class="scroll-x">
       <table>
-        <thead><tr><th>Round</th><th class="r">Strikes</th><th class="r">Rate /min</th><th class="r">Mean peak g</th><th class="r">Max peak g</th><th class="r">Speed est.</th><th class="r">Peak g within round</th><th class="r">Speed within round</th><th class="r">Kick/clinch</th><th class="r">Rest after</th></tr></thead>
+        <thead><tr><th>Round</th><th class="r">Strikes</th><th class="r">Rate /min</th><th class="r">Mean peak g</th><th class="r">Max peak g</th><th class="r">Clipped</th><th class="r">Speed est.</th><th class="r">Peak g within round</th><th class="r">Speed within round</th><th class="r">Kick/clinch</th><th class="r">Rest after</th></tr></thead>
         <tbody>
           {#each rs as r (r.number)}
             <tr>
               <td><b>R{r.number}</b> <span class="dim num small">{fmtTime(r.round.t_start_s)}–{fmtTime(r.round.t_end_s)}</span></td>
-              <td class="r num">{r.strikes}</td><td class="r num">{fmt(r.perMin, 1)}</td><td class="r num">{fmt(r.meanPeak, 2)}</td><td class="r num">{fmt(r.maxPeak, 1)}</td><td class="r num">{fmt(r.meanSpeed, 2)}</td>
+              <td class="r num">{r.strikes}</td><td class="r num">{fmt(r.perMin, 1)}</td><td class="r num" title={r.clipped ? `includes ${r.clipped} clipped strike(s) whose peak is a lower bound, so the true mean is at least this` : undefined}>{peakText(r.meanPeak, r.clipped > 0, 2)}</td><td class="r num">{peakText(r.maxPeak, r.maxPeakSat)}</td><td class="r num {r.clipped ? 'warn-t' : 'dim'}">{r.clipped}</td><td class="r num">{fmt(r.meanSpeed, 2)}</td>
               <td class="r num {r.withinPeakChangePct !== null && r.withinPeakChangePct < -5 ? 'down' : ''}">{r.withinPeakChangePct === null ? '—' : `${r.withinPeakChangePct > 0 ? '+' : ''}${r.withinPeakChangePct.toFixed(1)}%`}</td>
               <td class="r num {r.withinSpeedChangePct !== null && r.withinSpeedChangePct < -5 ? 'down' : ''}">{r.withinSpeedChangePct === null ? '—' : `${r.withinSpeedChangePct > 0 ? '+' : ''}${r.withinSpeedChangePct.toFixed(1)}%`}</td>
               <td class="r num">{r.nonStrike}</td>
               <td class="r num">{r.restAfterS === null ? '—' : `${r.restAfterS.toFixed(0)} s`}</td>
             </tr>
-          {:else}<tr><td colspan="10" class="muted">No rounds in this session.json.</td></tr>{/each}
+          {:else}<tr><td colspan="11" class="muted">No rounds in this session.json.</td></tr>{/each}
         </tbody>
       </table>
     </div>
@@ -199,6 +206,7 @@
   .dq-banner { display: grid; gap: 0.5rem; }
   .exports { display: flex; gap: 0.4rem; align-items: center; flex-wrap: wrap; }
   .spacer { flex: 1; }
+  .warn-t { color: var(--warn, #fbbf24); }
   .summary { display: grid; gap: 0.9rem; padding: 2px; }
   .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem; }
   .row3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 0.9rem; }

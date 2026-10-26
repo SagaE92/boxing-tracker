@@ -50,7 +50,7 @@
   <div class="actions">
     {#if app.sessions.length}
       <select class="sess" aria-label="Active session" value={s?.key} onchange={(e) => app.select((e.currentTarget as HTMLSelectElement).value)}>
-        {#each app.sessions as x (x.key)}<option value={x.key}>{x.name}{x.json ? '' : ' (raw only)'}</option>{/each}
+        {#each app.sessions as x (x.key)}<option value={x.key}>{x.name}{x.json ? ` · ${x.json.rounds.filter((r) => r.kind === 'round').length} rounds${x.raw ? '' : ' (no raw)'}` : ' (raw only)'}</option>{/each}
       </select>
     {/if}
     <button class="btn" onclick={() => picker.click()}>⤒ Load files</button>

@@ -1,8 +1,9 @@
 {
-  "note": "Main session: analysis/samples (analysis/synth.py recording processed by analysis/detector.py). Earlier sessions: dashboard/scripts/gen-demo.mjs. All synthetic, no real recordings yet.",
+  "note": "Default session demo-6x2: analysis/synth.py primitives with fatigue (dashboard/scripts/gen_rounds_demo.py) processed by analysis/detector.py. demo: analysis/samples (same pipeline, 3 rounds). Earlier sessions: dashboard/scripts/gen-demo.mjs. All synthetic, no real recordings yet.",
   "sessions": [
     { "id": "demo-2026-10-10", "files": ["demo-2026-10-10_session.json"] },
     { "id": "demo-2026-10-17", "files": ["demo-2026-10-17_session.json"] },
-    { "id": "demo", "files": ["demo_session.json", "demo_raw.csv.gz", "demo_labels.csv"] }
+    { "id": "demo", "files": ["demo_session.json", "demo_labels.csv"] },
+    { "id": "demo-6x2", "files": ["demo-6x2_session.json", "demo-6x2_raw.csv.gz", "demo-6x2_labels.csv"] }
   ]
 }

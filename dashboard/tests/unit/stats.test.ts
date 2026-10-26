@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { applyFilters, combos, comboStats, dataQuality, defaultFilters, fatigue, linfit, matchLabels, roundStats, summarize } from '../../src/lib/stats';
+import { clippedStrikeLevel, satSampleLevel, worst, applyFilters, combos, comboStats, dataQuality, defaultFilters, fatigue, linfit, matchLabels, peakText, roundStats, summarize } from '../../src/lib/stats';
+import { eventsCsv, summaryCsv } from '../../src/lib/exporters';
 import { decimate, envelope, satRuns } from '../../src/lib/decimate';
 import { parseRaw } from '../../src/lib/csv';
 import type { LabelRow, SessionJson } from '../../src/lib/types';
@@ -22,6 +23,26 @@ describe('summarize', () => {
     expect(s.clinches).toBe(1);
     expect(s.clinchTimeS).toBe(6);
     expect(s.saturatedStrikes).toBe(1);
+  });
+  it('reports unclipped mean separately from the mean incl. clipped lower bounds', () => {
+    const s = summarize(events, 60);
+    expect(s.meanPeakUnclipped).toBe(4);
+    expect(s.unclippedStrikes).toBe(1);
+    expect(s.maxPeakUnclipped).toBe(4);
+    expect(peakText(s.maxPeak, s.maxPeakSaturated)).toBe('≥16.2');
+    expect(peakText(s.maxPeakUnclipped, false)).toBe('4.0');
+    expect(peakText(null, true)).toBe('—');
+  });
+  it('exports clipped columns in CSV', () => {
+    const csv = eventsCsv(events.slice(0, 2)).split('\n');
+    expect(csv[0]).toContain('peak_g,clipped,peak_g_text');
+    expect(csv[2]).toContain('16.2,true,>=16.2');
+    expect(csv[1]).toContain('4,false,4');
+    const sc = summaryCsv('x', summarize(events, 60));
+    expect(sc).toContain('mean_peak_g_unclipped,4');
+    expect(sc).toContain('mean_peak_g_incl_clipped_is_lower_bound,true');
+    expect(sc).toContain('max_peak_g_clipped,true');
+    expect(sc).toContain('clipped_strikes,1');
   });
   it('can include kick events when asked (clinch never counts as a strike)', () => {
     const s = summarize(events, 60, true);
@@ -137,6 +158,23 @@ describe('data quality and decimation', () => {
     expect(dq.measuredHz!).toBeCloseTo(416, 0);
     expect(dq.satSamples).toBe(3); // sample 1000 fell inside the gap
     expect(dq.issues.some((i) => /gap/.test(i.text))).toBe(true);
+  });
+  it('uses one amber/red scheme for clipped strikes and saturated samples', () => {
+    expect(clippedStrikeLevel(0, 100)).toBe('ok');
+    expect(clippedStrikeLevel(9, 100)).toBe('warn');
+    expect(clippedStrikeLevel(10, 100)).toBe('bad');
+    expect(satSampleLevel(0)).toBe('ok');
+    expect(satSampleLevel(0.0015)).toBe('warn');
+    expect(satSampleLevel(0.01)).toBe('bad');
+    expect(worst('warn', 'ok')).toBe('warn');
+    expect(worst('warn', 'bad')).toBe('bad');
+    const json = { session: { sample_rate_hz: 416, accel_range_g: 16, calibration: {}, duration_s: 100 }, summary: { saturated_sample_fraction: 0.002 } } as unknown as SessionJson;
+    const evs = [ev(1, 'jab', { saturated: true }), ...Array.from({ length: 19 }, (_, i) => ev(2 + i, 'jab'))];
+    const dq = dataQuality(json, undefined, evs);
+    expect(dq.saturationLevel).toBe('warn');
+    expect(dq.issues.filter((i) => /clipped|saturated/.test(i.text))).toHaveLength(1);
+    const dq2 = dataQuality(json, undefined, evs.slice(0, 5));
+    expect(dq2.saturationLevel).toBe('bad');
   });
   it('flags missing calibration and clipped strikes', () => {
     const json = { session: { sample_rate_hz: 416, accel_range_g: 16, calibration: null, duration_s: 10 }, summary: { saturated_sample_fraction: 0 } } as unknown as SessionJson;

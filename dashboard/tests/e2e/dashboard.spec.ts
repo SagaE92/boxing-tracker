@@ -25,6 +25,18 @@ test.describe('demo session', () => {
     c.assertClean();
   });
 
+  test('default demo is the 6 x 2 min session; others selectable', async ({ page }) => {
+    await loadDemo(page);
+    const sel = page.getByRole('combobox', { name: 'Active session' });
+    await expect(sel.locator('option')).toHaveCount(4);
+    await expect(sel.locator('option:checked')).toHaveText(/demo-6x2 · 6 rounds/);
+    const rounds = page.locator('section.card', { has: page.locator('th', { hasText: 'Max peak g' }) }).locator('tbody tr');
+    await expect(rounds).toHaveCount(6);
+    await expect(page.getByText('Peak g, first → last round')).toBeVisible();
+    await sel.selectOption({ label: 'demo · 3 rounds (no raw)' });
+    await expect(rounds).toHaveCount(3);
+  });
+
   test('clicking a strike opens its window and zooms the signals', async ({ page }) => {
     const c = watchConsole(page);
     await loadDemo(page);
@@ -65,16 +77,18 @@ test.describe('demo session', () => {
       return { name: d.suggestedFilename(), buf: fs.readFileSync(p!) };
     };
     const png = await dl(/Summary PNG/);
-    expect(png.name).toBe('demo_summary.png');
+    expect(png.name).toBe('demo-6x2_summary.png');
     expect(png.buf.subarray(1, 4).toString()).toBe('PNG');
     expect(png.buf.length).toBeGreaterThan(20_000);
     fs.writeFileSync(path.join(SHOTS, 'export-summary.png'), png.buf);
     const sum = await dl(/Summary CSV/);
-    expect(sum.buf.toString()).toMatch(/^metric,value\nsession_id,demo\nstrikes,\d+/);
-    expect(sum.buf.toString()).toContain('max_peak_g_is_lower_bound');
+    expect(sum.buf.toString()).toMatch(/^metric,value\nsession_id,demo-6x2\nstrikes,\d+/);
+    expect(sum.buf.toString()).toContain('max_peak_g_clipped');
+    expect(sum.buf.toString()).toContain('mean_peak_g_unclipped');
     const evs = await dl(/All events CSV/);
     const lines = evs.buf.toString().trim().split('\n');
-    expect(lines[0]).toContain('peak_g_is_lower_bound');
+    expect(lines[0]).toContain(',peak_g,clipped,peak_g_text,');
+    expect(lines.some((l) => l.includes(',true,>='))).toBe(true);
     expect(lines.length).toBeGreaterThan(100);
     expect(evs.buf.toString()).not.toContain('kick_or_body_movement'); // excluded by default
   });
@@ -84,7 +98,7 @@ test.describe('demo session', () => {
     await tab(page, 'Trends');
     await expect(page.getByRole('region', { name: 'Personal bests' })).toBeVisible();
     await expect(page.getByText('Peak-g trend')).toBeVisible();
-    await expect(page.locator('.mixrow')).toHaveCount(3);
+    await expect(page.locator('.mixrow')).toHaveCount(4);
     await expect(page.getByRole('combobox', { name: 'Session A' })).toBeVisible();
     // "power" must never be used as a metric label (only peak g / estimated speed)
     for (const t of await page.locator('h1, h2, h3, .lab, th').allInnerTexts()) expect(t).not.toMatch(/power|force/i);
@@ -119,6 +133,10 @@ test.describe('loading files', () => {
     }, files);
     await expect(page.locator('.meta h1')).toHaveText('heavy-sat');
     await expect(page.getByText(/of samples are saturated/)).toBeVisible();
+    // one severity scheme: card, panel and banner agree
+    const lvl = (await page.locator('.dq-banner .alert', { hasText: 'clipped' }).getAttribute('class'))!.includes('bad') ? 'bad' : 'warn';
+    await expect(page.locator('.stat', { has: page.locator('.lab', { hasText: /^Clipped strikes/ }) })).toHaveClass(new RegExp(lvl));
+    await expect(page.locator('section[aria-label="Data quality"] .item b').first()).toHaveClass(new RegExp(lvl));
     await expect(page.locator('.stat', { hasText: 'Max peak' })).toContainText('≥');
     await page.screenshot({ path: path.join(SHOTS, 'heavy-saturation.png'), fullPage: true });
     c.assertClean();

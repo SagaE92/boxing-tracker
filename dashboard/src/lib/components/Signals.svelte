@@ -32,7 +32,7 @@
 
   function overlays(kind: 'mag' | 'acc' | 'gyr') {
     return (u: uPlot) => {
-      for (const [a, b] of sats) fillSpan(u, a - 0.5 / fs, b + 0.5 / fs, 'rgba(248,113,113,0.22)');
+      for (const [a, b] of sats) fillSpan(u, a - 0.5 / fs, b + 0.5 / fs, 'rgba(251,191,36,0.22)');
       for (const e of cur.events) {
         if (DURATION_TYPES.has(e.type)) { fillSpan(u, e.t_start_s, e.t_end_s, 'rgba(124,141,181,0.14)'); continue; }
         if (e.t_peak_s < u.scales.x.min! || e.t_peak_s > u.scales.x.max!) continue;
@@ -55,8 +55,8 @@
           if (u.scales.x.max! - u.scales.x.min! < 20) { ctx.font = `${10 * dpr}px Inter, system-ui`; ctx.textAlign = 'center'; ctx.fillText(l.rawLabel, x, top + height - 11 * dpr); }
         }
       }
-      if (kind === 'acc') { hline(u, accelRange, 'rgba(248,113,113,0.6)', [2, 4], 'y', `+${accelRange} g clip`); hline(u, -accelRange, 'rgba(248,113,113,0.6)', [2, 4], 'y'); }
-      if (kind === 'gyr') { hline(u, gyroRange, 'rgba(248,113,113,0.6)', [2, 4]); hline(u, -gyroRange, 'rgba(248,113,113,0.6)', [2, 4]); }
+      if (kind === 'acc') { hline(u, accelRange, 'rgba(251,191,36,0.6)', [2, 4], 'y', `+${accelRange} g clip`); hline(u, -accelRange, 'rgba(251,191,36,0.6)', [2, 4], 'y'); }
+      if (kind === 'gyr') { hline(u, gyroRange, 'rgba(251,191,36,0.6)', [2, 4]); hline(u, -gyroRange, 'rgba(251,191,36,0.6)', [2, 4]); }
     };
   }
 
@@ -195,7 +195,7 @@
   .btns { display: flex; gap: 0.3rem; }
   .legend-key { display: flex; gap: 1rem; flex-wrap: wrap; color: var(--muted); margin: 0.2rem 0 0.4rem; }
   .sw { display: inline-block; width: 14px; height: 10px; margin-right: 0.35rem; vertical-align: middle; border-radius: 2px; }
-  .sw.sat { background: rgba(248, 113, 113, 0.45); }
+  .sw.sat { background: rgba(251, 191, 36, 0.45); }
   .sw.thr { height: 0; border-top: 2px dashed rgba(255, 176, 32, 0.9); }
   .sw.lab { width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-bottom: 8px solid rgba(232, 237, 246, 0.7); border-radius: 0; }
   .sw.cl { background: rgba(124, 141, 181, 0.4); }

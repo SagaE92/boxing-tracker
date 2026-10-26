@@ -1,0 +1,384 @@
+host_time_s,label,note
+1792951202.5000,sync,clap
+1792951203.0000,cal_start,"hold guard, then one straight"
+1792951206.5000,truth:cross,synthetic ground truth; target=head
+1792951207.2000,cal_end,
+1792951212.0000,round,round 1 start
+1792951214.0000,truth:spinning_backfist,synthetic ground truth; target=head
+1792951214.3029,truth:cross,synthetic ground truth; target=head
+1792951214.6405,truth:rear_hook,synthetic ground truth; target=head
+1792951217.9860,truth:overhand,synthetic ground truth; target=head
+1792951218.3702,truth:rear_uppercut,synthetic ground truth
+1792951222.1817,truth:cross,synthetic ground truth; target=head
+1792951225.0132,truth:kick_or_body_movement,synthetic ground truth
+1792951225.6517,truth:cross,synthetic ground truth; target=head
+1792951226.1461,truth:cross,synthetic ground truth; target=head
+1792951230.3406,truth:rear_hook,synthetic ground truth; target=head
+1792951230.8100,truth:cross,synthetic ground truth; target=head
+1792951231.1353,truth:spinning_backfist,synthetic ground truth; target=head
+1792951233.5860,truth:overhand,synthetic ground truth; target=head
+1792951233.9544,truth:cross,synthetic ground truth; target=head
+1792951234.4403,truth:rear_uppercut,synthetic ground truth
+1792951234.8896,truth:rear_hook,synthetic ground truth; target=head
+1792951238.5040,truth:rear_uppercut,synthetic ground truth
+1792951238.8726,truth:cross,synthetic ground truth; target=head
+1792951239.3694,truth:rear_hook,synthetic ground truth; target=body
+1792951239.8117,truth:cross,synthetic ground truth; target=head
+1792951242.0867,truth:cross,synthetic ground truth; target=head
+1792951244.3549,truth:cross,synthetic ground truth; target=head
+1792951246.2781,truth:rear_uppercut,synthetic ground truth
+1792951246.6201,truth:cross,synthetic ground truth; target=head
+1792951246.9374,truth:spinning_backfist,synthetic ground truth; target=head
+1792951247.4355,truth:rear_uppercut,synthetic ground truth
+1792951250.9609,truth:rear_hook,synthetic ground truth; target=head
+1792951251.3534,truth:cross,synthetic ground truth; target=head
+1792951251.7797,truth:rear_hook,synthetic ground truth; target=head
+1792951254.9654,truth:cross,synthetic ground truth; target=head
+1792951255.3616,truth:cross,synthetic ground truth; target=head
+1792951255.8589,truth:cross,synthetic ground truth; target=head
+1792951259.8951,clinch_start,synthetic ground truth
+1792951265.4469,clinch_end,synthetic ground truth
+1792951272.4009,truth:cross,synthetic ground truth; target=head
+1792951275.0727,truth:cross,synthetic ground truth; target=head
+1792951275.3755,truth:cross,synthetic ground truth; target=head
+1792951277.7369,truth:overhand,synthetic ground truth; target=head
+1792951278.1686,truth:cross,synthetic ground truth; target=head
+1792951278.6476,truth:cross,synthetic ground truth; target=head
+1792951282.1916,truth:rear_hook,synthetic ground truth; target=head
+1792951282.6110,truth:rear_hook,synthetic ground truth; target=head
+1792951285.7638,truth:cross,synthetic ground truth; target=head
+1792951290.0987,truth:rear_uppercut,synthetic ground truth
+1792951292.3291,truth:rear_uppercut,synthetic ground truth
+1792951292.8016,truth:rear_uppercut,synthetic ground truth
+1792951296.0309,truth:cross,synthetic ground truth; target=head
+1792951296.3970,truth:rear_uppercut,synthetic ground truth
+1792951296.6974,truth:cross,synthetic ground truth; target=head
+1792951297.0183,truth:cross,synthetic ground truth; target=head
+1792951299.5063,truth:rear_hook,synthetic ground truth; target=head
+1792951303.7555,truth:cross,synthetic ground truth; target=body
+1792951304.1365,truth:overhand,synthetic ground truth; target=head
+1792951304.5583,truth:rear_uppercut,synthetic ground truth
+1792951304.8845,truth:rear_hook,synthetic ground truth; target=head
+1792951308.8667,truth:cross,synthetic ground truth; target=body
+1792951309.7489,truth:kick_or_body_movement,synthetic ground truth
+1792951313.6991,truth:rear_uppercut,synthetic ground truth
+1792951315.6932,truth:rear_hook,synthetic ground truth; target=head
+1792951316.1230,truth:cross,synthetic ground truth; target=body
+1792951316.4407,truth:cross,synthetic ground truth; target=head
+1792951316.7633,truth:overhand,synthetic ground truth; target=head
+1792951320.5207,truth:cross,synthetic ground truth; target=head
+1792951320.8268,truth:overhand,synthetic ground truth; target=head
+1792951321.1487,truth:cross,synthetic ground truth; target=head
+1792951321.5137,truth:rear_uppercut,synthetic ground truth
+1792951325.2608,truth:cross,synthetic ground truth; target=body
+1792951325.5678,truth:cross,synthetic ground truth; target=head
+1792951328.7013,truth:cross,synthetic ground truth; target=head
+1792951329.1511,truth:cross,synthetic ground truth; target=body
+1792951329.5179,truth:spinning_backfist,synthetic ground truth; target=head
+1792951332.0000,rest,round 1 end
+1792951392.0000,round,round 2 start
+1792951394.0000,truth:overhand,synthetic ground truth; target=head
+1792951397.5060,truth:rear_hook,synthetic ground truth; target=head
+1792951397.9098,truth:rear_hook,synthetic ground truth; target=body
+1792951398.4163,truth:cross,synthetic ground truth; target=head
+1792951398.9195,truth:rear_hook,synthetic ground truth; target=head
+1792951403.0462,truth:kick_or_body_movement,synthetic ground truth
+1792951403.6631,truth:cross,synthetic ground truth; target=head
+1792951404.0492,truth:rear_uppercut,synthetic ground truth
+1792951404.3872,truth:cross,synthetic ground truth; target=head
+1792951404.7963,truth:cross,synthetic ground truth; target=head
+1792951409.4172,truth:cross,synthetic ground truth; target=head
+1792951412.9159,truth:cross,synthetic ground truth; target=head
+1792951413.3047,truth:rear_hook,synthetic ground truth; target=head
+1792951417.5826,truth:rear_hook,synthetic ground truth; target=head
+1792951419.9200,truth:cross,synthetic ground truth; target=head
+1792951420.3743,truth:overhand,synthetic ground truth; target=head
+1792951420.8852,truth:rear_uppercut,synthetic ground truth
+1792951421.3511,truth:rear_hook,synthetic ground truth; target=body
+1792951425.4327,truth:overhand,synthetic ground truth; target=head
+1792951425.8611,truth:rear_uppercut,synthetic ground truth
+1792951426.1789,truth:rear_uppercut,synthetic ground truth
+1792951431.0036,truth:cross,synthetic ground truth; target=head
+1792951431.3409,truth:rear_uppercut,synthetic ground truth
+1792951431.7038,truth:rear_uppercut,synthetic ground truth
+1792951432.1683,truth:rear_hook,synthetic ground truth; target=head
+1792951435.2949,clinch_start,synthetic ground truth
+1792951442.7855,clinch_end,synthetic ground truth
+1792951445.9114,truth:cross,synthetic ground truth; target=head
+1792951446.3719,truth:rear_hook,synthetic ground truth; target=head
+1792951446.8544,truth:cross,synthetic ground truth; target=head
+1792951447.1917,truth:rear_hook,synthetic ground truth; target=head
+1792951450.4124,truth:rear_hook,synthetic ground truth; target=head
+1792951450.8501,truth:rear_hook,synthetic ground truth; target=head
+1792951451.3555,truth:cross,synthetic ground truth; target=head
+1792951451.8495,truth:rear_hook,synthetic ground truth; target=head
+1792951454.9518,truth:cross,synthetic ground truth; target=body
+1792951455.3632,truth:cross,synthetic ground truth; target=head
+1792951459.6218,truth:cross,synthetic ground truth; target=head
+1792951459.9980,truth:overhand,synthetic ground truth; target=head
+1792951463.3024,truth:rear_uppercut,synthetic ground truth
+1792951463.7985,truth:rear_uppercut,synthetic ground truth
+1792951464.1252,truth:rear_uppercut,synthetic ground truth
+1792951467.3139,truth:rear_hook,synthetic ground truth; target=head
+1792951469.4513,truth:rear_hook,synthetic ground truth; target=head
+1792951469.9110,truth:cross,synthetic ground truth; target=head
+1792951470.2251,truth:rear_hook,synthetic ground truth; target=head
+1792951470.5931,truth:rear_hook,synthetic ground truth; target=head
+1792951473.5016,truth:cross,synthetic ground truth; target=body
+1792951473.8274,truth:rear_hook,synthetic ground truth; target=head
+1792951474.1727,truth:rear_hook,synthetic ground truth; target=head
+1792951474.5601,truth:cross,synthetic ground truth; target=head
+1792951478.7617,truth:cross,synthetic ground truth; target=body
+1792951479.2341,truth:rear_uppercut,synthetic ground truth
+1792951479.5946,truth:overhand,synthetic ground truth; target=head
+1792951480.0583,truth:rear_hook,synthetic ground truth; target=body
+1792951483.5459,truth:spinning_backfist,synthetic ground truth; target=head
+1792951483.9597,truth:rear_uppercut,synthetic ground truth
+1792951484.3417,truth:cross,synthetic ground truth; target=body
+1792951488.9090,truth:rear_uppercut,synthetic ground truth
+1792951489.2756,truth:cross,synthetic ground truth; target=head
+1792951493.6058,truth:spinning_backfist,synthetic ground truth; target=head
+1792951493.9794,truth:rear_hook,synthetic ground truth; target=head
+1792951494.3992,truth:rear_hook,synthetic ground truth; target=head
+1792951497.6677,truth:cross,synthetic ground truth; target=head
+1792951498.1306,truth:cross,synthetic ground truth; target=head
+1792951502.4923,truth:cross,synthetic ground truth; target=head
+1792951505.7841,truth:cross,synthetic ground truth; target=head
+1792951506.2610,truth:rear_hook,synthetic ground truth; target=head
+1792951506.6928,truth:rear_hook,synthetic ground truth; target=body
+1792951507.0953,truth:overhand,synthetic ground truth; target=head
+1792951512.0000,rest,round 2 end
+1792951572.0000,round,round 3 start
+1792951574.0000,truth:rear_hook,synthetic ground truth; target=head
+1792951574.3558,truth:overhand,synthetic ground truth; target=head
+1792951577.6451,truth:cross,synthetic ground truth; target=head
+1792951578.0473,truth:rear_uppercut,synthetic ground truth
+1792951578.3718,truth:cross,synthetic ground truth; target=head
+1792951578.7276,truth:rear_hook,synthetic ground truth; target=body
+1792951581.6621,truth:cross,synthetic ground truth; target=body
+1792951582.0016,truth:rear_hook,synthetic ground truth; target=head
+1792951582.5385,truth:rear_hook,synthetic ground truth; target=head
+1792951582.8833,truth:cross,synthetic ground truth; target=head
+1792951585.9402,truth:cross,synthetic ground truth; target=head
+1792951586.4383,truth:rear_hook,synthetic ground truth; target=head
+1792951586.8104,truth:rear_uppercut,synthetic ground truth
+1792951589.3876,truth:cross,synthetic ground truth; target=head
+1792951593.6409,truth:rear_uppercut,synthetic ground truth
+1792951594.0861,truth:cross,synthetic ground truth; target=head
+1792951597.6124,truth:rear_hook,synthetic ground truth; target=head
+1792951597.9532,truth:cross,synthetic ground truth; target=head
+1792951598.2803,truth:rear_uppercut,synthetic ground truth
+1792951603.0278,truth:cross,synthetic ground truth; target=head
+1792951603.3623,truth:rear_hook,synthetic ground truth; target=head
+1792951603.7844,truth:rear_hook,synthetic ground truth; target=head
+1792951604.3152,truth:rear_hook,synthetic ground truth; target=head
+1792951608.5863,truth:rear_hook,synthetic ground truth; target=head
+1792951608.9129,truth:rear_hook,synthetic ground truth; target=head
+1792951609.2690,truth:cross,synthetic ground truth; target=head
+1792951609.7232,truth:cross,synthetic ground truth; target=head
+1792951612.1878,truth:cross,synthetic ground truth; target=head
+1792951617.3007,truth:cross,synthetic ground truth; target=head
+1792951617.7477,truth:cross,synthetic ground truth; target=head
+1792951618.1401,truth:cross,synthetic ground truth; target=head
+1792951621.1399,truth:rear_hook,synthetic ground truth; target=head
+1792951623.4203,truth:rear_hook,synthetic ground truth; target=body
+1792951623.7749,truth:cross,synthetic ground truth; target=head
+1792951627.5602,truth:rear_uppercut,synthetic ground truth
+1792951627.9481,truth:rear_uppercut,synthetic ground truth
+1792951628.4196,truth:cross,synthetic ground truth; target=body
+1792951631.5883,truth:rear_uppercut,synthetic ground truth
+1792951632.1020,truth:rear_uppercut,synthetic ground truth
+1792951632.5278,truth:spinning_backfist,synthetic ground truth; target=head
+1792951636.6643,truth:rear_hook,synthetic ground truth; target=head
+1792951637.1070,truth:overhand,synthetic ground truth; target=head
+1792951637.4558,truth:rear_hook,synthetic ground truth; target=head
+1792951640.4579,truth:cross,synthetic ground truth; target=head
+1792951640.8666,truth:cross,synthetic ground truth; target=head
+1792951641.2200,truth:cross,synthetic ground truth; target=head
+1792951641.6998,truth:rear_uppercut,synthetic ground truth
+1792951644.1009,truth:cross,synthetic ground truth; target=body
+1792951644.6177,truth:rear_uppercut,synthetic ground truth
+1792951649.5263,truth:spinning_backfist,synthetic ground truth; target=head
+1792951649.9511,truth:cross,synthetic ground truth; target=head
+1792951650.3508,truth:rear_hook,synthetic ground truth; target=head
+1792951653.5741,truth:rear_hook,synthetic ground truth; target=head
+1792951653.8985,truth:cross,synthetic ground truth; target=head
+1792951655.3665,truth:kick_or_body_movement,synthetic ground truth
+1792951656.3433,truth:rear_uppercut,synthetic ground truth
+1792951656.7226,truth:rear_hook,synthetic ground truth; target=head
+1792951661.5833,truth:cross,synthetic ground truth; target=body
+1792951662.0732,truth:overhand,synthetic ground truth; target=head
+1792951665.5368,truth:cross,synthetic ground truth; target=body
+1792951666.0610,truth:cross,synthetic ground truth; target=head
+1792951666.5363,truth:cross,synthetic ground truth; target=head
+1792951670.8708,truth:rear_hook,synthetic ground truth; target=head
+1792951671.3983,truth:rear_uppercut,synthetic ground truth
+1792951674.2400,truth:rear_hook,synthetic ground truth; target=head
+1792951674.7616,truth:cross,synthetic ground truth; target=head
+1792951675.1475,truth:cross,synthetic ground truth; target=head
+1792951675.6545,truth:rear_hook,synthetic ground truth; target=head
+1792951679.4675,truth:kick_or_body_movement,synthetic ground truth
+1792951680.5028,truth:cross,synthetic ground truth; target=body
+1792951684.2146,truth:cross,synthetic ground truth; target=head
+1792951684.7268,truth:overhand,synthetic ground truth; target=head
+1792951689.4735,truth:cross,synthetic ground truth; target=body
+1792951689.9665,truth:cross,synthetic ground truth; target=head
+1792951690.4868,truth:cross,synthetic ground truth; target=head
+1792951691.0188,truth:cross,synthetic ground truth; target=head
+1792951692.0000,rest,round 3 end
+1792951752.0000,round,round 4 start
+1792951754.0000,truth:rear_hook,synthetic ground truth; target=head
+1792951754.4020,truth:rear_hook,synthetic ground truth; target=body
+1792951754.8979,truth:cross,synthetic ground truth; target=head
+1792951759.1461,truth:cross,synthetic ground truth; target=head
+1792951759.6798,truth:rear_hook,synthetic ground truth; target=head
+1792951764.6417,truth:rear_hook,synthetic ground truth; target=head
+1792951769.4783,truth:rear_uppercut,synthetic ground truth
+1792951769.9427,truth:rear_hook,synthetic ground truth; target=head
+1792951770.3688,truth:cross,synthetic ground truth; target=head
+1792951775.7879,truth:cross,synthetic ground truth; target=head
+1792951776.1803,truth:rear_uppercut,synthetic ground truth
+1792951776.6232,truth:cross,synthetic ground truth; target=head
+1792951781.2423,truth:cross,synthetic ground truth; target=head
+1792951785.7034,truth:cross,synthetic ground truth; target=head
+1792951786.2595,truth:overhand,synthetic ground truth; target=head
+1792951790.6207,truth:cross,synthetic ground truth; target=head
+1792951790.9754,truth:overhand,synthetic ground truth; target=head
+1792951791.4575,truth:cross,synthetic ground truth; target=head
+1792951796.6542,truth:rear_hook,synthetic ground truth; target=head
+1792951801.8314,truth:rear_hook,synthetic ground truth; target=head
+1792951802.3288,truth:overhand,synthetic ground truth; target=head
+1792951806.7400,truth:overhand,synthetic ground truth; target=head
+1792951807.2175,truth:overhand,synthetic ground truth; target=head
+1792951807.6742,truth:cross,synthetic ground truth; target=head
+1792951811.7591,truth:rear_hook,synthetic ground truth; target=body
+1792951812.2957,truth:cross,synthetic ground truth; target=head
+1792951816.3474,truth:cross,synthetic ground truth; target=head
+1792951816.7563,truth:rear_uppercut,synthetic ground truth
+1792951817.2476,truth:cross,synthetic ground truth; target=head
+1792951821.4854,truth:rear_hook,synthetic ground truth; target=head
+1792951821.8629,truth:overhand,synthetic ground truth; target=head
+1792951822.2360,truth:rear_hook,synthetic ground truth; target=head
+1792951825.3447,truth:cross,synthetic ground truth; target=head
+1792951825.8850,truth:cross,synthetic ground truth; target=head
+1792951826.7837,truth:kick_or_body_movement,synthetic ground truth
+1792951828.5170,truth:cross,synthetic ground truth; target=head
+1792951829.0322,truth:rear_uppercut,synthetic ground truth
+1792951832.6263,truth:rear_hook,synthetic ground truth; target=head
+1792951835.9392,truth:rear_hook,synthetic ground truth; target=head
+1792951836.3932,truth:rear_hook,synthetic ground truth; target=head
+1792951836.7701,truth:cross,synthetic ground truth; target=head
+1792951839.9035,truth:rear_hook,synthetic ground truth; target=head
+1792951843.3983,truth:cross,synthetic ground truth; target=head
+1792951843.8125,truth:rear_hook,synthetic ground truth; target=head
+1792951847.3813,truth:cross,synthetic ground truth; target=body
+1792951847.8953,truth:cross,synthetic ground truth; target=head
+1792951848.3780,truth:rear_hook,synthetic ground truth; target=body
+1792951852.6162,truth:kick_or_body_movement,synthetic ground truth
+1792951855.8855,truth:rear_uppercut,synthetic ground truth
+1792951859.3225,truth:rear_hook,synthetic ground truth; target=body
+1792951859.8425,truth:cross,synthetic ground truth; target=body
+1792951860.3333,truth:rear_uppercut,synthetic ground truth
+1792951865.5871,truth:cross,synthetic ground truth; target=body
+1792951865.9843,truth:rear_hook,synthetic ground truth; target=body
+1792951869.3290,truth:spinning_backfist,synthetic ground truth; target=head
+1792951872.0000,rest,round 4 end
+1792951932.0000,round,round 5 start
+1792951934.0000,truth:rear_hook,synthetic ground truth; target=head
+1792951939.7438,truth:cross,synthetic ground truth; target=head
+1792951940.1345,truth:rear_hook,synthetic ground truth; target=head
+1792951944.6419,truth:rear_hook,synthetic ground truth; target=head
+1792951948.9204,truth:cross,synthetic ground truth; target=head
+1792951949.4030,truth:rear_uppercut,synthetic ground truth
+1792951949.8492,truth:rear_uppercut,synthetic ground truth
+1792951954.5239,truth:rear_hook,synthetic ground truth; target=head
+1792951955.0588,truth:overhand,synthetic ground truth; target=head
+1792951955.6048,truth:overhand,synthetic ground truth; target=head
+1792951959.6216,truth:cross,synthetic ground truth; target=head
+1792951960.0586,truth:cross,synthetic ground truth; target=head
+1792951964.3791,truth:cross,synthetic ground truth; target=head
+1792951967.8157,truth:rear_hook,synthetic ground truth; target=head
+1792951968.2899,truth:rear_uppercut,synthetic ground truth
+1792951968.7028,truth:cross,synthetic ground truth; target=head
+1792951971.9111,truth:rear_hook,synthetic ground truth; target=head
+1792951972.4259,truth:spinning_backfist,synthetic ground truth; target=head
+1792951972.9417,truth:cross,synthetic ground truth; target=head
+1792951976.2642,truth:cross,synthetic ground truth; target=head
+1792951981.4193,truth:cross,synthetic ground truth; target=body
+1792951981.9978,truth:cross,synthetic ground truth; target=head
+1792951987.1390,truth:cross,synthetic ground truth; target=body
+1792951987.5854,truth:cross,synthetic ground truth; target=head
+1792951987.9869,truth:cross,synthetic ground truth; target=head
+1792951991.1186,truth:rear_hook,synthetic ground truth; target=head
+1792951991.5959,truth:rear_uppercut,synthetic ground truth
+1792951992.6050,truth:kick_or_body_movement,synthetic ground truth
+1792951995.1782,truth:rear_uppercut,synthetic ground truth
+1792951998.6015,truth:rear_hook,synthetic ground truth; target=head
+1792952003.9052,truth:rear_hook,synthetic ground truth; target=body
+1792952004.9215,clinch_start,synthetic ground truth
+1792952009.9625,clinch_end,synthetic ground truth
+1792952015.2714,truth:rear_hook,synthetic ground truth; target=head
+1792952015.7235,truth:cross,synthetic ground truth; target=head
+1792952016.2779,truth:cross,synthetic ground truth; target=head
+1792952019.5291,truth:kick_or_body_movement,synthetic ground truth
+1792952020.9879,truth:cross,synthetic ground truth; target=body
+1792952021.5354,truth:rear_uppercut,synthetic ground truth
+1792952021.9216,truth:rear_uppercut,synthetic ground truth
+1792952027.6561,truth:rear_uppercut,synthetic ground truth
+1792952031.9811,truth:rear_hook,synthetic ground truth; target=head
+1792952032.3473,truth:rear_hook,synthetic ground truth; target=head
+1792952035.6130,truth:rear_hook,synthetic ground truth; target=head
+1792952040.0471,truth:cross,synthetic ground truth; target=head
+1792952040.4513,truth:overhand,synthetic ground truth; target=head
+1792952040.8769,truth:cross,synthetic ground truth; target=body
+1792952046.5513,truth:cross,synthetic ground truth; target=head
+1792952046.9014,truth:cross,synthetic ground truth; target=head
+1792952052.0000,rest,round 5 end
+1792952112.0000,round,round 6 start
+1792952114.0000,truth:rear_hook,synthetic ground truth; target=head
+1792952114.3625,truth:cross,synthetic ground truth; target=head
+1792952114.9543,truth:cross,synthetic ground truth; target=body
+1792952121.1686,truth:rear_hook,synthetic ground truth; target=body
+1792952121.5525,truth:cross,synthetic ground truth; target=body
+1792952125.5437,truth:rear_hook,synthetic ground truth; target=head
+1792952125.9823,truth:cross,synthetic ground truth; target=head
+1792952129.8528,truth:cross,synthetic ground truth; target=head
+1792952130.4004,truth:overhand,synthetic ground truth; target=head
+1792952133.7065,truth:cross,synthetic ground truth; target=head
+1792952134.1937,truth:rear_hook,synthetic ground truth; target=head
+1792952134.6576,truth:cross,synthetic ground truth; target=head
+1792952137.7410,truth:cross,synthetic ground truth; target=head
+1792952138.1161,truth:rear_hook,synthetic ground truth; target=body
+1792952143.2833,truth:rear_uppercut,synthetic ground truth
+1792952144.1819,truth:kick_or_body_movement,synthetic ground truth
+1792952148.5333,truth:rear_hook,synthetic ground truth; target=head
+1792952149.0078,truth:cross,synthetic ground truth; target=body
+1792952149.5806,truth:rear_hook,synthetic ground truth; target=head
+1792952154.4071,truth:rear_hook,synthetic ground truth; target=head
+1792952157.4180,truth:rear_uppercut,synthetic ground truth
+1792952163.1887,truth:spinning_backfist,synthetic ground truth; target=head
+1792952163.6313,truth:cross,synthetic ground truth; target=head
+1792952166.5374,truth:spinning_backfist,synthetic ground truth; target=head
+1792952172.0478,truth:cross,synthetic ground truth; target=head
+1792952174.6913,truth:overhand,synthetic ground truth; target=head
+1792952175.1713,truth:cross,synthetic ground truth; target=body
+1792952176.7028,truth:kick_or_body_movement,synthetic ground truth
+1792952179.4447,clinch_start,synthetic ground truth
+1792952188.3784,clinch_end,synthetic ground truth
+1792952191.4300,truth:overhand,synthetic ground truth; target=head
+1792952191.8825,truth:rear_uppercut,synthetic ground truth
+1792952192.3005,truth:cross,synthetic ground truth; target=head
+1792952198.4775,truth:cross,synthetic ground truth; target=head
+1792952198.9618,truth:cross,synthetic ground truth; target=head
+1792952199.4094,truth:cross,synthetic ground truth; target=head
+1792952205.1182,truth:spinning_backfist,synthetic ground truth; target=head
+1792952210.6940,truth:rear_uppercut,synthetic ground truth
+1792952211.1132,truth:rear_uppercut,synthetic ground truth
+1792952214.5899,truth:rear_hook,synthetic ground truth; target=head
+1792952215.0703,truth:rear_hook,synthetic ground truth; target=head
+1792952219.7547,truth:cross,synthetic ground truth; target=body
+1792952220.2574,truth:overhand,synthetic ground truth; target=head
+1792952224.4700,truth:rear_hook,synthetic ground truth; target=head
+1792952224.8622,truth:rear_hook,synthetic ground truth; target=body
+1792952225.4526,truth:cross,synthetic ground truth; target=head
+1792952232.0000,rest,round 6 end

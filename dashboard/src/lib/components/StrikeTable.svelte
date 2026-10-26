@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { StrikeEvent } from '../types';
-  import { fmt, fmtTime } from '../stats';
+  import { fmt, fmtTime, peakText } from '../stats';
   import TypeTag from './TypeTag.svelte';
   import ConfBadge from './ConfBadge.svelte';
   import { DURATION_TYPES } from '../taxonomy';
@@ -58,7 +58,7 @@
           <td class="r"><ConfBadge value={e.confidence} /></td>
           <td>{e.hand ?? '—'}</td>
           <td>{e.target ?? '—'}</td>
-          <td class="r num">{DURATION_TYPES.has(e.type) ? '—' : `${e.saturated ? '≥' : ''}${fmt(e.peak_g, 1)}`}</td>
+          <td class="r num">{DURATION_TYPES.has(e.type) ? '—' : peakText(e.peak_g, e.saturated)}</td>
           <td class="r num">{e.speed_mps_est === null ? '—' : `~${fmt(e.speed_mps_est, 1)}`}</td>
           <td class="r num">{DURATION_TYPES.has(e.type) ? `${(e.duration_ms / 1000).toFixed(1)} s` : `${fmt(e.duration_ms, 0)} ms`}</td>
           <td class="r num">{roundNumber(e.round_index)}</td>
