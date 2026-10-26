@@ -110,3 +110,84 @@ def test_sync_video_finds_clap(tmp_path):
     synth.write_raw_csv(raw, acc, gyr, sat, 1000.0)
     t = sync_video.find_clap(str(raw))
     assert abs(t - 1002.5) < 0.02  # synth clap at 2.5 s
+
+
+# ---------------------------------------------------------------- two sensors
+def test_parse_device_args():
+    assert logger.parse_device_args(["lead=AA:BB", "rear=CC:DD"]) == [("lead", "AA:BB"), ("rear", "CC:DD")]
+    for bad in (["left=AA"], ["lead"], ["lead=AA", "lead=BB"]):
+        with pytest.raises(SystemExit):
+            logger.parse_device_args(bad)
+
+
+def test_two_device_recorders_write_per_device_raw_and_shared_sync():
+    sync_fh = io.StringIO()
+    sync = logger.SyncWriter(sync_fh)
+    raws = {r: io.StringIO() for r in ("lead", "rear")}
+    recs = {r: logger.DeviceRecorder(r, f"dev-{r}", raws[r], sync, packet_sync_every=1) for r in raws}
+    s = [((2049, 0, 0), (0, 0, 0))] * 18
+    for k in range(3):
+        recs["lead"].on_raw(make_packet(k, 1_000_000 + k * 18 * 2404, 2404, s), 100.0 + k * 0.043)
+        recs["rear"].on_raw(make_packet(k, 5_000_000 + k * 18 * 2404, 2404, s), 100.01 + k * 0.043)
+    rows = list(csv.reader(io.StringIO(sync_fh.getvalue())))
+    assert rows[0] == logger.SYNC_HEADER
+    assert {r[0] for r in rows[1:]} == {"dev-lead", "dev-rear"}
+    assert all(r[5] == "packet" and r[4] == "" for r in rows[1:])
+    lead_rows = [r for r in rows[1:] if r[1] == "lead"]
+    assert int(lead_rows[0][3]) == 1_000_000 + 17 * 2404       # device time of the packet's last sample
+    for r in raws:
+        lines = raws[r].getvalue().strip().splitlines()
+        assert lines[0].split(",") == logger.RAW_HEADER and len(lines) == 1 + 3 * 18
+
+
+def test_time_sync_bursts_align_two_sensors_within_2ms():
+    """Two fake BLE clients with drifting 32-bit device clocks (one wraps mid-session) and a
+    BLE-like link: the read is answered 1-2 connection intervals after the request and the
+    device stamps it somewhere inside that window. The absolute error is bounded by half the
+    best round trip; the error BETWEEN the two sensors (what matters for merging hands) is
+    <= 2 ms because both links share the same timing behaviour."""
+    import asyncio
+    import random
+    import detector
+
+    rnd = random.Random(3)
+    st = {"t": 1000.0}
+    now = lambda: st["t"]  # noqa: E731
+    conn = 0.0075
+
+    class FakeClient:
+        def __init__(self, dev0, skew):
+            self.dev0, self.skew = dev0, skew
+
+        def dev_at(self, t):
+            return int(self.dev0 + (t - 1000.0) * (1 + self.skew) * 1e6)
+
+        async def read_gatt_char(self, uuid):
+            assert uuid == proto.TIME_SYNC_UUID
+            rtt = conn * rnd.choice((1, 1, 2))
+            stamp = st["t"] + rtt * rnd.uniform(0.3, 0.7)
+            st["t"] += rtt
+            return proto.TIME_SYNC.pack(self.dev_at(stamp) & 0xFFFFFFFF)
+
+    clients = {"lead": FakeClient(0xFFFFFFFF - 5_000_000, 35e-6), "rear": FakeClient(123_456, -20e-6)}
+    sync_fh = io.StringIO()
+    sync = logger.SyncWriter(sync_fh)
+    recs = {r: logger.DeviceRecorder(r, f"dev-{r}", io.StringIO(), sync, now=now) for r in clients}
+    for _ in range(40):                               # a burst per device every 30 s = 20 min
+        for r, c in clients.items():
+            assert 7 < asyncio.run(recs[r].sync_burst(c)) < 16
+        st["t"] += 30.0
+    rows = list(csv.DictReader(io.StringIO(sync_fh.getvalue())))
+    fits = {}
+    for r in clients:
+        rr = [(float(x["host_time_s"]), int(x["device_time_us"]), float(x["rtt_ms"]), x["source"]) for x in rows if x["role"] == r]
+        if r == "lead":
+            assert rr[-1][1] > 1 << 32                # 32-bit wrap unwrapped
+        fits[r] = detector.clock_from_sync(rr)
+        assert abs(fits[r].skew_ppm + clients[r].skew * 1e6) < 1.0
+    lead, rear = clients["lead"], clients["rear"]
+    for t in (1000.0, 1300.0, 1800.0, 2200.0):
+        h_lead = fits["lead"].host(lead.dev_at(t) / 1e6)   # dev_at is already unwrapped
+        h_rear = fits["rear"].host(rear.dev_at(t) / 1e6)
+        assert abs(h_lead - t) * 1e3 <= conn / 2 * 1e3 + 0.5   # absolute: <= half the best RTT
+        assert abs(h_lead - h_rear) * 1e3 <= 2.0                # between sensors: <= 2 ms

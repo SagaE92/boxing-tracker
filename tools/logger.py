@@ -3,11 +3,24 @@
 
   python tools/logger.py --out recordings/2026-10-25_bag      # scan for "BoxTrk"
   python tools/logger.py --address C4:12:34:56:78:9A --out rec1 --hand lead --stance orthodox
+  # two sensors, one inside each wrap, recorded at the same time:
+  python tools/logger.py --out rec2 --stance orthodox \
+      --device lead=C4:12:34:56:78:9A --device rear=D7:65:43:21:0F:1E
 
-Writes:
+Writes (single sensor):
   <out>_raw.csv     host_time_s,device_time_us,ax_g,ay_g,az_g,gx_dps,gy_dps,gz_dps,sat
   <out>_labels.csv  host_time_s,label,note
   <out>_punches.csv on-device punch events (if any) for comparison
+Two sensors (--device ROLE=ADDRESS, twice): one raw file per device
+  <out>_lead_raw.csv, <out>_rear_raw.csv   (same columns; host_time_s per device)
+  <out>_sync.csv    device_id,role,host_time_s,device_time_us,rtt_ms,source
+                    source "rtt": time-sync reads (0x0008) at connect and every
+                    --sync-every s, host_time_s = request/response midpoint;
+                    source "packet": raw notification arrival (device time of the
+                    packet's last sample, host rx time) - fallback for firmware
+                    without 0x0008.
+  then: python analysis/detector.py --stream lead=<out>_lead_raw.csv --stream rear=<out>_rear_raw.csv \
+            --sync <out>_sync.csv --labels <out>_labels.csv --stance orthodox --session-out <out>_session.json
 
 While recording, type a label and press Enter to write a marker (host clock):
   sync          -> you just did the sync clap/tap (see tools/README.md)
@@ -31,15 +44,34 @@ import proto  # noqa: E402
 RAW_HEADER = ["host_time_s", "device_time_us", "ax_g", "ay_g", "az_g",
               "gx_dps", "gy_dps", "gz_dps", "sat"]
 LABEL_HEADER = ["host_time_s", "label", "note"]
+SYNC_HEADER = ["device_id", "role", "host_time_s", "device_time_us", "rtt_ms", "source"]
+
+
+class SyncWriter:
+    """Clock-sync samples for multi-device recordings (thread-safe; one file for all devices)."""
+
+    def __init__(self, fh):
+        self.fh = fh
+        self.w = csv.writer(fh)
+        self.w.writerow(SYNC_HEADER)
+        self.lock = threading.Lock()
+        self.rows = 0
+
+    def add(self, device_id, role, host_s, device_us, rtt_ms=None, source="rtt"):
+        with self.lock:
+            self.w.writerow([device_id, role, f"{host_s:.6f}", int(device_us),
+                             "" if rtt_ms is None else f"{rtt_ms:.3f}", source])
+            self.rows += 1
 
 
 class RawCsvWriter:
     """Turns raw-stream notifications into CSV rows. BLE-independent (unit tested)."""
 
-    def __init__(self, fh):
+    def __init__(self, fh, on_sync=None, unwrap=None):
         self.w = csv.writer(fh)
         self.w.writerow(RAW_HEADER)
-        self.unwrap = proto.TimeUnwrapper()
+        self.unwrap = unwrap or proto.TimeUnwrapper()
+        self.on_sync = on_sync  # (device_us_of_last_sample, host_rx_s) per packet
         self.last_seq = None
         self.lost_packets = 0
         self.rows = 0
@@ -64,6 +96,8 @@ class RawCsvWriter:
         # (first packet) - stable, no BLE jitter; drift is ~ppm over a session.
         if self._anchor is None:
             self._anchor = (dev[-1], host_rx_s)
+        if self.on_sync is not None:
+            self.on_sync(dev[-1], host_rx_s)
         a_dev, a_host = self._anchor
         for s, d in zip(pkt.samples, dev):
             ax, ay, az = s.accel_g
@@ -115,6 +149,104 @@ async def find_device(name: str, address: str | None, timeout: float):
     if dev is None:
         raise SystemExit("device not found")
     return dev
+
+
+class DeviceRecorder:
+    """One sensor of a multi-device recording: raw CSV + its clock-sync samples.
+    BLE-independent apart from `sync_burst`, which takes any object with an async
+    read_gatt_char(uuid) (unit tested with a fake client)."""
+
+    def __init__(self, role, device_id, raw_fh, sync: SyncWriter, now=time.time, packet_sync_every=50):
+        self.role, self.device_id, self.sync, self.now = role, device_id, sync, now
+        self.unwrap = proto.TimeUnwrapper()   # shared by raw packets and time-sync reads
+        self._n = 0
+        self.packet_sync_every = packet_sync_every
+
+        def on_packet_sync(dev_us, host_s):
+            self._n += 1
+            if (self._n - 1) % self.packet_sync_every == 0:   # default ~every 2 s at 416 Hz / 18 per packet
+                self.sync.add(self.device_id, self.role, host_s, dev_us, None, "packet")
+        self.raw = RawCsvWriter(raw_fh, on_sync=on_packet_sync, unwrap=self.unwrap)
+
+    def on_raw(self, data: bytes, host_rx_s: float):
+        return self.raw.on_packet(data, host_rx_s)
+
+    async def sync_burst(self, client, n=8):
+        """n time-sync reads; logs (midpoint, device time, rtt). Returns the min RTT (ms)."""
+        best = None
+        for _ in range(n):
+            t0 = self.now()
+            data = await client.read_gatt_char(proto.TIME_SYNC_UUID)
+            t1 = self.now()
+            dev = self.unwrap(proto.parse_time_sync(bytes(data)))
+            rtt = (t1 - t0) * 1e3
+            self.sync.add(self.device_id, self.role, (t0 + t1) / 2, dev, rtt, "rtt")
+            best = rtt if best is None else min(best, rtt)
+        return best
+
+
+def parse_device_args(specs):
+    """["lead=AA:BB..", "rear=CC:.."] -> [(role, address)]; roles must be lead/rear, unique."""
+    out = []
+    for sp in specs:
+        role, sep, addr = sp.partition("=")
+        if not sep or role not in ("lead", "rear") or not addr:
+            raise SystemExit(f"--device expects lead=ADDRESS or rear=ADDRESS, got {sp!r}")
+        out.append((role, addr))
+    if len({r for r, _ in out}) != len(out):
+        raise SystemExit("--device: each role (lead, rear) at most once")
+    return out
+
+
+async def record_one(args, role, address, rec: DeviceRecorder, stop: threading.Event):
+    """Connect one sensor, set its role/stance, stream raw data and time-sync it."""
+    from bleak import BleakClient
+    async with BleakClient(address) as client:
+        print(f"[{role}] connected {address}, MTU {client.mtu_size}")
+        has_sync = client.services.get_characteristic(proto.TIME_SYNC_UUID) is not None
+        await client.write_gatt_char(proto.CONFIG_UUID, proto.pack_config(role, args.stance, args.threshold),
+                                     response=True)
+        await client.start_notify(proto.RAW_STREAM_UUID, lambda _, d: rec.on_raw(bytes(d), time.time()))
+        if has_sync:
+            print(f"[{role}] time sync: min RTT {await rec.sync_burst(client):.1f} ms")
+        else:
+            print(f"[{role}] no time-sync characteristic: aligning on packet arrival times")
+        await client.write_gatt_char(proto.SESSION_CTRL_UUID, bytes([proto.OP_RAW_START]), response=True)
+        t_sync = time.time()
+        while not stop.is_set() and client.is_connected:
+            await asyncio.sleep(0.5)
+            if has_sync and time.time() - t_sync >= args.sync_every:
+                await rec.sync_burst(client)
+                t_sync = time.time()
+        if client.is_connected:
+            if has_sync:
+                await rec.sync_burst(client)
+            await client.write_gatt_char(proto.SESSION_CTRL_UUID, bytes([proto.OP_RAW_STOP]), response=True)
+
+
+async def run_multi(args):
+    out = Path(args.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    devices = parse_device_args(args.device)
+    stop = threading.Event()
+    lab_fh = open(f"{out}_labels.csv", "w", newline="")
+    sync_fh = open(f"{out}_sync.csv", "w", newline="")
+    labels, sync = LabelWriter(lab_fh), SyncWriter(sync_fh)
+    raw_fhs, recs = [], []
+    for role, addr in devices:
+        fh = open(f"{out}_{role}_raw.csv", "w", newline="")
+        raw_fhs.append(fh)
+        recs.append(DeviceRecorder(role, addr.replace(":", "").lower()[-8:] or role, fh, sync))
+    threading.Thread(target=stdin_labels, args=(labels, stop), daemon=True).start()
+    print("Recording both sensors. Do the SYNC CLAP now (both hands), hold guard ~2 s, then one straight with each hand.")
+    try:
+        await asyncio.gather(*(record_one(args, role, addr, rec, stop) for (role, addr), rec in zip(devices, recs)))
+    finally:
+        for fh in (lab_fh, sync_fh, *raw_fhs):
+            fh.close()
+    for rec in recs:
+        print(f"[{rec.role}] {rec.raw.rows} samples, {rec.raw.lost_packets} packets lost -> {out}_{rec.role}_raw.csv")
+    print(f"{sync.rows} sync samples -> {out}_sync.csv")
 
 
 async def run(args):
@@ -190,7 +322,11 @@ def main(argv=None):
     ap.add_argument("--stance", choices=["orthodox", "southpaw"], default="orthodox")
     ap.add_argument("--threshold", type=float, default=3.5, help="on-device threshold (g)")
     ap.add_argument("--no-session", action="store_true", help="raw stream only")
-    asyncio.run(run(ap.parse_args(argv)))
+    ap.add_argument("--device", action="append", default=[], metavar="ROLE=ADDRESS",
+                    help="two sensors: --device lead=ADDR --device rear=ADDR (one raw CSV per device + sync CSV)")
+    ap.add_argument("--sync-every", type=float, default=30.0, help="seconds between time-sync bursts (multi-device)")
+    a = ap.parse_args(argv)
+    asyncio.run(run_multi(a) if a.device else run(a))
 
 
 if __name__ == "__main__":
