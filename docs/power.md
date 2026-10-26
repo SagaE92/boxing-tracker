@@ -11,8 +11,8 @@ to a week by **never streaming in normal use**:
 * a **long connection interval** (100–200 ms, slave latency 4) during sessions
 * **System OFF** whenever idle, woken by the **IMU wake-on-motion** interrupt
 * **no button** (motion is the only wake source; `POWER_OFF` opcode or timeouts put it to sleep)
-* optional **on-device session storage** (internal flash or the XIAO's 2 MB QSPI NOR)
-  so the phone need not stay connected; sync after the session (`CONFIG_BTRK_SESSION_STORAGE`, planned)
+* **on-device event log** on the XIAO's 2 MB QSPI NOR (v1.1): every strike is stored, so
+  the phone need not stay connected; fetch after the session (GATT 0x000A, `docs/gatt-spec.md`)
 * charging through **pogo pins** (magnetic 2–4 pin) is preferred over a USB-C receptacle
   for a sealed, sweat-proof enclosure; USB-C side charging stays an option for the prototype
 
@@ -61,8 +61,17 @@ real board with a PPK2 or similar before trusting them.
                                                    └──────────────┘
 ```
 
-* Session survives a disconnect (advertises slowly to reconnect; with session storage
-  it would keep logging); it auto-stops after `CONFIG_BTRK_SESSION_IDLE_TIMEOUT_S` (600 s) without a strike.
+* Session survives a disconnect (advertises slowly to reconnect) and keeps logging events
+  to the QSPI flash; it auto-stops after `CONFIG_BTRK_SESSION_IDLE_TIMEOUT_S` (600 s) without
+  a strike. After the stop the device advertises for the rest of `CONFIG_BTRK_ADV_TIMEOUT_S`
+  and then goes to System OFF; fetching the log before that keeps it in the same boot as
+  the session (better clock alignment, `docs/gatt-spec.md` "Caveat for flash-log sessions").
+* Before System OFF the event-log queue is flushed to flash; the QSPI NOR is in deep
+  power-down (P25Q16H DPD: µA-class or below — check its datasheet; *not measured*) whenever it is not
+  being read or written (Zephyr runtime PM on the `nordic,qspi-nor` driver), including in
+  System OFF.
+* The pairing window (role changes, new bonds) is open for 120 s after a RESET tap or
+  power-on only; a wake-on-motion boot does not open it.
 * Before System OFF: IMU → accel-only 12.5 Hz low-power, ±2 g, wake-up threshold
   125 mg (`CONFIG_BTRK_WOM_THRESHOLD_MG`, 31.25 mg steps), latched on INT1; INT1 is set
   as a level-high SENSE pin, then `sys_poweroff()`. The IMU regulator GPIO (P1.08 on the
@@ -119,14 +128,21 @@ What two sensors add per device is small:
 
 | Item | Per device, per week |
 |---|---|
-| Time-sync bursts (8 reads at connect + every 30 s, raw/dev mode only) | < 0.01 mAh (a few extra connection events) |
-| Role in advertising service data (3 bytes) | none measurable (same advertising events) |
+| Time-sync bursts (8 reads + 1 anchor write at connect, every 30 s while connected, before a log fetch) | < 0.01 mAh (a few extra connection events) |
+| Role in advertising manufacturer data (10 bytes; ADV is now the full 31 bytes) | ~+5 % per advertising event (longer packets) — negligible next to the session |
+| Event log on QSPI NOR: one 32-byte page program per event (~0.5 events/s × ~1 ms at ~4 mA, *estimate*) + DPD exit/enter + a 4 KB sector erase per 128 records | ≈ 2–5 µA average during a session → < 0.05 mAh/week (*estimate, measure*) |
+| QSPI NOR in deep power-down (always, also System OFF) | ≤ ~1 µA assumed → ≤ 0.17 mAh/week (*not measured*) |
+| Battery divider (P0.14 held low, 1.51 MΩ at 4.2 V) | ~2.8 µA → ~0.47 mAh/week (XIAO only; the custom board should switch it) |
 | Phone holding two connections | none on the device side (each device still has one link) |
 
 In events-only mode (the default) no clock sync over BLE is needed during the session:
-each device timestamps events on its own clock and is aligned at the post-session sync
-(offset + drift from the sync exchanges at connect/disconnect), so the weekly totals above
-stand. Only the phone pays for the second connection.
+each device timestamps events on its own clock and logs them to flash; the time anchors
+written at connect and before the log fetch give offset + drift (as long as the device did
+not sleep in between), so the weekly totals above stand. Only the phone pays for the
+second connection.
+
+None of these numbers have been measured; `docs/bringup.md` lists what to check with a
+current meter first.
 
 ## Charging
 
