@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/SagaE92/boxing-tracker/docs/session.schema.json",
   "title": "Boxing tracker session (detector output)",
-  "description": "Output of analysis/detector.py for one recorded session. All *_s times are seconds relative to the first raw sample, on the device clock: t = (device_time_us - device_time_us[0]) / 1e6 (unwrap uint32 rollover if the firmware uses a 32-bit µs counter). Labels CSV times (host_time_s) are aligned by subtracting the raw CSV's first host_time_s. schema_version follows semver: MAJOR = breaking change, MINOR = additive optional fields, PATCH = docs only. Consumers accept any 1.x.y.",
+  "description": "Output of analysis/detector.py for one recorded session. All *_s times are seconds relative to the first raw sample, on the device clock (single sensor) or on the aligned session clock (two sensors: each device clock is mapped to host time with the offset/drift recorded in session.devices[].clock, and t = 0 is the earliest aligned first sample): t = (device_time_us - device_time_us[0]) / 1e6 (unwrap uint32 rollover if the firmware uses a 32-bit µs counter). Labels CSV times (host_time_s) are aligned by subtracting the raw CSV's first host_time_s. schema_version follows semver: MAJOR = breaking change, MINOR = additive optional fields, PATCH = docs only. Consumers accept any 1.x.y. 1.1.0 (additive): session.devices[] and punches[].device_id for one sensor inside each hand wrap; 1.0.0 files remain valid.",
   "type": "object",
   "required": [
     "schema_version",
@@ -18,7 +18,7 @@
     "schema_version": {
       "type": "string",
       "pattern": "^1\\.\\d+\\.\\d+$",
-      "description": "Schema version this file conforms to. Current: 1.0.0"
+      "description": "Schema version this file conforms to. Current: 1.1.0 (1.0.0 files remain valid; consumers accept any 1.x)."
     },
     "generator": {
       "type": "object",
@@ -86,7 +86,7 @@
             "R",
             null
           ],
-          "description": "Wrist the device is worn on, if known."
+          "description": "Wrist the device is worn on, if known. null for two-sensor sessions (see devices)."
         },
         "hand": {
           "enum": [
@@ -94,7 +94,7 @@
             "rear",
             null
           ],
-          "description": "Which hand wears the sensor (inside the hand wrap)."
+          "description": "Which hand wears the sensor (inside the hand wrap). null for two-sensor sessions (see devices)."
         },
         "stance": {
           "enum": [
@@ -149,6 +149,101 @@
             "t_end_s": {
               "type": "number",
               "minimum": 0
+            }
+          }
+        },
+        "devices": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Since 1.1.0. One entry per sensor (one inside each hand wrap). Single-sensor sessions have one entry. Absent in 1.0.0 files.",
+          "items": {
+            "type": "object",
+            "required": [
+              "device_id",
+              "hand"
+            ],
+            "additionalProperties": true,
+            "properties": {
+              "device_id": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Stable device id (e.g. advertised name suffix or BLE address)."
+              },
+              "hand": {
+                "enum": [
+                  "lead",
+                  "rear",
+                  null
+                ],
+                "description": "Hand role set at pairing (stored on the device)."
+              },
+              "wrist": {
+                "enum": [
+                  "L",
+                  "R",
+                  null
+                ],
+                "description": "Left/right wrist; follows from hand + stance."
+              },
+              "firmware_version": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "sample_rate_hz": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "calibrated": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "clock": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "description": "Clock alignment applied to this device's timestamps: host_time_s = a + (1 + skew_ppm*1e-6) * device_time_s.",
+                "required": [
+                  "source",
+                  "offset_s",
+                  "skew_ppm"
+                ],
+                "properties": {
+                  "source": {
+                    "type": "string",
+                    "description": "rtt (connection-time + periodic time-sync exchanges), packet (notification arrival lower envelope), raw_host_time (logger anchor, offset only) or device (single sensor, no alignment)."
+                  },
+                  "offset_s": {
+                    "type": "number",
+                    "description": "Start of this device's first sample on the session timeline (s)."
+                  },
+                  "skew_ppm": {
+                    "type": "number",
+                    "description": "Estimated device clock drift vs host (ppm). Positive: the device clock runs slow relative to host (host advances faster per device second)."
+                  },
+                  "residual_ms": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "description": "RMS residual of the clock fit (ms)."
+                  },
+                  "sync_points": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  }
+                }
+              }
             }
           }
         }
@@ -322,6 +417,13 @@
               null
             ],
             "description": "Estimated target level, or null if not estimated."
+          },
+          "device_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Since 1.1.0: device that detected the event (session.devices[].device_id). Whole-body events seen by both sensors (kick_or_body_movement, clinch) are merged and keep the device with the larger peak."
           }
         }
       },
