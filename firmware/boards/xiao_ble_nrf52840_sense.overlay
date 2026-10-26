@@ -6,7 +6,14 @@
  *   keeps its state in System OFF, so the IMU stays powered for wake-on-motion.
  * - We replace the in-tree st,lsm6dsl sensor binding with our own FIFO driver.
  * - Flash map: UF2 bootloader kept, MCUboot chain-loaded at 0x27000.
+ *   Settings (role, bonds, boot counter) live in the internal storage_partition.
+ * - Event log: the whole 2 MB P25Q16H QSPI NOR (eventlog_partition), in deep
+ *   power-down between accesses (runtime PM).
+ * - Battery: VBAT -> 1 M / 510 k divider -> P0.31 (AIN7). The divider's low side
+ *   is P0.14, which must be driven LOW (never HIGH: that puts VBAT on P0.31).
  */
+#include <zephyr/dt-bindings/adc/adc.h>
+#include <zephyr/dt-bindings/adc/nrf-saadc.h>
 #include "nrf52840_uf2_mcuboot_partitions.dtsi"
 
 / {
@@ -17,6 +24,28 @@
 
 	aliases {
 		boxtrk-led = &led2;	/* blue: BLE/session indicator */
+	};
+
+	zephyr,user {
+		io-channels = <&adc 7>;
+		vbat-en-gpios = <&gpio0 14 GPIO_ACTIVE_LOW>;
+	};
+};
+
+&adc {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	channel@7 {
+		reg = <7>;
+		zephyr,gain = "ADC_GAIN_1_4";          /* 0.6 V ref -> 2.4 V full scale */
+		zephyr,reference = "ADC_REF_INTERNAL";
+		/* ~340 k source impedance: needs the longest acquisition time */
+		zephyr,acquisition-time = <ADC_ACQ_TIME(ADC_ACQ_TIME_MICROSECONDS, 40)>;
+		zephyr,input-positive = <NRF_SAADC_AIN7>;
+		zephyr,resolution = <12>;
+		zephyr,oversampling = <4>;
 	};
 };
 
@@ -32,9 +61,23 @@
 };
 
 &qspi {
-	/* P25Q16H NOR: candidate for on-device session storage (CONFIG_BTRK_SESSION_STORAGE).
-	 * Kept enabled so the driver puts it in deep power-down (has-dpd). */
 	status = "okay";
+};
+
+&p25q16h {
+	/* resume (exit DPD) per access, back to deep power-down afterwards */
+	zephyr,pm-device-runtime-auto;
+
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		eventlog_partition: partition@0 {
+			label = "eventlog";
+			reg = <0x00000000 0x00200000>;
+		};
+	};
 };
 
 &uart0 {

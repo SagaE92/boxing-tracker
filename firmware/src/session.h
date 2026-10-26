@@ -23,6 +23,10 @@ enum cal_state session_cal_state(void);
 void session_get_summary(struct btrk_session_summary *out);
 void session_get_config(struct btrk_config *out);
 int session_set_config(const struct btrk_config *cfg);
+/* Role (hand) changed over GATT: Config.hand follows it. */
+void session_role_changed(void);
+/* Control op ROUND_MARK: log it (with device time). */
+void session_round_mark(uint8_t round);
 
 /* IMU thread hook: run detector / calibration on each batch */
 void session_on_samples(const struct imu_sample *s, size_t n);

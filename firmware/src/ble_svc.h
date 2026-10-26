@@ -18,6 +18,11 @@ void ble_svc_notify_punch(const struct btrk_punch_evt *ev);
 void ble_svc_notify_summary(void);
 void ble_svc_notify_status(void);
 bool ble_raw_streaming(void);
+/* Rebuild the advertising data (role, flags) and the device name. */
+void ble_svc_update_adv(void);
+/* Event log transfer: payload bytes one notification can carry (0 = cannot send). */
+size_t ble_svc_log_room(void);
+int ble_svc_log_send(const void *buf, size_t len);
 /* IMU thread: push raw samples (only when raw streaming is enabled). */
 void ble_raw_push(const struct imu_sample *s, size_t n, uint8_t imu_flags);
 
