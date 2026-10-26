@@ -8,7 +8,8 @@ test.describe('demo session', () => {
     const c = watchConsole(page);
     await loadDemo(page);
     await expect(page.getByText('demo · synthetic recording')).toBeVisible();
-    await expect(page.getByText('Sensor:')).toBeVisible();
+    await expect(page.getByText('Sensors:')).toBeVisible(); // two-sensor default demo
+    await expect(page.getByText(/clock: lead \+0\.3\d\d s/)).toBeVisible();
     await expect(page.getByText('Stance:')).toBeVisible();
     await expect(page.locator('.stat').first()).toContainText('Strikes');
     await expect(page.getByText('low confidence · not in totals')).toBeVisible();
@@ -25,12 +26,16 @@ test.describe('demo session', () => {
     c.assertClean();
   });
 
-  test('default demo is the 6 x 2 min session; others selectable', async ({ page }) => {
+  test('default demo is the 10 x 3 min two-sensor session; others selectable', async ({ page }) => {
     await loadDemo(page);
     const sel = page.getByRole('combobox', { name: 'Active session' });
-    await expect(sel.locator('option')).toHaveCount(4);
-    await expect(sel.locator('option:checked')).toHaveText(/demo-6x2 · 6 rounds/);
+    await expect(sel.locator('option')).toHaveCount(5);
+    await expect(sel.locator('option:checked')).toHaveText(/demo-10x3 · 10 rounds/);
     const rounds = page.locator('section.card', { has: page.locator('th', { hasText: 'Max peak g' }) }).locator('tbody tr');
+    await expect(rounds).toHaveCount(10);
+    // partial raw is explained in Lab only
+    await expect(page.locator('.warns summary')).toContainText('loader note');
+    await sel.selectOption({ label: 'demo-6x2 · 6 rounds (no raw)' });
     await expect(rounds).toHaveCount(6);
     await expect(page.getByText('Peak g, first → last round')).toBeVisible();
     await sel.selectOption({ label: 'demo · 3 rounds (no raw)' });
@@ -77,18 +82,24 @@ test.describe('demo session', () => {
       return { name: d.suggestedFilename(), buf: fs.readFileSync(p!) };
     };
     const png = await dl(/Summary PNG/);
-    expect(png.name).toBe('demo-6x2_summary.png');
+    expect(png.name).toBe('demo-10x3_summary.png');
     expect(png.buf.subarray(1, 4).toString()).toBe('PNG');
     expect(png.buf.length).toBeGreaterThan(20_000);
     fs.writeFileSync(path.join(SHOTS, 'export-summary.png'), png.buf);
     const sum = await dl(/Summary CSV/);
-    expect(sum.buf.toString()).toMatch(/^metric,value\nsession_id,demo-6x2\nstrikes,\d+/);
+    expect(sum.buf.toString()).toMatch(/^metric,value\nsession_id,demo-10x3\nstrikes,\d+/);
     expect(sum.buf.toString()).toContain('max_peak_g_clipped');
     expect(sum.buf.toString()).toContain('mean_peak_g_unclipped');
+    // compatibility aliases for the pre-review-1 names
+    const clipped = sum.buf.toString().match(/\nclipped_strikes,(\d+)/)![1];
+    expect(sum.buf.toString()).toContain(`\nsaturated_strikes,${clipped}`);
+    expect(sum.buf.toString()).toMatch(/\nmax_peak_g_is_lower_bound,(true|false)/);
     const evs = await dl(/All events CSV/);
     const lines = evs.buf.toString().trim().split('\n');
-    expect(lines[0]).toContain(',peak_g,clipped,peak_g_text,');
-    expect(lines.some((l) => l.includes(',true,>='))).toBe(true);
+    expect(lines[0]).toContain(',peak_g,clipped,peak_g_text,peak_g_is_lower_bound,');
+    expect(lines[0].endsWith(',device_id')).toBe(true);
+    expect(lines.some((l) => /,true,>=[\d.]+,true,/.test(l))).toBe(true);
+    expect(lines.some((l) => l.endsWith(',boxtrk-lead-7c1e'))).toBe(true);
     expect(lines.length).toBeGreaterThan(100);
     expect(evs.buf.toString()).not.toContain('kick_or_body_movement'); // excluded by default
   });
@@ -98,7 +109,7 @@ test.describe('demo session', () => {
     await tab(page, 'Trends');
     await expect(page.getByRole('region', { name: 'Personal bests' })).toBeVisible();
     await expect(page.getByText('Peak-g trend')).toBeVisible();
-    await expect(page.locator('.mixrow')).toHaveCount(4);
+    await expect(page.locator('.mixrow')).toHaveCount(5);
     await expect(page.getByRole('combobox', { name: 'Session A' })).toBeVisible();
     // "power" must never be used as a metric label (only peak g / estimated speed)
     for (const t of await page.locator('h1, h2, h3, .lab, th').allInnerTexts()) expect(t).not.toMatch(/power|force/i);
@@ -108,7 +119,7 @@ test.describe('demo session', () => {
 test.describe('loading files', () => {
   test('file picker groups raw + session + labels', async ({ page }) => {
     const c = watchConsole(page);
-    await page.goto('/');
+    await page.goto('/?view=lab');
     await page.getByLabel('Choose session files').setInputFiles([fix('single-hand_session.json'), fix('single-hand_raw.csv.gz'), fix('single-hand_labels.csv')]);
     await expect(page.locator('.meta h1')).toHaveText('single-hand');
     await expect(page.locator('.meta .badge', { hasText: 'video labels' })).toBeVisible();
@@ -120,7 +131,7 @@ test.describe('loading files', () => {
 
   test('simulated drag-and-drop loads files', async ({ page }) => {
     const c = watchConsole(page);
-    await page.goto('/');
+    await page.goto('/?view=lab');
     const files = ['heavy-sat_session.json', 'heavy-sat_raw.csv.gz'].map((n) => ({ name: n, b64: fs.readFileSync(fix(n)).toString('base64') }));
     await page.evaluate(async (fs) => {
       const dt = new DataTransfer();
@@ -143,7 +154,7 @@ test.describe('loading files', () => {
   });
 
   test('friendly errors for empty, malformed, unknown and wrong-version files', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?view=lab');
     await page.getByLabel('Choose session files').setInputFiles([fix('empty_raw.csv'), fix('malformed_raw.csv'), fix('garbage.csv'), fix('future_session.json'), fix('broken_session.json')]);
     const alert = page.getByRole('alert');
     await expect(alert).toContainText('file is empty');
@@ -156,7 +167,7 @@ test.describe('loading files', () => {
   });
 
   test('missing labels: accuracy view explains what to do', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?view=lab');
     await page.getByLabel('Choose session files').setInputFiles([fix('heavy-sat_session.json')]);
     await tab(page, 'Accuracy');
     await expect(page.getByText('No labels loaded')).toBeVisible();
@@ -166,7 +177,7 @@ test.describe('loading files', () => {
 
   test('zero strikes renders cleanly', async ({ page }) => {
     const c = watchConsole(page);
-    await page.goto('/');
+    await page.goto('/?view=lab');
     await page.getByLabel('Choose session files').setInputFiles([fix('idle_session.json'), fix('idle_raw.csv.gz')]);
     await expect(page.locator('.stat', { hasText: 'Strikes' }).first()).toContainText('0');
     await tab(page, 'Signals');
