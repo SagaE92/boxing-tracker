@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StrikeLab — Kickboxing Tracker</title>
+<style>
+  :root { --bg: #0f1117; --card: #1a1d27; --text: #e6e6e6; --muted: #9aa0b0; --accent: #ff4d4d; --good: #4ade80; --warn: #fbbf24; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); }
+  header { padding: 1.2rem 1.5rem; border-bottom: 1px solid #2a2e3a; display: flex; justify-content: space-between; align-items: center; }
+  h1 { margin: 0; font-size: 1.4rem; }
+  .badge { background: var(--accent); color: white; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.75rem; }
+  main { max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+  .card { background: var(--card); border-radius: 12px; padding: 1rem; }
+  .card h3 { margin: 0 0 0.4rem; font-size: 0.85rem; color: var(--muted); font-weight: 500; }
+  .card .value { font-size: 1.6rem; font-weight: 600; }
+  .card .sub { font-size: 0.75rem; color: var(--muted); }
+  section { background: var(--card); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.2rem; }
+  h2 { margin-top: 0; font-size: 1.1rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  th, td { text-align: left; padding: 0.5rem 0.4rem; border-bottom: 1px solid #2a2e3a; }
+  .type { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 6px; font-size: 0.75rem; }
+  .jab { background: #3b82f6; } .cross { background: #8b5cf6; } .hook { background: #f59e0b; } .upper { background: #10b981; } .other { background: #6b7280; }
+  .warn { color: var(--warn); }
+  .good { color: var(--good); }
+  footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.8rem; }
+  a { color: #60a5fa; }
+</style>
+</head>
+<body>
+<header>
+  <h1>StrikeLab</h1>
+  <span class="badge">Demo session · Inside wraps</span>
+</header>
+<main>
+  <div class="cards">
+    <div class="card"><h3>Total strikes</h3><div class="value">47</div><div class="sub">6 rounds</div></div>
+    <div class="card"><h3>Strikes / min</h3><div class="value">7.8</div><div class="sub">active time</div></div>
+    <div class="card"><h3>Max peak</h3><div class="value">≥16 g</div><div class="sub warn">est. 20.2 · clipped</div></div>
+    <div class="card"><h3>Avg peak</h3><div class="value">9.4 g</div><div class="sub">unclipped mean</div></div>
+    <div class="card"><h3>Saturated</h3><div class="value">2.1%</div><div class="sub warn">data quality</div></div>
+  </div>
+
+  <section>
+    <h2>Strike mix</h2>
+    <table>
+      <tr><th>Type</th><th>Count</th><th>%</th><th>Avg peak</th></tr>
+      <tr><td><span class="type jab">Jab</span></td><td>18</td><td>38%</td><td>7.2 g</td></tr>
+      <tr><td><span class="type cross">Cross</span></td><td>12</td><td>26%</td><td>11.1 g</td></tr>
+      <tr><td><span class="type hook">Hook</span></td><td>9</td><td>19%</td><td>13.4 g</td></tr>
+      <tr><td><span class="type upper">Uppercut</span></td><td>5</td><td>11%</td><td>10.8 g</td></tr>
+      <tr><td><span class="type other">Other / kick?</span></td><td>3</td><td>6%</td><td>—</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>Why this is better than commercial trackers</h2>
+    <ul>
+      <li><strong>Size first</strong> — designed to live inside hand wraps. Commercial units are usually larger.</li>
+      <li><strong>Honest numbers</strong> — clipping and saturation are flagged. No silent “power” claims.</li>
+      <li><strong>Open algorithm</strong> — detection rules and raw data are available. You can improve them.</li>
+      <li><strong>Kickboxer-aware</strong> — hooks, spinning, body work, and low-confidence kick/clinch tags.</li>
+      <li><strong>Tiny battery, real week</strong> — on-device detection + deep sleep targets ~10 sessions on 40–60 mAh.</li>
+    </ul>
+    <p>Full comparison in <a href="docs/why.md">docs/why.md</a>.</p>
+  </section>
+
+  <section>
+    <h2>Notes</h2>
+    <p>This is a static demo with synthetic data. Real recordings from a XIAO nRF52840 Sense will replace it. Firmware, detector, and full Svelte dashboard exist and are ready to push once GitHub access is sorted.</p>
+    <p>Component plan: <a href="docs/components.md">docs/components.md</a></p>
+  </section>
+</main>
+<footer>
+  Open-source kickboxing tracker prototype · Size & honesty over closed-app polish
+</footer>
+</body>
+</html>
