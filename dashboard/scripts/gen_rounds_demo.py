@@ -130,7 +130,10 @@ DEVICE_IDS = {"lead": "boxtrk-lead-7c1e", "rear": "boxtrk-rear-a94b"}
 
 def two_hands(a):
     import csv
-    sessions, labels = S.make_two_hand_fatigue_session(a.seed, a.stance, a.rounds, a.round_s, a.rest_s)
+    # moderate fade (~20-25 % fewer strikes, ~10 % slower late); the lead hand still fades more
+    sessions, labels = S.make_two_hand_fatigue_session(a.seed, a.stance, a.rounds, a.round_s, a.rest_s,
+                                                       profile=S.FatigueProfile.moderate(),
+                                                       lead_late_fade=0.03, lead_share_late_drop=0.03)
     host_t0 = datetime.fromisoformat(a.date).astimezone(timezone.utc).timestamp()
     out = Path(a.out)
     out.parent.mkdir(parents=True, exist_ok=True)

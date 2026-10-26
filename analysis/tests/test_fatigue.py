@@ -96,7 +96,10 @@ def test_shipped_demo_has_late_round_fade():
     pr = _per_round(doc["punches"], doc["rounds"])
     assert len(pr) == 10
     f, l = pr[:3], pr[-3:]
-    assert sum(r["n"] for r in l) < 0.85 * sum(r["n"] for r in f)
-    assert np.mean([r["speed"] for r in l]) < 0.9 * np.mean([r["speed"] for r in f])
-    assert np.mean([r["peak"] for r in l]) < 0.9 * np.mean([r["peak"] for r in f])
+    # moderate, realistic fade (FatigueProfile.moderate): ~20-25 % fewer strikes, ~8-12 % slower
+    vol = sum(r["n"] + r["kicks"] for r in l) / sum(r["n"] + r["kicks"] for r in f) - 1
+    spd = np.mean([r["speed"] for r in l]) / np.mean([r["speed"] for r in f]) - 1
+    assert -0.27 < vol < -0.18
+    assert -0.13 < spd < -0.06
+    assert np.mean([r["peak"] for r in l]) < 0.95 * np.mean([r["peak"] for r in f])
     assert sum(r["kicks"] for r in l) < sum(r["kicks"] for r in f)

@@ -357,6 +357,14 @@ class FatigueProfile:
     kicks_late: int = 1
     late_hook_cut: float = 0.4
 
+    @classmethod
+    def moderate(cls) -> "FatigueProfile":
+        """The bundled demo's profile (dashboard demo-10x3): a realistic, not dramatic, late fade,
+        about 20-25 % fewer strikes and 8-12 % lower hand speed in the last 3 rounds than in the
+        first 3 (after the detector, seed 21). The defaults above are steeper so the short pytest
+        sessions show the fade clearly."""
+        return cls(fade_round=0.003, late_amp=0.003, pause_round=0.012, late_pause=0.03, late_hook_cut=0.3)
+
     def late(self, k: int) -> int:
         """Number of late rounds up to and including round k (0 before late_from)."""
         return max(0, k + 2 - self.late_from)
