@@ -14,8 +14,18 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      # also compiles firmware/src portable modules with gcc (host tests)
+      # also compiles firmware/src portable modules with gcc: C packer/log records vs
+      # tools/proto.py, and the C strike detector vs analysis/detector.py (equivalence)
       - run: python -m pytest -q analysis/tests tools/tests
+
+  firmware-host-tests:
+    name: firmware portable C unit tests (gcc, ASan + UBSan)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # detector (punch_detect.c), flash event log (evlog.c on a RAM NOR model),
+      # helpers (btrk_util.c), raw packer + ring; -Wall -Wextra -Werror
+      - run: make -C firmware/tests/host run
 
   dashboard:
     name: dashboard build, check, unit + e2e tests
@@ -54,9 +64,6 @@ jobs:
   firmware:
     name: firmware (Zephyr v4.1.0, sysbuild + MCUboot)
     runs-on: ubuntu-latest
-    # The same build passes locally (upstream Zephyr v4.1.0 + SDK 0.17.0) but this
-    # workflow has not run on GitHub yet; remove continue-on-error once it is green.
-    continue-on-error: true
     container: ghcr.io/zephyrproject-rtos/ci:v0.27.4
     env:
       CMAKE_PREFIX_PATH: /opt/toolchains
@@ -70,11 +77,16 @@ jobs:
           cd zws
           west config manifest.project-filter -- '-.*,+cmsis,+cmsis_6,+hal_nordic,+mcuboot,+zcbor,+tinycrypt,+mbedtls,+segger'
           west update --narrow -o=--depth=1
-      - name: build
+      - name: build (warnings are errors in the app image)
         run: |
           cd zws
           west build -p always -b xiao_ble/nrf52840/sense --sysbuild \
-            -d build ../boxing-tracker/firmware
+            -d build ../boxing-tracker/firmware -- -Dfirmware_CONFIG_COMPILER_WARNINGS_AS_ERRORS=y
+      - name: build without the raw-stream debug mode
+        run: |
+          cd zws
+          west build -p always -b xiao_ble/nrf52840/sense --sysbuild \
+            -d build-noraw ../boxing-tracker/firmware -- -DCONFIG_BTRK_RAW_STREAM=n
       - uses: actions/upload-artifact@v4
         with:
           name: firmware-xiao
