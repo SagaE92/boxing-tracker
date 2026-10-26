@@ -13,7 +13,25 @@ export const TABS: { id: Tab; label: string }[] = [
   { id: 'about', label: 'Why this is different' },
 ];
 
+export type Mode = 'athlete' | 'lab';
+export const MODE_KEY = 'strikelab.view';
+function initialMode(): Mode {
+  try {
+    const p = new URLSearchParams(location.search);
+    const v = p.get('view');
+    if (v === 'lab' || v === 'athlete') return v;
+    if (p.has('lab') || p.has('tab')) return 'lab';
+    return localStorage.getItem(MODE_KEY) === 'lab' ? 'lab' : 'athlete';
+  } catch { return 'athlete'; }
+}
+
 class AppState {
+  /** Athlete (default, plain-language) or Lab (everything technical). Remembered in localStorage. */
+  mode = $state<Mode>(typeof location === 'undefined' ? 'athlete' : initialMode());
+  /** Round expanded in the athlete view (1-based), or null. */
+  openRound = $state<number | null>(null);
+  /** Set by App: opens the file chooser. */
+  pickFiles: () => void = () => {};
   sessions = $state.raw<LoadedSession[]>([]);
   activeKey = $state<string | null>(null);
   tab = $state<Tab>('overview');
@@ -56,8 +74,19 @@ class AppState {
       this.loading = null;
     }
   }
+  setMode(m: Mode) {
+    this.mode = m;
+    try { localStorage.setItem(MODE_KEY, m); } catch { /* private mode */ }
+  }
+  /** Jump to Lab > Overview > data quality panel. */
+  showDataQuality() {
+    this.setMode('lab');
+    this.tab = 'overview';
+    setTimeout(() => document.getElementById('data-quality')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+  }
   select(key: string | null) {
     this.activeKey = key;
+    this.openRound = null;
     this.selectedId = null;
     this.range = null;
     this.filters = defaultFilters();
