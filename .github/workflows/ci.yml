@@ -77,16 +77,17 @@ jobs:
           cd zws
           west config manifest.project-filter -- '-.*,+cmsis,+cmsis_6,+hal_nordic,+mcuboot,+zcbor,+tinycrypt,+mbedtls,+segger'
           west update --narrow -o=--depth=1
-      - name: build (warnings are errors in the app image)
+      - name: build, default events-only (warnings are errors in the app image)
         run: |
           cd zws
           west build -p always -b xiao_ble/nrf52840/sense --sysbuild \
             -d build ../boxing-tracker/firmware -- -Dfirmware_CONFIG_COMPILER_WARNINGS_AS_ERRORS=y
-      - name: build without the raw-stream debug mode
+      - name: build with the opt-in raw-stream debug mode
         run: |
           cd zws
           west build -p always -b xiao_ble/nrf52840/sense --sysbuild \
-            -d build-noraw ../boxing-tracker/firmware -- -DCONFIG_BTRK_RAW_STREAM=n
+            -d build-raw ../boxing-tracker/firmware -- -DCONFIG_BTRK_RAW_STREAM=y \
+            -Dfirmware_CONFIG_COMPILER_WARNINGS_AS_ERRORS=y
       - uses: actions/upload-artifact@v4
         with:
           name: firmware-xiao

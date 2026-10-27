@@ -89,10 +89,14 @@ pip install -r zephyr/scripts/requirements.txt
 ```bash
 cd ~/zephyrproject
 west build -p always -b xiao_ble/nrf52840/sense --sysbuild \
-    -d build-xiao /path/to/boxing-tracker/firmware
+    -d build-xiao /path/to/boxing-tracker/firmware -- -DCONFIG_BTRK_RAW_STREAM=y
 python zephyr/scripts/build/uf2conv.py -c -f 0xADA52840 -o app-signed.uf2 \
     build-xiao/firmware/zephyr/zephyr.signed.hex
 ```
+
+`-DCONFIG_BTRK_RAW_STREAM=y` builds the raw-streaming debug / data-collection firmware that
+`tools/logger.py` needs for the raw CSVs below. The default build (drop that option) is
+events-only: it detects and logs strikes but answers `RAW_START` with `UNSUPPORTED`.
 
 The XIAO keeps its Adafruit UF2 bootloader; MCUboot is chain-loaded at 0x27000 and boots
 the **signed** app.

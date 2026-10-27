@@ -61,10 +61,12 @@ config BTRK_ROLE_WINDOW_S
 
 config BTRK_RAW_STREAM
 	bool "Raw IMU streaming over BLE (debug / data collection)"
-	default y
+	default n
 	help
-	  Keeps the 0x0005 raw stream and RAW_START/RAW_STOP. The on-device
-	  detector and event log run regardless.
+	  Opt-in debug / data-collection build. Enables the 0x0005 raw stream
+	  and RAW_START/RAW_STOP; without it RAW_START answers UNSUPPORTED and
+	  the device sends events only (the power-budget default). The
+	  on-device detector and event log run regardless.
 
 config BTRK_BATTERY_PERIOD_S
 	int "Battery sampling period (s)"

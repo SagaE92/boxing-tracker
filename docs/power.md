@@ -6,8 +6,9 @@ For comparison, Corner-style trackers (reported ~25 × 35 × 8 mm, 10 g) are sai
 4–12 h per charge (figures from the competitor comparison, not verified here) — we get
 to a week by **never streaming in normal use**:
 
-* on-device detection, BLE sends **punch events only** (16 B each); raw streaming is a
-  dev/data-collection mode
+* on-device detection, BLE sends **punch events only** (16 B each); raw streaming is an
+  opt-in dev/data-collection build (`CONFIG_BTRK_RAW_STREAM`, default **n**), so the
+  default firmware cannot be put into the raw mode by accident
 * a **long connection interval** (100–200 ms, slave latency 4) during sessions
 * **System OFF** whenever idle, woken by the **IMU wake-on-motion** interrupt
 * **no button** (motion is the only wake source; `POWER_OFF` opcode or timeouts put it to sleep)
@@ -109,7 +110,7 @@ divider) — measure it; the numbers above are for the custom board.
 estimate). Choose the thinnest 40–50 mAh option that fits, e.g. VARTA CP1240 A4X coin
 (50 mAh, Ø12.1 × 4.0 mm) or a ~3–4 mm pouch (`docs/components.md` lists candidates).
 At 208 Hz the weekly total drops to ≈ 8 mAh. If the user wants raw streaming
-regularly, go 50–60 mAh (raw ≈ 2.5 mA → a 40 mAh cell gives ~12 h of raw streaming).
+regularly (a firmware built with `CONFIG_BTRK_RAW_STREAM=y`), go 50–60 mAh (raw ≈ 2.5 mA → a 40 mAh cell gives ~12 h of raw streaming).
 
 Biggest levers, in order: IMU ODR/mode (0.90 vs 0.45 mA), keeping BLE out of the hot
 path (events only, long interval, or flash logging), standby leakage (protection IC,

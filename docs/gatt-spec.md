@@ -96,7 +96,7 @@ ported once validated on real recordings.
 |---|---|---|
 | 0x01 `SESSION_START` | u32 `session_id` (e.g. unix time) | start a session; IMU on; calibration begins (below) |
 | 0x02 `SESSION_STOP` | – | stop; summary is notified on 0x0004 |
-| 0x03 `RAW_START` | – | start raw streaming on 0x0005 (also powers the IMU; requests 7.5–15 ms connection interval) |
+| 0x03 `RAW_START` | – | start raw streaming on 0x0005 (also powers the IMU; requests 7.5–15 ms connection interval). Only in builds with `CONFIG_BTRK_RAW_STREAM=y` (default n); otherwise answers `UNSUPPORTED` |
 | 0x04 `RAW_STOP` | – | stop raw streaming |
 | 0x05 `ROUND_MARK` | u8 round number | informational marker (logged) |
 | 0x06 `POWER_OFF` | – | stop session, enter System OFF (wake on motion) |

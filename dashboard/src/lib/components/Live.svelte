@@ -43,7 +43,7 @@
   {#if !supported}
     <div class="alert info"><span class="ico">i</span><span>This browser has no Web Bluetooth. Use Chrome or Edge on desktop or Android (iOS Safari does not support it). Everything else in the dashboard works offline without it.</span></div>
   {:else}
-    <p class="muted small">Connects to the tracker's custom GATT service, starts the raw stream and shows |a|−1 g for the last 10 s plus on-device strike events. Requires firmware with the v1 protocol.</p>
+    <p class="muted small">Connects to the tracker's custom GATT service, starts the raw stream and shows |a|−1 g for the last 10 s plus on-device strike events. Requires firmware with the v1 protocol built with the raw-stream debug option (<span class="mono">CONFIG_BTRK_RAW_STREAM=y</span>); the default firmware sends strike events only.</p>
     <div style="display:flex;gap:.5rem;flex-wrap:wrap">
       {#if !connected}<button class="btn primary" onclick={connect}>Connect tracker</button>{:else}<button class="btn" onclick={disconnect}>Disconnect</button>{/if}
     </div>

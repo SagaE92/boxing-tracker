@@ -12,7 +12,9 @@ python tools/logger.py --out recordings/2026-10-26_bag --hand rear --stance orth
 ```
 
 Connects (scans for `BoxTrk` or the service UUID; move the tracker to wake it), writes the
-config, enables raw streaming and starts a session, and writes:
+config, enables raw streaming and starts a session, and writes (raw streaming needs firmware
+built with `-DCONFIG_BTRK_RAW_STREAM=y`; the default build is events-only and the raw CSV
+stays empty):
 
 | File | Header |
 |---|---|

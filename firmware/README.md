@@ -36,8 +36,9 @@ Zephyr glue:
 | `power.c` | power state machine (`docs/power.md`): adv fast → slow → System OFF; session/idle timeouts; flushes the log before System OFF |
 | `battery.c` | VBAT divider on AIN7 (P0.14 held low), SAADC, Battery Service level every 5 min and after connect |
 
-Kconfig (`Kconfig`): `CONFIG_BTRK_ROLE_WINDOW_S` (120), `CONFIG_BTRK_RAW_STREAM` (y — raw
-streaming debug mode; the detector and log run regardless), `CONFIG_BTRK_BATTERY_PERIOD_S`
+Kconfig (`Kconfig`): `CONFIG_BTRK_ROLE_WINDOW_S` (120), `CONFIG_BTRK_RAW_STREAM` (**n** — events
+only by default; set `y` for the raw-streaming debug / data-collection build, the detector and
+log run regardless), `CONFIG_BTRK_BATTERY_PERIOD_S`
 (300), plus the existing detector / timeout options.
 
 MCUmgr SMP over BLE (image + OS groups) is enabled in `prj.conf`; MCUboot does
@@ -52,14 +53,18 @@ Implemented in this firmware (details in `docs/gatt-spec.md` "Two sensors"):
   Writable during a 120 s pairing window after a RESET tap / power-on, over a bonded link,
   or while unset; reset with role 0 or control op `FORGET` (also deletes bonds).
 * **Advertising** carries the role in manufacturer data (company 0xFFFF, prototype) and the
-  name becomes `BoxTrk-L` / `BoxTrk-R`.
+  name becomes `BoxTrk-L` / `BoxTrk-R`. **0xFFFF is the Bluetooth SIG test/prototype company
+  ID: it is for development only and must be replaced with an assigned company ID (or the
+  data moved to a service-data UUID) before any device is distributed.**
 * **Time sync** 0x0008: read the 32-bit µs device clock (+ boot id); write a time anchor that
   goes into the event log.
 * **On-device detection + event log**: every strike, session start/stop, round mark, boot and
   anchor goes to a ring log on the 2 MB QSPI NOR; fetch it over 0x000A
   (`tools/logger.py --fetch-log`, `tools/evlog.py session`).
 * **Battery** from the VBAT divider.
-* **Raw streaming** is kept as a debug mode (`CONFIG_BTRK_RAW_STREAM`).
+* **Raw streaming** is an opt-in debug / data-collection build (`CONFIG_BTRK_RAW_STREAM`,
+  default **n**). The default firmware sends events only; build with
+  `-DCONFIG_BTRK_RAW_STREAM=y` for `tools/logger.py` raw recordings.
 
 Bring-up with two XIAOs: `docs/bringup.md`.
 
@@ -80,6 +85,12 @@ release or before a device leaves the developer's hands:
    Connections with passkey/numeric comparison), or only enable SMP in a
    button-triggered DFU mode.
 
+3. **Advertising uses the test company ID 0xFFFF.** The manufacturer data (role, wrist,
+   flags) is tagged with 0xFFFF, which the Bluetooth SIG reserves for testing. It is
+   test-only: replace it with an assigned company ID (or switch to service data under our
+   own UUID) before any distribution (`BTRK_ADV_COMPANY_ID` in `src/bt_proto.h`,
+   `ADV_COMPANY_ID` in `tools/proto.py`).
+
 Tracked as issues **#2** (production signing key) and **#3** (authenticated SMP DFU).
 v1.1 turns on BLE pairing/bonding (`CONFIG_BT_SMP`, Just Works) for the hand role, but
 that does **not** fix #3: the SMP characteristic still accepts unencrypted writes, and Just
@@ -90,7 +101,8 @@ RESET tap / power-on (or while the device has none), which limits who can bond, 
 
 Built successfully on 2026-10-26 in a Linux box with **upstream Zephyr v4.1.0**
 (Zephyr SDK 0.17.0, `arm-zephyr-eabi`), **with sysbuild + MCUboot**, also with
-`CONFIG_COMPILER_WARNINGS_AS_ERRORS=y` for the app and with `CONFIG_BTRK_RAW_STREAM=n`:
+`CONFIG_COMPILER_WARNINGS_AS_ERRORS=y` for the app, both as the default events-only build
+and with `CONFIG_BTRK_RAW_STREAM=y` (CI builds both):
 
 ```
 app     FLASH 240188 B / 360 KB (65 %)   RAM 97804 B / 256 KB (37 %)
@@ -121,6 +133,9 @@ cd zephyrproject && west update && west zephyr-export
 pip install -r zephyr/scripts/requirements.txt
 # Zephyr SDK 0.17.0 with the arm-zephyr-eabi toolchain
 west build -p always -b xiao_ble/nrf52840/sense --sysbuild /path/to/boxing-tracker/firmware -d build-xiao
+# raw-streaming debug / data-collection build (tools/logger.py raw CSVs):
+west build -p always -b xiao_ble/nrf52840/sense --sysbuild /path/to/boxing-tracker/firmware -d build-xiao-raw \
+    -- -DCONFIG_BTRK_RAW_STREAM=y
 ```
 
 nRF Connect SDK (v2.9 / v3.x, untested): same command inside the NCS toolchain
