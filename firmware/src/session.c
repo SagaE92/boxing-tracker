@@ -7,6 +7,11 @@
  *   CAL_DONE. Events before CAL_DONE carry BTRK_PUNCH_F_UNCALIBRATED.
  * On-device classification is a TODO (type UNKNOWN); the offline reference
  * classifier is analysis/detector.py.
+ *
+ * Every event (and session start/stop, round marks) is also appended to the
+ * flash event log (event_log.c), connected or not, so a session survives
+ * disconnects and can be fetched later over 0x000A. The hand comes from the
+ * role (role.c) once one is assigned.
  */
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
@@ -18,6 +23,8 @@
 #include "ble_svc.h"
 #include "power.h"
 #include "imu_lsm6ds3trc.h"
+#include "event_log.h"
+#include "role.h"
 
 LOG_MODULE_REGISTER(session, CONFIG_BTRK_LOG_LEVEL);
 
@@ -43,11 +50,39 @@ static struct {
 	float forward[3];   /* unit vector, chip frame, from first jab  */
 } s;
 
+static void handle_event(const struct pd_event *e);
+
 static void pd_cfg_from(const struct btrk_config *c, struct pd_config *pc)
 {
 	pc->threshold_g = c->threshold_cg / 100.0f;
-	pc->refractory_us = (uint32_t)c->refractory_ms * 1000U;
-	pc->post_peak_us = 150000U;
+	pc->refractory_ms = (float)c->refractory_ms;
+	pc->window_ms = 150.0f;      /* detector.py Params.window_ms */
+	pc->fs_hz = (float)IMU_ODR_HZ;
+}
+
+static void hand_from_role(void)
+{
+	uint8_t r = role_get();
+
+	if (r != BTRK_ROLE_UNSET) {
+		s.cfg.hand = (r == BTRK_ROLE_REAR) ? 1 : 0;
+	}
+}
+
+void session_role_changed(void)
+{
+	k_mutex_lock(&s.lock, K_FOREVER);
+	hand_from_role();
+	k_mutex_unlock(&s.lock);
+}
+
+void session_round_mark(uint8_t round)
+{
+	struct btrk_log_round r = {0};
+
+	r.dev_t_us = (uint32_t)k_ticks_to_us_floor64(k_uptime_ticks());
+	r.round = round;
+	(void)elog_append(BTRK_LOG_ROUND_MARK, &r, sizeof(r));
 }
 
 void session_init(void)
@@ -59,6 +94,7 @@ void session_init(void)
 	s.cfg.odr_code = 0;
 	s.cfg.threshold_cg = CONFIG_BTRK_DETECT_THRESHOLD_CG;
 	s.cfg.refractory_ms = CONFIG_BTRK_DETECT_REFRACTORY_MS;
+	hand_from_role();
 }
 
 bool session_active(void) { return s.active; }
@@ -87,11 +123,23 @@ int session_start(uint32_t id)
 	s.sum.state = BTRK_SESS_ACTIVE;
 	s.start_ms = k_uptime_get();
 	s.t0_us = (uint32_t)k_ticks_to_us_floor64(k_uptime_ticks());
+	hand_from_role();
 	pd_cfg_from(&s.cfg, &pc);
-	pd_init(&s.pd, &pc);
+	if (pd_init(&s.pd, &pc)) {
+		k_mutex_unlock(&s.lock);
+		return -EINVAL;
+	}
 	s.cal = CAL_GUARD;
 	cal_reset_guard();
 	s.active = true;
+	struct btrk_log_session_start ls = {
+		.session_id = id, .dev_t0_us = s.t0_us,
+		.role = role_get(), .wrist = role_wrist(), .stance = s.cfg.stance,
+		.odr_code = s.cfg.odr_code, .threshold_cg = s.cfg.threshold_cg,
+		.refractory_ms = s.cfg.refractory_ms,
+		.fw_major = 0, .fw_minor = 2, .fw_patch = 0,
+	};
+	(void)elog_append(BTRK_LOG_SESSION_START, &ls, sizeof(ls));
 	k_mutex_unlock(&s.lock);
 	LOG_INF("session %u start: hold guard pose", id);
 	power_event(PWR_EVT_SESSION_START);
@@ -105,10 +153,21 @@ int session_stop(void)
 		return -EALREADY;
 	}
 	k_mutex_lock(&s.lock, K_FOREVER);
+	struct pd_event e[PD_MAX_OUT];
+	int m = pd_flush(&s.pd, e); /* a strike right before STOP */
+	for (int j = 0; j < m; j++) {
+		handle_event(&e[j]);
+	}
 	s.active = false;
 	s.cal = CAL_NONE;
 	s.sum.duration_ms = (uint32_t)(k_uptime_get() - s.start_ms);
 	s.sum.state = 0;
+	struct btrk_log_session_stop lt = {
+		.session_id = s.id, .duration_ms = s.sum.duration_ms,
+		.dev_t_us = (uint32_t)k_ticks_to_us_floor64(k_uptime_ticks()),
+		.punch_count = s.sum.punch_count,
+	};
+	(void)elog_append(BTRK_LOG_SESSION_STOP, &lt, sizeof(lt));
 	k_mutex_unlock(&s.lock);
 	ble_svc_notify_summary();
 	power_event(PWR_EVT_SESSION_STOP);
@@ -142,7 +201,13 @@ void session_get_summary(struct btrk_session_summary *out)
 	k_mutex_unlock(&s.lock);
 }
 
-void session_get_config(struct btrk_config *out) { *out = s.cfg; }
+void session_get_config(struct btrk_config *out)
+{
+	k_mutex_lock(&s.lock, K_FOREVER);
+	hand_from_role();
+	*out = s.cfg;
+	k_mutex_unlock(&s.lock);
+}
 
 int session_set_config(const struct btrk_config *c)
 {
@@ -191,8 +256,15 @@ static void cal_guard_feed(const struct imu_sample *x)
 	}
 }
 
-static void handle_event(const struct pd_event *e, const struct imu_sample *peak_sample)
+static uint8_t sat_u8(uint32_t v) { return (uint8_t)MIN(v, 255U); }
+
+static void handle_event(const struct pd_event *e)
 {
+	struct imu_sample peak = {.t_us = e->t_peak_us};
+	const struct imu_sample *peak_sample = &peak;
+
+	memcpy(peak.a, e->peak_a, sizeof(peak.a));
+
 	struct btrk_punch_evt ev = {0};
 	uint16_t peak_cg = (uint16_t)MIN(65535.0f, e->peak_g * 100.0f);
 
@@ -206,7 +278,8 @@ static void handle_event(const struct pd_event *e, const struct imu_sample *peak
 		}
 		normalize(s.forward);
 		s.cal = CAL_DONE;
-		ev.type = BTRK_PUNCH_JAB; /* the calibration strike is a known jab */
+		/* the calibration strike is a known straight: jab (lead) / cross (rear) */
+		ev.type = s.cfg.hand ? BTRK_PUNCH_CROSS : BTRK_PUNCH_JAB;
 		ev.confidence = 100;
 		ble_svc_notify_status();
 	} else {
@@ -234,13 +307,26 @@ static void handle_event(const struct pd_event *e, const struct imu_sample *peak
 		s.sum.saturated_count++;
 	}
 	ble_svc_notify_punch(&ev);
+	struct btrk_log_event le = {
+		.dev_t_peak_us = e->t_peak_us,
+		.type = ev.type, .flags = ev.flags, .peak_cg = ev.peak_cg,
+		.speed_cms = ev.speed_cms, .peak_gyro_dps = ev.peak_gyro_dps,
+		.confidence = ev.confidence,
+		.pre_2ms = sat_u8((e->t_peak_us - e->t_start_us) / 2000U),
+		.post_2ms = sat_u8((e->t_end_us - e->t_peak_us) / 2000U),
+	};
+	for (int i = 0; i < 3; i++) {
+		le.gyro_int_ddeg[i] = (int16_t)CLAMP(lroundf(e->gyro_int_deg[i] * 10.0f), -32767, 32767);
+	}
+	if (elog_append(BTRK_LOG_EVENT, &le, sizeof(le)) == -ENOMSG) {
+		LOG_WRN("event log queue full");
+	}
 	power_event(PWR_EVT_ACTIVITY);
 }
 
 void session_on_samples(const struct imu_sample *x, size_t n)
 {
-	struct pd_event e;
-	static struct imu_sample peak;
+	struct pd_event e[PD_MAX_OUT];
 
 	if (!s.active) {
 		return;
@@ -250,12 +336,9 @@ void session_on_samples(const struct imu_sample *x, size_t n)
 		if (s.cal == CAL_GUARD) {
 			cal_guard_feed(&x[i]);
 		}
-		bool was_active = s.pd.active;
-		uint32_t prev_peak = s.pd.cur.t_peak_us;
-		if (pd_feed(&s.pd, &x[i], &e)) {
-			handle_event(&e, &peak);
-		} else if (s.pd.active && (!was_active || s.pd.cur.t_peak_us != prev_peak)) {
-			peak = x[i]; /* remember the raw sample at the running peak */
+		int m = pd_feed(&s.pd, &x[i], e);
+		for (int j = 0; j < m; j++) {
+			handle_event(&e[j]);
 		}
 	}
 	k_mutex_unlock(&s.lock);

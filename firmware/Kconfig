@@ -49,12 +49,28 @@ config BTRK_WOM_THRESHOLD_MG
 	int "Wake-on-motion threshold (mg, rounded to FS/64 = 31.25 mg at +-2 g)"
 	default 125
 
-config BTRK_SESSION_STORAGE
-	bool "Store punch events on-device when disconnected (NOT IMPLEMENTED YET)"
+config BTRK_ROLE_WINDOW_S
+	int "Pairing / role-assignment window after a reset or power-on (s)"
+	default 120
+	range 10 255
+	help
+	  The hand role (0x0009) can be changed, and new bonds made, only in
+	  this window after tapping RESET or connecting the battery (not after
+	  a wake from System OFF), or over a link encrypted with an existing
+	  bond, or while no role is set. See docs/gatt-spec.md.
+
+config BTRK_RAW_STREAM
+	bool "Raw IMU streaming over BLE (debug / data collection)"
 	default n
 	help
-	  Placeholder for logging events to internal flash / QSPI NOR so the
-	  phone need not stay connected. See docs/power.md.
+	  Opt-in debug / data-collection build. Enables the 0x0005 raw stream
+	  and RAW_START/RAW_STOP; without it RAW_START answers UNSUPPORTED and
+	  the device sends events only (the power-budget default). The
+	  on-device detector and event log run regardless.
+
+config BTRK_BATTERY_PERIOD_S
+	int "Battery sampling period (s)"
+	default 300
 
 module = BTRK
 module-str = boxing tracker

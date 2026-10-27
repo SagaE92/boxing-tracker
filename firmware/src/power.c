@@ -7,11 +7,13 @@
  *   ADV_* --connect--> CONNECTED --(idle CONFIG_BTRK_CONN_IDLE_TIMEOUT_S)--> disconnect -> ADV_SLOW
  *   CONNECTED --session start--> SESSION (IMU 416 Hz, detector)
  *   SESSION --(no strike for CONFIG_BTRK_SESSION_IDLE_TIMEOUT_S)--> session stop
- *   SESSION survives disconnects (advertises slowly to reconnect); events are
- *   lost while disconnected until CONFIG_BTRK_SESSION_STORAGE is implemented.
+ *   SESSION survives disconnects (advertises slowly to reconnect); every event
+ *   is appended to the QSPI flash event log either way (fetch later on 0x000A).
  *
  * The IMU runs only in SESSION (or raw mode); otherwise it is powered down
  * (~3 uA) or, in System OFF, in 12.5 Hz low-power wake-up mode (~9 uA).
+ * The QSPI NOR is in deep power-down whenever it is not being accessed (runtime
+ * PM); before System OFF the log queue is flushed so nothing is lost.
  */
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
@@ -21,6 +23,8 @@
 #include "ble_svc.h"
 #include "imu_lsm6ds3trc.h"
 #include "session.h"
+#include "event_log.h"
+#include "battery.h"
 
 LOG_MODULE_REGISTER(power, CONFIG_BTRK_LOG_LEVEL);
 
@@ -78,6 +82,9 @@ static void enter(enum pwr_state ns)
 		k_work_cancel_delayable(&timeout_work);
 		ble_adv_stop();
 		ble_disconnect();
+		if (elog_flush(K_SECONDS(3))) {
+			LOG_WRN("event log flush timed out");
+		}
 		if (imu_arm_wake_on_motion(CONFIG_BTRK_WOM_THRESHOLD_MG) == 0 &&
 		    imu_configure_wake_pin() == 0) {
 			LOG_INF("System OFF (wake on motion)");
@@ -97,6 +104,7 @@ static void handle(enum pwr_event e)
 {
 	switch (e) {
 	case PWR_EVT_CONNECTED:
+		battery_sample_soon();
 		enter(session_active() ? PWR_ST_SESSION : PWR_ST_CONNECTED);
 		break;
 	case PWR_EVT_DISCONNECTED:

@@ -10,7 +10,8 @@
 
 #include <stdint.h>
 
-#define BTRK_PROTO_VERSION 1
+#define BTRK_PROTO_VERSION 1   /* Config.version byte (unchanged for v1 centrals) */
+#define BTRK_PROTO_MINOR   1   /* v1.1: two sensors (role, time sync, event log)  */
 
 /* Base UUID: 6e7b0000-4b1d-4c8a-9a3e-2f5b0c1d7a00 ; 16-bit alias at bytes 2..3 */
 #define BTRK_UUID_BASE_STR "6e7bXXXX-4b1d-4c8a-9a3e-2f5b0c1d7a00"
@@ -21,6 +22,9 @@
 #define BTRK_UUID_RAW_STREAM   0x0005 /* notify            */
 #define BTRK_UUID_CONFIG       0x0006 /* read, write       */
 #define BTRK_UUID_STATUS       0x0007 /* read, notify      */
+#define BTRK_UUID_TIME_SYNC    0x0008 /* read, write (v1.1) */
+#define BTRK_UUID_ROLE         0x0009 /* read, write (v1.1) */
+#define BTRK_UUID_EVENT_LOG    0x000A /* read, write, notify (v1.1) */
 
 /* ---- Raw stream (0x0005) ------------------------------------------------ */
 #define BTRK_RAW_HDR_SIZE        18
@@ -106,6 +110,7 @@ enum btrk_ctrl_op {
 	BTRK_OP_ROUND_MARK    = 0x05, /* + u8 round number (informational)   */
 	BTRK_OP_POWER_OFF     = 0x06, /* enter System OFF (wake on motion)   */
 	BTRK_OP_CALIBRATE     = 0x07, /* re-run guard-pose + jab calibration */
+	BTRK_OP_FORGET        = 0x08, /* v1.1: clear role + wrist + all bonds (role rules) */
 	BTRK_OP_RESPONSE      = 0x80, /* indication: 0x80, req_op, status    */
 };
 
@@ -114,6 +119,7 @@ enum btrk_ctrl_status {
 	BTRK_ST_UNSUPPORTED = 0x01,
 	BTRK_ST_INVALID_PARAM = 0x02,
 	BTRK_ST_BAD_STATE = 0x03,
+	BTRK_ST_NOT_PERMITTED = 0x04, /* v1.1: role locked (not bonded, window closed) */
 };
 
 /* ---- Session summary (0x0004), 40 bytes --------------------------------- */
@@ -148,6 +154,134 @@ struct __attribute__((packed)) btrk_status {
 	uint16_t dropped;        /* raw samples dropped since boot (sat.)     */
 };
 
+/* ---- v1.1: two sensors ------------------------------------------------- */
+/* Hand role (0x0009) and advertising. Role 0 = unset (never assigned).   */
+enum btrk_role { BTRK_ROLE_UNSET = 0, BTRK_ROLE_LEAD = 1, BTRK_ROLE_REAR = 2 };
+enum btrk_wrist { BTRK_WRIST_UNKNOWN = 0, BTRK_WRIST_LEFT = 1, BTRK_WRIST_RIGHT = 2 };
+
+#define BTRK_ROLE_F_WINDOW_OPEN 0x01 /* pairing window after boot is open      */
+#define BTRK_ROLE_F_BONDED_LINK 0x02 /* this link is encrypted with a bond     */
+#define BTRK_ROLE_F_PERSISTED   0x04 /* role came from / was saved to settings */
+
+struct __attribute__((packed)) btrk_role_chr {
+	uint8_t role;            /* enum btrk_role (write: 0..2)                */
+	uint8_t wrist;           /* enum btrk_wrist (write: 0..2)               */
+	uint8_t flags;           /* BTRK_ROLE_F_* (read-only)                   */
+	uint8_t window_s;        /* seconds left in the pairing window (r/o)    */
+};
+
+/* Manufacturer-specific advertising data (company 0xFFFF = "no company", for
+ * prototypes). ADV = flags (3) + 128-bit service UUID (18) + this (2+8) = 31 B. */
+#define BTRK_ADV_COMPANY_ID     0xFFFF
+#define BTRK_ADV_PROTO          0x11 /* (major << 4) | minor                   */
+#define BTRK_ADV_F_SESSION      0x01 /* session active                         */
+#define BTRK_ADV_F_LOG_PENDING  0x02 /* event log has records not yet ACKed    */
+#define BTRK_ADV_F_WINDOW_OPEN  0x04 /* pairing window open (role writable)     */
+struct __attribute__((packed)) btrk_adv_mfg {
+	uint16_t company;        /* BTRK_ADV_COMPANY_ID                         */
+	uint8_t  proto;          /* BTRK_ADV_PROTO                              */
+	uint8_t  role;           /* enum btrk_role                              */
+	uint8_t  wrist;          /* enum btrk_wrist                             */
+	uint8_t  flags;          /* BTRK_ADV_F_*                                */
+	uint16_t dev_suffix;     /* low 16 bits of the FICR device id           */
+};
+
+/* Time sync (0x0008). Read: device clock now. Write: an anchor computed by the
+ * central from its best round trip, stored in the event log. */
+#define BTRK_TS_F_SESSION       0x01
+struct __attribute__((packed)) btrk_time_sync {
+	uint32_t device_time_us; /* same 32-bit us counter as raw t0_us / events */
+	uint16_t boot_id;        /* increments every boot (settings)            */
+	uint8_t  flags;          /* BTRK_TS_F_*                                 */
+	uint8_t  reserved;
+};
+struct __attribute__((packed)) btrk_time_anchor {
+	uint64_t host_unix_us;   /* host clock at the exchange midpoint         */
+	uint32_t device_time_us; /* device clock read in that exchange          */
+	uint16_t rtt_100us;      /* round-trip time of that exchange, 0.1 ms    */
+};
+
+/* Event log (0x000A): 32-byte records in a ring on the QSPI NOR. */
+#define BTRK_LOG_REC_SIZE  32
+enum btrk_log_type {
+	BTRK_LOG_SESSION_START = 0x01,
+	BTRK_LOG_EVENT         = 0x02,
+	BTRK_LOG_ANCHOR        = 0x03,
+	BTRK_LOG_SESSION_STOP  = 0x04,
+	BTRK_LOG_ROUND_MARK    = 0x05,
+	BTRK_LOG_BOOT          = 0x06,
+	BTRK_LOG_ERASED        = 0x07, /* first record after an ERASE            */
+	BTRK_LOG_END           = 0xFE, /* transfer only: end of a READ           */
+	BTRK_LOG_EMPTY         = 0xFF, /* erased flash                           */
+};
+struct __attribute__((packed)) btrk_log_rec {
+	uint8_t  type;           /* enum btrk_log_type                          */
+	uint8_t  flags;          /* reserved, 0                                 */
+	uint16_t boot_id;
+	uint32_t seq;            /* global record sequence number               */
+	uint8_t  payload[22];
+	uint16_t crc;            /* CRC-16/CCITT-FALSE over bytes 0..29         */
+};
+struct __attribute__((packed)) btrk_log_session_start {
+	uint32_t session_id;     /* from SESSION_START (host unix time)         */
+	uint32_t dev_t0_us;      /* device time at start                        */
+	uint8_t  role, wrist, stance, odr_code;
+	uint16_t threshold_cg, refractory_ms;
+	uint8_t  fw_major, fw_minor, fw_patch, reserved;
+	uint8_t  pad[2];
+};
+struct __attribute__((packed)) btrk_log_event {
+	uint32_t dev_t_peak_us;  /* device clock at the peak (time-sync base)   */
+	uint8_t  type;           /* enum btrk_punch_type                        */
+	uint8_t  flags;          /* BTRK_PUNCH_F_*                              */
+	uint16_t peak_cg;        /* as btrk_punch_evt                           */
+	uint16_t speed_cms;
+	uint16_t peak_gyro_dps;
+	uint8_t  confidence;
+	uint8_t  pre_2ms;        /* (t_peak - t_start) / 2 ms, saturating       */
+	uint8_t  post_2ms;       /* (t_end - t_peak) / 2 ms, saturating         */
+	int16_t  gyro_int_ddeg[3]; /* gyro integral over +-150 ms, 0.1 deg, SENSOR frame */
+	uint8_t  reserved;
+};
+struct __attribute__((packed)) btrk_log_anchor {
+	struct btrk_time_anchor a;
+	uint8_t pad[8];
+};
+struct __attribute__((packed)) btrk_log_session_stop {
+	uint32_t session_id;
+	uint32_t duration_ms;
+	uint32_t dev_t_us;
+	uint16_t punch_count;
+	uint8_t  pad[8];
+};
+struct __attribute__((packed)) btrk_log_round {
+	uint32_t dev_t_us;
+	uint8_t  round;
+	uint8_t  pad[17];
+};
+struct __attribute__((packed)) btrk_log_boot {
+	uint32_t reset_cause;    /* hwinfo reset cause bits                      */
+	uint8_t  role, wrist;
+	uint8_t  pad[16];
+};
+/* 0x000A read: log info */
+struct __attribute__((packed)) btrk_log_info {
+	uint32_t first_seq;      /* oldest record still stored                  */
+	uint32_t next_seq;       /* seq of the next record to be written        */
+	uint32_t capacity;       /* records the ring holds                      */
+	uint16_t boot_id;
+	uint8_t  rec_size;       /* BTRK_LOG_REC_SIZE                           */
+	uint8_t  flags;          /* bit0: a READ is in progress                 */
+};
+/* 0x000A write: control */
+enum btrk_log_op {
+	BTRK_LOG_OP_READ  = 0x01, /* + u32 from_seq, u32 max_records (0 = all) */
+	BTRK_LOG_OP_ABORT = 0x02,
+	BTRK_LOG_OP_ERASE = 0x03, /* + u32 magic 0x45524153 ("ERAS")           */
+	BTRK_LOG_OP_ACK   = 0x04, /* + u32 seq: host has everything below seq   */
+};
+#define BTRK_LOG_ERASE_MAGIC 0x45524153u
+
 #define BTRK_STATIC_ASSERT(c, m) typedef char m[(c) ? 1 : -1]
 BTRK_STATIC_ASSERT(sizeof(struct btrk_raw_hdr) == BTRK_RAW_HDR_SIZE, raw_hdr_sz);
 BTRK_STATIC_ASSERT(sizeof(struct btrk_raw_sample) == BTRK_RAW_SAMPLE_SIZE, raw_s_sz);
@@ -156,5 +290,17 @@ BTRK_STATIC_ASSERT(sizeof(struct btrk_session_summary) == 40, sum_sz);
 BTRK_STATIC_ASSERT(sizeof(struct btrk_config) == 8, cfg_sz);
 BTRK_STATIC_ASSERT(sizeof(struct btrk_status) == 4, status_sz);
 BTRK_STATIC_ASSERT(BTRK_RAW_MAX_SAMPLES <= 32, mask_bits);
+BTRK_STATIC_ASSERT(sizeof(struct btrk_role_chr) == 4, role_sz);
+BTRK_STATIC_ASSERT(sizeof(struct btrk_adv_mfg) == 8, adv_sz);
+BTRK_STATIC_ASSERT(sizeof(struct btrk_time_sync) == 8, ts_sz);
+BTRK_STATIC_ASSERT(sizeof(struct btrk_time_anchor) == 14, anchor_sz);
+BTRK_STATIC_ASSERT(sizeof(struct btrk_log_rec) == BTRK_LOG_REC_SIZE, rec_sz);
+BTRK_STATIC_ASSERT(sizeof(struct btrk_log_session_start) == 22, lss_sz);
+BTRK_STATIC_ASSERT(sizeof(struct btrk_log_event) == 22, lev_sz);
+BTRK_STATIC_ASSERT(sizeof(struct btrk_log_anchor) == 22, lan_sz);
+BTRK_STATIC_ASSERT(sizeof(struct btrk_log_session_stop) == 22, lst_sz);
+BTRK_STATIC_ASSERT(sizeof(struct btrk_log_round) == 22, lrd_sz);
+BTRK_STATIC_ASSERT(sizeof(struct btrk_log_boot) == 22, lbt_sz);
+BTRK_STATIC_ASSERT(sizeof(struct btrk_log_info) == 16, linfo_sz);
 
 #endif /* BT_PROTO_H_ */

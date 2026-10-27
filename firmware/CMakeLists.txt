@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.20.0)
 list(APPEND DTS_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
-project(boxing_tracker VERSION 0.1.0 LANGUAGES C)
+project(boxing_tracker VERSION 0.2.0 LANGUAGES C)
 
 target_include_directories(app PRIVATE src)
 target_sources(app PRIVATE
@@ -18,4 +18,8 @@ target_sources(app PRIVATE
   src/ble_svc.c
   src/power.c
   src/battery.c
+  src/btrk_util.c
+  src/evlog.c
+  src/event_log.c
+  src/role.c
 )

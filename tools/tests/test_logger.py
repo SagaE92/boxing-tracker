@@ -77,7 +77,8 @@ def test_c_packer_matches_python_parser(tmp_path):
     src = FW / "src"
     subprocess.run([cc, "-std=c99", "-Wall", "-Wextra", "-Werror", "-O1", f"-I{src}", "-o", str(exe),
                     str(FW / "tests" / "host" / "test_host.c"), str(src / "raw_pack.c"),
-                    str(src / "ringbuf.c"), str(src / "punch_detect.c"), "-lm"], check=True)
+                    str(src / "ringbuf.c"), str(src / "punch_detect.c"), str(src / "evlog.c"),
+                    str(src / "btrk_util.c"), "-lm"], check=True)
     out = subprocess.run([str(exe)], capture_output=True, text=True)
     assert out.returncode == 0, out.stdout
     assert "HOST TESTS OK" in out.stdout
@@ -89,6 +90,16 @@ def test_c_packer_matches_python_parser(tmp_path):
     assert pkt.samples[3].accel_sat and pkt.samples[5].accel_sat and pkt.samples[7].gyro_sat
     assert pkt.samples[2].accel_raw == (200, -2, 2049)
     assert pkt.samples[17].t_us == (0xFFFFF000 + 17 * 2404) & 0xFFFFFFFF
+    # event-log record written by the C side (evlog_rec_seal) decodes with the right CRC
+    rec = proto.parse_log_record(bytes.fromhex(next(l for l in out.stdout.splitlines() if l.startswith("REC ")).split()[1]))
+    assert rec["kind"] == "event" and rec["seq"] == 0xA0B0C0D0 and rec["boot_id"] == 0x1234
+    assert rec["type"] == "cross" and rec["saturated"] and rec["hand"] == "rear" and rec["peak_g"] == 16.12
+    assert rec["dev_t_peak_us"] == 0xFFFFFF00 and rec["pre_ms"] == 60 and rec["post_ms"] == 82
+    assert rec["gyro_int_deg_sensor"] == [-123.4, 5.6, 3276.7] and rec["confidence"] == 1.0
+    adv = bytes.fromhex(next(l for l in out.stdout.splitlines() if l.startswith("ADV ")).split()[1])
+    assert int.from_bytes(adv[:2], "little") == proto.ADV_COMPANY_ID
+    assert proto.parse_adv_mfg(adv[2:]) == {"proto": 0x11, "role": "rear", "wrist": "R", "session": True,
+                                            "log_pending": False, "window_open": False, "dev_suffix": "c0de"}
 
 
 def test_punch_event_roundtrip():
@@ -158,6 +169,11 @@ def test_time_sync_bursts_align_two_sensors_within_2ms():
     class FakeClient:
         def __init__(self, dev0, skew):
             self.dev0, self.skew = dev0, skew
+            self.anchors = []
+
+        async def write_gatt_char(self, uuid, data, response=True):
+            assert uuid == proto.TIME_SYNC_UUID
+            self.anchors.append(proto.TIME_ANCHOR.unpack(data))
 
         def dev_at(self, t):
             return int(self.dev0 + (t - 1000.0) * (1 + self.skew) * 1e6)
@@ -167,7 +183,7 @@ def test_time_sync_bursts_align_two_sensors_within_2ms():
             rtt = conn * rnd.choice((1, 1, 2))
             stamp = st["t"] + rtt * rnd.uniform(0.3, 0.7)
             st["t"] += rtt
-            return proto.TIME_SYNC.pack(self.dev_at(stamp) & 0xFFFFFFFF)
+            return proto.TIME_SYNC.pack(self.dev_at(stamp) & 0xFFFFFFFF, 7, 0, 0)
 
     clients = {"lead": FakeClient(0xFFFFFFFF - 5_000_000, 35e-6), "rear": FakeClient(123_456, -20e-6)}
     sync_fh = io.StringIO()
@@ -185,6 +201,11 @@ def test_time_sync_bursts_align_two_sensors_within_2ms():
             assert rr[-1][1] > 1 << 32                # 32-bit wrap unwrapped
         fits[r] = detector.clock_from_sync(rr)
         assert abs(fits[r].skew_ppm + clients[r].skew * 1e6) < 1.0
+        # one anchor per burst = the burst's lowest-RTT exchange, as 32-bit device time
+        an = clients[r].anchors
+        assert len(an) == 40 and recs[r].anchors == 40
+        best = min((x for x in rr[:8]), key=lambda x: x[2])
+        assert abs(an[0][0] - best[0] * 1e6) <= 1 and an[0][1:] == (best[1] & 0xFFFFFFFF, round(best[2] * 10))
     lead, rear = clients["lead"], clients["rear"]
     for t in (1000.0, 1300.0, 1800.0, 2200.0):
         h_lead = fits["lead"].host(lead.dev_at(t) / 1e6)   # dev_at is already unwrapped

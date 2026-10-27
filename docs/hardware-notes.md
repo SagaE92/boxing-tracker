@@ -41,7 +41,7 @@ Mitigations for the custom board (pick after measuring real saturation rates wit
 ## XIAO nRF52840 Sense specifics used by the firmware
 
 * IMU: LSM6DS3TR-C on I2C0 @ 0x6A, INT1 → P0.11, power enable P1.08 (`lsm6ds3tr-c-en`).
-* Battery sense: VBAT divider on P0.31 (AIN7) enabled by P0.14 (not implemented yet).
+* Battery sense: VBAT divider on P0.31 (AIN7) enabled by P0.14 held low (`firmware/src/battery.c`; never drive P0.14 high with a cell connected). Untested on hardware.
 * Bootloader: Adafruit nRF52 UF2 at 0xF4000 + SoftDevice/MBR at 0x0–0x27000 — kept;
   MCUboot is chain-loaded at 0x27000 (see `firmware/README.md`).
 * 2 MB QSPI NOR (P25Q16H) available for session storage; kept in deep power-down.
